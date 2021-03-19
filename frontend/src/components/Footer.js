@@ -1,46 +1,18 @@
 import React from "react";
-import "./Footer.css";
+import '../App.css'
 
 function Footer() {
-  return (
-    <div className="main-footer">
-      <div className="container">
-        <div className="row">
-          {/* Column1 */}
-          <div className="col">
-            <h4 className="list-unstyled">
-              <li>342-420-6969</li>
-              <li>Moscow, Russia</li>
-              <li>123 Streeet South North</li>
-            </h4>
-          </div>
-          {/* Column2 */}
-          <div className="col">
-            <h4>Stuff</h4>
-            <ui className="list-unstyled">
-              <li>DANK MEMES</li>
-              <li>OTHER STUFF</li>
-              <li>GUD STUFF</li>
-            </ui>
-          </div>
-          {/* Column3 */}
-          <div className="col">
-            <h4>WELL ANOTHER COLUMN</h4>
-            <ui className="list-unstyled">
-              <li>DANK MEMES</li>
-              <li>OTHER STUFF</li>
-              <li>GUD STUFF</li>
-            </ui>
-          </div>
-        </div>
-        <div className="row">
-          <p className="col-sm">
-            &copy;{new Date().getFullYear()} THICC MEMES | All rights reserved |
-            Terms Of Service | Privacy
-          </p>
-        </div>
-      </div>
-    </div>
+  return ( 
+    <nav class="navbar fixed-bottom navbar-expand-lg navbar-light bg-secondary" id="nav1">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav m-auto">
+      <li class="nav-item active">
+        <a class="nav-link text-uppercase font-weight-bold ml-5" href="#">&copy;{new Date().getFullYear()} All Rights Reserved | JUstInTime<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</nav>
   );
 }
 

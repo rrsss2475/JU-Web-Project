@@ -1,34 +1,34 @@
 import React from 'react';
-import * as ReactBootStrap from 'react-bootstrap';
 
 const Navbar = () => {
     return (
-        <div>
-            <ReactBootStrap.Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-  <ReactBootStrap.Navbar.Brand href="#home">React-Bootstrap</ReactBootStrap.Navbar.Brand>
-  <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  <ReactBootStrap.Navbar.Collapse id="responsive-navbar-nav">
-    <ReactBootStrap.Nav className="mr-auto">
-      <ReactBootStrap.Nav.Link href="#features">Features</ReactBootStrap.Nav.Link>
-      <ReactBootStrap.Nav.Link href="#pricing">Pricing</ReactBootStrap.Nav.Link>
-      <ReactBootStrap.NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-        <ReactBootStrap.NavDropdown.Item href="#action/3.1">Action</ReactBootStrap.NavDropdown.Item>
-        <ReactBootStrap.NavDropdown.Item href="#action/3.2">Another action</ReactBootStrap.NavDropdown.Item>
-        <ReactBootStrap.NavDropdown.Item href="#action/3.3">Something</ReactBootStrap.NavDropdown.Item>
-        <ReactBootStrap.NavDropdown.Divider />
-        <ReactBootStrap.NavDropdown.Item href="#action/3.4">Separated link</ReactBootStrap.NavDropdown.Item>
-      </ReactBootStrap.NavDropdown>
-    </ReactBootStrap.Nav>
-    <ReactBootStrap.Nav>
-      <ReactBootStrap.Nav.Link href="#deets">More deets</ReactBootStrap.Nav.Link>
-      <ReactBootStrap.Nav.Link eventKey={2} href="#memes">
-        Dank memes
-      </ReactBootStrap.Nav.Link>
-    </ReactBootStrap.Nav>
-  </ReactBootStrap.Navbar.Collapse>
-</ReactBootStrap.Navbar>
-        </div>
-    )
+      <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a class="navbar-brand text-white font-weight-bold" href="#">JUstInTime</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav m-auto">
+      <li class="nav-item active">
+        <a class="nav-link text-white text-uppercase font-weight-bold ml-5" href="#">Home&nbsp;<i class="fas fa-home"></i><span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white text-uppercase font-weight-bold ml-5" href="#">About Us&nbsp;<i class="fas fa-info-circle"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white text-uppercase font-weight-bold ml-5" href="#">Contact Us&nbsp;<i class="fas fa-mobile-alt"></i></a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      {/* <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" /> */}
+      <button class="btn btn-outline-primary my-2 my-sm-0 text-white" type="submit">Sign Up</button>
+      &nbsp;
+      <button class="btn btn-outline-success my-2 my-sm-0 text-white" type="submit">Login</button>
+    </form>
+  </div>
+</nav>
+    );
 }
 
 export default Navbar

@@ -8,6 +8,10 @@ const subCategorySchema = mongoose.Schema({
     isService:{
         type: Boolean,
         required: true,
+    },
+    image:{
+        type: String,
+        required: true,
     }
 })
 
@@ -22,6 +26,10 @@ const categorySchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false,
+    },
+    image:{
+        type: String,
+        required: true,
     }
 })
 

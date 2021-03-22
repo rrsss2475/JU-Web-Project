@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom';
 import img1 from '../components/home-image/products.jpg';
 import img2 from '../components/home-image/services1.png';
 
@@ -10,7 +10,7 @@ const HomeScreen = () => {
             <div class="container">
                 <img src={img1} class="image"/>
                 <div class="middle">
-                    <div class="text">PRODUCTS</div>
+                    <Link class="text" to = "/categories">PRODUCTS</Link>
                 </div>
             </div>
 

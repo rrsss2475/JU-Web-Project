@@ -5,7 +5,10 @@ import Navbar from './components/Navbar';
 import HomeScreen from './screens/HomeScreen';
 import Footer from './components/Footer';
 import AboutusScreen from './screens/AboutusScreen';
-
+import ContactusScreen from './screens/ContactusScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
+import CategoriesScreen from './screens/CategoriesScreen';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -15,6 +18,11 @@ function App() {
       <main >
         <Route path="/" component = {HomeScreen} exact/>
         <Route path="/aboutus" component = {AboutusScreen} exact/>
+        <Route path="/contactus" component = {ContactusScreen} exact/>
+        <Route path="/login" component = {LoginScreen} exact/>
+        <Route path="/signup" component = {SignupScreen} exact/>
+        <Route path="/categories" component = {CategoriesScreen} exact/>
+        
       </main>
       <Footer />
     </Router>

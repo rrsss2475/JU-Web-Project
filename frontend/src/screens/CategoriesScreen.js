@@ -5,7 +5,7 @@ import categories from '../categories'
 import Category from '../components/Category'
 const CategoriesScreen = () => {
     return (
-        <div className="container">
+        <div className="container" style={{marginTop:'100px'}}>
             <Link className='btn btn-dark my-3 mx-2' to="/">Back to Home</Link>
             <h1>Categories</h1>
             <Row>

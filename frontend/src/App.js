@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
+import Carousel from './components/ImageSlider';
 import HomeScreen from './screens/HomeScreen';
 import Footer from './components/Footer';
 import AboutusScreen from './screens/AboutusScreen';
@@ -15,6 +16,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      {/* <Carousel/> */}
       <main >
         <Route path="/" component = {HomeScreen} exact/>
         <Route path="/aboutus" component = {AboutusScreen} exact/>

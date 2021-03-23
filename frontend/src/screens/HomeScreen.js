@@ -1,27 +1,28 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import img1 from '../components/home-image/products.jpg';
-import img2 from '../components/home-image/services1.png';
+import img1 from '../components/home-image/p2.jpg';
+import img2 from '../components/home-image/services2.jpg';
+import ImageSlider from '../components/ImageSlider'
 
 const HomeScreen = () => {
     return (
-        <div>
-            <div>
-            <div class="container">
-                <img src={img1} class="image"/>
+    <>
+    <ImageSlider/>
+        <div class="wrapper">
+            <div class="pic">
+                <img class="image" src={img1}/>
                 <div class="middle">
-                    <Link class="text" to = "/categories">PRODUCTS</Link>
+                    <Link className="text" style={{ textDecoration: 'none' }} to="/categories">P R O D U C T S</Link>
                 </div>
             </div>
-
-            <div class="container">
-                <img src={img2} class="image"/>
+            <div class="pic">
+                <img class="image" src={img2}/>
                 <div class="middle">
-                    <div class="text2">SERVICES</div>
+                    <div class="text">S E R V I C E S</div>
                 </div>
             </div>
-        </div>
-        </div>
+        </div>    
+    </>
     )
 }
 

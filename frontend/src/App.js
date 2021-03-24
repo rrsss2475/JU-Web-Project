@@ -1,24 +1,33 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
+import Navbar from './components/Navbar';
+import Carousel from './components/ImageSlider';
+import HomeScreen from './screens/HomeScreen';
+import Footer from './components/Footer';
+import AboutusScreen from './screens/AboutusScreen';
+import ContactusScreen from './screens/ContactusScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
+import CategoriesScreen from './screens/CategoriesScreen';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      {/* <Carousel/> */}
+      <main >
+        <Route path="/" component = {HomeScreen} exact/>
+        <Route path="/aboutus" component = {AboutusScreen} exact/>
+        <Route path="/contactus" component = {ContactusScreen} exact/>
+        <Route path="/login" component = {LoginScreen} exact/>
+        <Route path="/signup" component = {SignupScreen} exact/>
+        <Route path="/categories" component = {CategoriesScreen} exact/>
+        
+      </main>
+      <Footer />
+    </Router>
   );
 }
 

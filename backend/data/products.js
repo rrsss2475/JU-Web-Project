@@ -15,7 +15,7 @@ const products = [
     "subCategory": "Seasonal Fruits",
     "description": "Eat fresh and juicy grapes that are hygienically packed and deliciously tasty. ",
     "isWeighted": true,
-    "weights": [0.25,0.5,1],
+    "weights": [0.25, 0.5, 1],
     "price": 80
   },
   {
@@ -401,7 +401,7 @@ const products = [
     "subCategory": "Fish",
     "description": "Thoroughly cleaned and gutted, the freshwater Butterfish from Licious is offered whole. Butterfish, also known as Pabda, Konande or Butter catfish, is a silvery-white fish with a buttery flavour, delicate texture and soft meat. Ideal for curries or fried dishes, this fish is great if you prefer your fish with minimum bones.",
     "isWeighted": true,
-    "weights": "[0.5, 1]",
+    "weights": [0.5, 1],
     "price": 824
   },
   {
@@ -411,7 +411,7 @@ const products = [
     "subCategory": "Fish",
     "description": "Don't get fooled by the flattened appearance of this Silver Fish. One of the most delicious fish you can get your hands on, the Chinese silver pomfret is rich in taste and has a soft, flaky and moist texture.",
     "isWeighted": true,
-    "weights": "[0.350, 1]",
+    "weights": [0.350, 1],
     "price": 2140
   },
   {
@@ -421,7 +421,7 @@ const products = [
     "subCategory": "Pasta",
     "description": "MTR Elbow Macroni is ready from 100% suji, for a tasty delicate and lighter zest to your Pasta preparations. It is yummy pasta finished simple and in a jiffy. Elbow Macaroni is small curved tubular pasta in a semi-circle form. Elbow Macaroni is flexible because of its short cooking time and common shape.",
     "isWeighted": true,
-    "weights": "[0.85]",
+    "weights": [0.85],
     "price": 106
   },
   {
@@ -431,7 +431,7 @@ const products = [
     "subCategory": "Pasta",
     "description": "USDA certified organic, made from sooji, no maida traditional pasta made from the high-quality durum wheat semolina rich in protein & fibre. No trans fat and no cholesterol high roughness for a perfect absorption of sauces with excellent taste and aroma of semolina 100% sooji, no maida make it the traditional way of just flip the packet and find the Indian masala pasta recipe.",
     "isWeighted": true,
-    "weights": "[0.25]",
+    "weights": [0.25],
     "price": 500
   },
   {
@@ -441,7 +441,7 @@ const products = [
     "subCategory": "Pasta",
     "description": "Nilons Durum Penne Pasta is made with 100% quality durum semolina. This type of pasta with cylinder-shaped pieces. Penne has a smooth texture. It is ideal for smooth sauces and baked dishes. This pasta is a good source of fibre and complex carbohydrates, which provides our bodies with vitamins, minerals and energy. It can be well paired with chunky meat or vegetable-based sauces, it can also be used in baked dishes.",
     "isWeighted": true,
-    "weights": "[0.20]",
+    "weights": [0.20],
     "price": 250
   },
   {
@@ -505,3 +505,5 @@ const products = [
     "price": 275
   }
 ]
+
+module.exports = products;

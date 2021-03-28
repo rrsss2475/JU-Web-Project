@@ -34,8 +34,18 @@ const getProducts = async(req, res) => {
     }
 }
 
+const getProductDetails = async(req, res) => {
+    try{
+        const product = await Product.findById(req.params.id);
+        res.json(product);
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
 module.exports = {
     getCategories: getCategories,
     getSubCategories: getSubCategories,
     getProducts: getProducts,
+    getProductDetails: getProductDetails,
 }

@@ -1,21 +1,22 @@
-const express = require("express")
 const color = require('colors');
-const categories = require('./data/categories')
-
+const express = require("express");
 const app = express();
+const cors = require('cors');
+require('dotenv').config();
+const mongoose = require('mongoose');
+const connectToDB = require('./database/db');
+connectToDB();
 
-app.get('/', (req, res) => {
-    res.send("Running server...");
-})
+app.use(express.json());
 
-app.get('/api/categories', (req, res) => {
-    res.json(categories);
-})
+app.use(cors());
 
-app.get('/api/categories/:id', (req,res) => {
-    const category = categories.find((p) => p.id === req.params.id);
-    res.json(category);
-})
+const userRoute = require('./routes/user');
+app.use('/user', userRoute);
 
-const PORT = process.env.PORT || 5000
+app.use('/', (req, res) => {
+    res.send("Hello");
+});
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} port ${PORT}`.yellow.bold));

@@ -4,8 +4,8 @@ import Navbar from '../components/Navbar'
 const AboutusScreen = () => {
     return (
         <div>
-            <h1 style={{textAlign:'center',marginTop:'90px'}}>ABOUT US</h1>
-            <p style={{marginTop:'100px', fontSize:'20px'}}>
+            <h1 style={{ fontWeight:'900', fontFamily:'Kaushan Script' , textAlign:'left',marginTop:'100px'}}>ABOUT US</h1>
+            <p style={{marginTop:'60px', fontSize:'20px'}}>
             Online shoppers experience a lot of friction and that friction prevents the customer from buying from your site, as well as decreases your Shopify conversion rate.
 
 The biggest friction is the fear of being deceived, such as paying money but not receiving anything, or the thing you receive is not the same as what you see on the internet.

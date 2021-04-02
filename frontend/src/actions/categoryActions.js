@@ -1,0 +1,14 @@
+import axios from 'axios'
+import {
+  CATEGORY_LIST_REQUEST,
+  CATEGORY_LIST_SUCCESS,
+  CATEGORY_LIST_FAIL,
+} from '../constants/categoryConstants'
+
+export const listCategories = () => async (dispatch) => {
+  try {
+      dispatch({type: CATEGORY_LIST_REQUEST})
+      const { data } = await axios.get('http://localhost:5000/api/products/categories')
+      dispatch({type: CATEGORY_LIST_SUCCESS, payload: data}) 
+  } catch (error) {}
+}

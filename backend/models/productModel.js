@@ -50,7 +50,9 @@ const productSchema = mongoose.Schema({
         type: Boolean,
         required: true,
     },
-    weights: [{weight: Number}],
+    weights: {
+        type: [Number],
+    },
     price: {
         type: Number,
         required: true,

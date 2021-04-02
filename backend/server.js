@@ -5,6 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const connectToDB = require('./database/db');
+
 connectToDB();
 
 app.use(express.json());
@@ -13,6 +14,9 @@ app.use(cors());
 
 const userRoute = require('./routes/user');
 app.use('/user', userRoute);
+
+const productRoute = require('./routes/productRoutes');
+app.use('/api/products', productRoute);
 
 app.use('/', (req, res) => {
     res.send("Hello");

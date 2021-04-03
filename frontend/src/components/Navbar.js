@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import AboutusScreen from '../screens/AboutusScreen';
+// import AboutusScreen from '../screens/AboutusScreen';
 
 const Navbar = () => {
     return (

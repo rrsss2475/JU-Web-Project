@@ -52,12 +52,33 @@ const login = async (req, res) => {
             return res.status(400).json('Invalid Password');
 
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-        res.header('auth-token', token).json(token);
+        res.header('Authorization', token).json(token);
     }
     catch (err) {
         res.status(400).json(err);
     }
 }
 
+const getUserDetails = async (req, res) => {
+
+    try{
+        const user = await User.findById(req.user._id)
+
+        if(user){
+            res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+            })
+        } else {
+            res.status(404).json('User not found');
+        }
+    } catch(err){
+        console.log(err);
+    }
+}
+
 module.exports.register = register;
 module.exports.login = login;
+module.exports.getUserDetails = getUserDetails;

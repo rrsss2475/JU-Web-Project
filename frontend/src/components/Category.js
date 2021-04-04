@@ -8,11 +8,11 @@ const Category = ( {category} ) => {
     return (
         <div>
             <Card className='my-3 p-3 rounded' >
-                <Link to={`/category/${category.name}`} exact>
+                <Link to={`/categories/${category.name}`} exact>
                     <Card.Img src={category.image || img} variant="top" style={{height: "150px"}}/>
                 </Link>
                 <Card.Body>
-                    <Link to={`/category/${category.name}`} exact>
+                    <Link to={`/categories/${category.name}`} exact>
                         <Card.Title as="div">
                             <strong>{category.name}</strong>
                         </Card.Title>

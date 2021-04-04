@@ -10,7 +10,8 @@ import ContactusScreen from './screens/ContactusScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import CategoriesScreen from './screens/CategoriesScreen';
-import SubcategoriesScreen from './screens/SubcategoriesScreen'
+import SubCategoriesScreen from './screens/SubCategoriesScreen';
+import ProductScreen from './screens/ProductScreen'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -19,13 +20,14 @@ function App() {
       <Navbar />
       {/* <Carousel/> */}
       <main >
-        <Route path="/" component = {HomeScreen} exact/>
-        <Route path="/aboutus" component = {AboutusScreen} exact/>
-        <Route path="/contactus" component = {ContactusScreen} exact/>
-        <Route path="/login" component = {LoginScreen} exact/>
-        <Route path="/signup" component = {SignupScreen} exact/>
-        <Route path="/categories" component = {CategoriesScreen} exact/>
-        <Route path="/categories/:id" component = {SubcategoriesScreen} exact />
+        <Route path="/" component={HomeScreen} exact />
+        <Route path="/aboutus" component={AboutusScreen} exact />
+        <Route path="/contactus" component={ContactusScreen} exact />
+        <Route path="/login" component={LoginScreen} exact />
+        <Route path="/signup" component={SignupScreen} exact />
+        <Route path="/categories" component={CategoriesScreen} exact />
+        <Route path="/categories/:catName" component={SubCategoriesScreen} exact />
+        <Route path="/categories/:catName/:subCatName" component={ProductScreen} exact />
       </main>
       <Footer />
     </Router>

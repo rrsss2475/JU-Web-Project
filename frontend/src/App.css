@@ -65,7 +65,7 @@
 .text {
   color: black;
   font-weight: 800;
-  font-size: 34px;
+  font-size: 24px;
   padding: 16px 32px;
   cursor: pointer;
 }
@@ -212,7 +212,7 @@ footer {
   }
 
   .text{
-    font-size: 24px;
+    font-size: 22px;
   }
 }
 
@@ -230,7 +230,7 @@ footer {
   }
 
   .text{
-    font-size: 20px;
+    font-size: 22px;
   }
 
   footer{

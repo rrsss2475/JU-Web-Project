@@ -12,13 +12,13 @@ const HomeScreen = () => {
             <div class="pic">
                 <img class="image" src={img1} alt="products"/>
                 <div class="middle">
-                    <Link className="text" style={{ textDecoration: 'none' }} to="/categories">P R O D U C T S</Link>
+                    <Link className="text" style={{ textDecoration: 'none' }} to="/categories">PRODUCTS</Link>
                 </div>
             </div>
             <div class="pic">
                 <img class="image" src={img2} alt="services"/>
                 <div class="middle">
-                    <div class="text">S E R V I C E S</div>
+                    <div class="text">SERVICES</div>
                 </div>
             </div>
         </div>    

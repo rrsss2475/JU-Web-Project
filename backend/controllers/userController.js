@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
-    //console.log(registerValidation(req.body));
     const { error } = registerValidation(req.body);
     if (error)
         return res.status(400).json(error.details[0].message);

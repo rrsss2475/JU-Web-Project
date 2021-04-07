@@ -1,26 +1,31 @@
-const color = require('colors');
-const express = require("express");
-const app = express();
-const cors = require('cors');
-require('dotenv').config();
-const mongoose = require('mongoose');
-const connectToDB = require('./database/db');
+const color = require("colors")
+const express = require("express")
+const app = express()
+const cors = require("cors")
+require("dotenv").config()
+const mongoose = require("mongoose")
+const connectToDB = require("./database/db")
 
-connectToDB();
+connectToDB()
 
-app.use(express.json());
+app.use(express.json())
 
-app.use(cors());
+app.use(cors())
 
-const userRoute = require('./routes/userRoutes');
-app.use('/user', userRoute);
+const userRoute = require("./routes/userRoutes")
+app.use("/user", userRoute)
 
-const productRoute = require('./routes/productRoutes');
-app.use('/api/products', productRoute);
+const productRoute = require("./routes/productRoutes")
+app.use("/api/products", productRoute)
 
-app.use('/', (req, res) => {
-    res.send("Hello");
-});
+app.use("/", (req, res) => {
+	res.send("Hello")
+})
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} port ${PORT}`.yellow.bold));
+const PORT = process.env.PORT || 5000
+app.listen(
+	PORT,
+	console.log(
+		`Server running in ${process.env.NODE_ENV} port ${PORT}`.yellow.bold
+	)
+)

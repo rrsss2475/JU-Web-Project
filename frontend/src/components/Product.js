@@ -14,9 +14,12 @@ const Category = ({ product, catName, subCatName }) => {
         />
       </Link>
       <Card.Body>
-        <Link to={`/categories/${catName}/${subCatName}/${product.name}`} exact>
+        <Link to={{
+          pathname: `/categories/${catName}/${subCatName}/${product.name}`,
+          state: { product: product }
+        }} exact>
           <Card.Title as='div'>
-            <strong>{product.name}</strong><br/>
+            <strong>{product.name}</strong><br />
           </Card.Title>
         </Link>
         <strong>Rs {product.price}</strong>

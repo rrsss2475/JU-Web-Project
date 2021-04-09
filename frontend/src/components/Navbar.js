@@ -5,8 +5,9 @@ import { NavLink } from 'react-router-dom';
 const Navbar = () => {
     return (
     <>
-      <nav id="nav1" class="navbar fixed-top navbar-expand-lg navbar-light bg-dark">
-  <NavLink id="nav-brand" class="navbar-brand text-white font-weight-bold" to="/">JUstintime</NavLink>
+      <nav id="nav1" class="navbar sticky-top navbar-expand-lg navbar-light bg-dark">
+  <NavLink class="navbar-brand text-white font-weight-bold" to="/">JUstintime</NavLink>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

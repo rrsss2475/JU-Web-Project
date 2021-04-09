@@ -130,7 +130,7 @@ const importServices = async function () {
           name: service.category,
           isService: true,
         });
-        const savedCat = await newCategory.save();
+        const savedCat = await n>>>>>>> mainewCategory.save();
         service.category = savedCat._id;
         const newSubCategory = subCategory({
           name: service.subCategory,
@@ -155,4 +155,4 @@ const importServices = async function () {
 };
 
 // importProducts()
-importServices()
+// importServices()

@@ -7,10 +7,10 @@ import {
 
 export const listCategories = () => async (dispatch) => {
   try {
-      dispatch({type: CATEGORY_LIST_REQUEST})
-      const { data } = await axios.get('http://localhost:5000/api/products/categories')
-      dispatch({type: CATEGORY_LIST_SUCCESS, payload: data}) 
+    dispatch({ type: CATEGORY_LIST_REQUEST })
+    const { data } = await axios.get('http://localhost:5000/api/products/categories')
+    dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data })
   } catch (error) {
-    
+
   }
 }

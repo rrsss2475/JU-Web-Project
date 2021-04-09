@@ -7,9 +7,9 @@ import {
 
 export const listProducts = (catName, subCatName) => async (dispatch) => {
   try {
-      dispatch({type: PRODUCT_LIST_REQUEST})
-      const { data } = await axios.get(`http://localhost:5000/api/products/${catName}/${subCatName}`)
-      dispatch({type: PRODUCT_LIST_SUCCESS, payload: data}) 
+    dispatch({ type: PRODUCT_LIST_REQUEST })
+    const { data } = await axios.get(`http://localhost:5000/api/products/${catName}/${subCatName}`)
+    dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
   } catch (error) {
     console.log("xyz");
   }

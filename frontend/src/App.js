@@ -23,7 +23,6 @@ function App() {
         <Route path="/aboutus" component={AboutusScreen} exact />
         <Route path="/contactus" component={ContactusScreen} exact />
         <Route path="/login" component={LoginScreen} exact />
-        <Route path="/signup" component={SignupScreen} exact />
         <Route path="/categories" component={CategoriesScreen} exact />
         <Route path="/categories/:catName" component={SubCategoriesScreen} exact />
         <Route path="/categories/:catName/:subCatName" component={ProductScreen} exact />

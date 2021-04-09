@@ -6,7 +6,10 @@ import img from '../images/baby.jpg'
 const Category = ({ product, catName, subCatName }) => {
   let body = (
     <Card className='my-3 p-3 rounded'>
-      <Link to={`/categories/${catName}/${subCatName}/${product.name}`} exact>
+      <Link to={{
+          pathname: `/categories/${catName}/${subCatName}/${product.name}`,
+          state: { product: product }
+        }} exact>
         <Card.Img
           src={product.image || img}
           variant='top'

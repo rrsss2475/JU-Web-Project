@@ -2,13 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
-import Carousel from './components/ImageSlider';
 import HomeScreen from './screens/HomeScreen';
 import Footer from './components/Footer';
 import AboutusScreen from './screens/AboutusScreen';
 import ContactusScreen from './screens/ContactusScreen';
 import LoginScreen from './screens/LoginScreen';
-import SignupScreen from './screens/SignupScreen';
 import CategoriesScreen from './screens/CategoriesScreen';
 import SubCategoriesScreen from './screens/SubCategoriesScreen';
 import ProductScreen from './screens/ProductScreen'

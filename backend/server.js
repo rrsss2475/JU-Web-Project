@@ -5,6 +5,7 @@ const cors = require("cors")
 require("dotenv").config()
 const mongoose = require("mongoose")
 const connectToDB = require("./database/db")
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware")
 
 connectToDB()
 
@@ -20,6 +21,9 @@ app.use("/api/products", productRoute)
 
 const serviceRoute = require("./routes/serviceRoutes")
 app.use("/api/services", serviceRoute)
+
+app.use(notFound)
+app.use(errorHandler)
 
 app.use("/", (req, res) => {
 	res.send("Hello")

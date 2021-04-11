@@ -3,16 +3,19 @@ const registerValidation = require("../validations/registerValidation")
 const loginValidation = require("../validations/loginValidation")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const asyncHandler = require("express-async-handler")
 
-const register = async (req, res) => {
+const register = asyncHandler(async (req, res) => {
 	const { error } = registerValidation(req.body)
-	if (error) return res.status(400).json(error.details[0].message)
+	if (error) {
+		res.status(400)
+		throw new Error(error.details[0].message)
+	}
 
-	try {
-		const emailExists = await User.findOne({ email: req.body.email })
-		if (emailExists) return res.status(400).json("Email already exists")
-	} catch (err) {
-		res.status(400).json(err)
+	const emailExists = await User.findOne({ email: req.body.email })
+	if (emailExists) {
+		res.status(400)
+		throw new Error("Email already exists")
 	}
 
 	const salt = await bcrypt.genSalt(10)
@@ -24,56 +27,53 @@ const register = async (req, res) => {
 		password: hashedPassword,
 	})
 
-	try {
-		const savedUser = await user.save()
-		res.json(savedUser)
-	} catch (err) {
-		res.status(400).json(err)
-	}
-}
+	const savedUser = await user.save()
+	res.json(savedUser)
+})
 
-const login = async (req, res) => {
+const login = asyncHandler(async (req, res) => {
 	const { error } = loginValidation(req.body)
-	if (error) return res.status(400).json(error.details[0].message)
+	if (error) {
+		res.status(400)
+		throw new Error(error.details[0].message)
+	}
 
-	try {
-		const user = await User.findOne({ email: req.body.email })
-		if (!user) return res.status(400).json("Invalid Email")
+	const user = await User.findOne({ email: req.body.email })
+	if (!user) {
+		res.status(401)
+		throw new Error("Invalid Email")
+	}
 
-		const validPass = await bcrypt.compare(req.body.password, user.password)
-		if (!validPass) return res.status(400).json("Invalid Password")
+	const validPass = await bcrypt.compare(req.body.password, user.password)
+	if (!validPass) {
+		res.status(401)
+		throw new Error("Invalid Password")
+	}
+	const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET)
+	res.header("Authorization", token).json({
+		_id: user._id,
+		name: user.name,
+		email: user.email,
+		isAdmin: user.isAdmin,
+		token: token,
+	})
+})
 
-		const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET)
-		res.header("Authorization", token).json({
+const getUserDetails = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id)
+
+	if (user) {
+		res.json({
 			_id: user._id,
 			name: user.name,
 			email: user.email,
 			isAdmin: user.isAdmin,
-			token: token,
 		})
-	} catch (err) {
-		res.status(400).json(err)
+	} else {
+		res.status(404)
+		throw new Error("User not found")
 	}
-}
-
-const getUserDetails = async (req, res) => {
-	try {
-		const user = await User.findById(req.user._id)
-
-		if (user) {
-			res.json({
-				_id: user._id,
-				name: user.name,
-				email: user.email,
-				isAdmin: user.isAdmin,
-			})
-		} else {
-			res.status(404).json("User not found")
-		}
-	} catch (err) {
-		console.log(err)
-	}
-}
+})
 
 module.exports.register = register
 module.exports.login = login

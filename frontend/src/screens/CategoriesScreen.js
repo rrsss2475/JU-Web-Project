@@ -2,7 +2,9 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { Row, Col } from "react-bootstrap"
-import Category from "../components/Category"
+import Category from "../components/Category.js"
+import Loader from "../components/Loader.js"
+import Message from "../components/Message.js"
 import { listCategories } from "../actions/categoryActions"
 
 const CategoriesScreen = () => {
@@ -35,7 +37,13 @@ const CategoriesScreen = () => {
 				Back to Home
 			</Link>
 			<h1>Categories</h1>
-			{loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">{error}</Message>
+			) : (
+				body
+			)}
 		</div>
 	)
 }

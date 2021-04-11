@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useParams } from "react-router-dom"
 import { Row, Col } from "react-bootstrap"
 import Product from "../components/Product"
+import Loader from "../components/Loader"
+import Message from "../components/Message"
 import { listProducts } from "../actions/productActions"
 
 const ProductScreen = () => {
@@ -40,7 +42,13 @@ const ProductScreen = () => {
 				Back to {catName}
 			</Link>
 			<h1>{subCatName}</h1>
-			{loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">{error}</Message>
+			) : (
+				body
+			)}
 		</div>
 	)
 }

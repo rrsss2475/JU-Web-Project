@@ -9,9 +9,9 @@ const products = require("./data/products");
 const Service = require("./models/serviceModel");
 const services = require("./data/services");
 
-dotenv.config();
+dotenv.config()
 
-connectToDB();
+connectToDB()
 
 const importProducts = async function () {
   await User.deleteMany();
@@ -130,7 +130,7 @@ const importServices = async function () {
           name: service.category,
           isService: true,
         });
-        const savedCat = await n>>>>>>> mainewCategory.save();
+        const savedCat = await newCategory.save();
         service.category = savedCat._id;
         const newSubCategory = subCategory({
           name: service.subCategory,

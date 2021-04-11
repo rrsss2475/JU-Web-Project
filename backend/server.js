@@ -1,16 +1,16 @@
-const color = require("colors");
-const express = require("express");
-const app = express();
-const cors = require("cors");
-require("dotenv").config();
-const mongoose = require("mongoose");
-const connectToDB = require("./database/db");
+const color = require("colors")
+const express = require("express")
+const app = express()
+const cors = require("cors")
+require("dotenv").config()
+const mongoose = require("mongoose")
+const connectToDB = require("./database/db")
 
-connectToDB();
+connectToDB()
 
-app.use(express.json());
+app.use(express.json())
 
-app.use(cors());
+app.use(cors())
 
 const userRoute = require("./routes/user");
 app.use("/user", userRoute);

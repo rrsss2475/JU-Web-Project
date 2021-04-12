@@ -1,118 +1,183 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../actions/userActions";
+import Message from "../components/Message";
 
-window.onload = function() {
-  const  loginBtn = document.querySelectorAll(".login-btn"),
-  registerBtn = document.querySelectorAll(".register-btn"),
-  lostPassBtn = document.querySelectorAll(".lost-pass-btn"),
-  box = document.querySelector(".box"),
-  loginForm = document.querySelector(".login-form"),
-  registerForm = document.querySelector(".register-form"),
-  lostPasswordForm = document.querySelector(".lost-password-form");
-  
-  registerBtn.forEach((btn) =>{
-  btn.addEventListener("click",() =>{
-  box.classList.add("slide-active");
-  registerForm.classList.remove("form-hidden");
-  loginForm.classList.add("form-hidden");
-  lostPasswordForm.classList.add("form-hidden");
+window.onload = function () {
+  const loginBtn = document.querySelectorAll(".login-btn"),
+    registerBtn = document.querySelectorAll(".register-btn"),
+    lostPassBtn = document.querySelectorAll(".lost-pass-btn"),
+    box = document.querySelector(".box"),
+    loginForm = document.querySelector(".login-form"),
+    registerForm = document.querySelector(".register-form"),
+    lostPasswordForm = document.querySelector(".lost-password-form");
+
+  registerBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      box.classList.add("slide-active");
+      registerForm.classList.remove("form-hidden");
+      loginForm.classList.add("form-hidden");
+      lostPasswordForm.classList.add("form-hidden");
+    });
   });
+
+  loginBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      box.classList.remove("slide-active");
+      registerForm.classList.add("form-hidden");
+      loginForm.classList.remove("form-hidden");
+      lostPasswordForm.classList.add("form-hidden");
+    });
   });
-  
-  loginBtn.forEach((btn) =>{
-  btn.addEventListener("click",() =>{
-  box.classList.remove("slide-active");
-  registerForm.classList.add("form-hidden");
-  loginForm.classList.remove("form-hidden");
-  lostPasswordForm.classList.add("form-hidden");
+
+  lostPassBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      registerForm.classList.add("form-hidden");
+      loginForm.classList.add("form-hidden");
+      lostPasswordForm.classList.remove("form-hidden");
+    });
   });
-  });
-  
-  lostPassBtn.forEach((btn) =>{
-  btn.addEventListener("click",() =>{
-  registerForm.classList.add("form-hidden");
-  loginForm.classList.add("form-hidden");
-  lostPasswordForm.classList.remove("form-hidden");
-  });
-  });
-}
-  
+};
 
 const LoginScreen = () => {
-    return (
-  <div class="login-page">
-  <div class="box">
-    <div class="left">
-      <h3>Create Account</h3>
-      <button type="button" class="register-btn">Register</button>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password));
+  };
+  return (
+    <div class="container">
+      <div class="login-page">
+        <div class="box">
+          <div class="left">
+            <h3>Create Account</h3>
+            <button type="button" class="register-btn">
+              Register
+            </button>
+          </div>
+          <div class="right">
+            <h3>Have an Account ?</h3>
+            <button type="button" class="login-btn">
+              Login
+            </button>
+          </div>
+          <Form className="form" onSubmit={submitHandler}>
+            {/* LOGIN-FORM START */}
+            <div class="login-form">
+              <h3 style={{ fontWeight: "700" }}>Log In</h3>
+              {error && <Message variant="danger">{error}</Message>}
+              <Form.Group className="form-group" controlId="formBasicEmail">
+                {/* <Form.Label>Email address</Form.Label> */}
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  className="form-control"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group className="form-group" controlId="formBasicPassword">
+                {/* <Form.Label>Password</Form.Label> */}
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group className="form-group" controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Remember Me" />
+              </Form.Group>
+              <Button className="submit-btn" variant="success" type="submit">
+                Submit
+              </Button>
+              <p>
+                <a href="#" class="lost-pass-btn">
+                  Lost Your Password ?
+                </a>
+              </p>
+            </div>
+            {/* LOGIN-FORM END */}
+
+            {/* REGISTER-FORM START */}
+            <div class="register-form form-hidden">
+              <h3 style={{fontWeight:'700'}}>Register</h3>
+
+              <Form.Group className="form-group" controlId="formBasicName">
+                {/* <Form.Label>Name</Form.Label> */}
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Name"
+                  className="form-control"
+                />
+              </Form.Group>
+
+              <Form.Group className="form-group" controlId="formBasicEmail">
+                {/* <Form.Label>Email address</Form.Label> */}
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  className="form-control"
+                />
+              </Form.Group>
+
+              <Form.Group className="form-group" controlId="formBasicPassword">
+                {/* <Form.Label>Password</Form.Label> */}
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+
+              <Button className="submit-btn" variant="success" type="submit">
+                Submit
+              </Button>
+              <p><a href="#" class="login-btn">Already have an account?</a></p>
+
+            </div>
+            {/* REGISTER-FORM END */}
+
+            {/* LOST-PASSWORD START */}
+
+            {/* LOST-PASSWORD END */}
+            <div class="lost-password-form form-hidden">
+            <h3>Lost Your Password ?</h3>
+            <h5>You will receive a link to create a new password via email.</h5>
+
+            <Form.Group className="form-group" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  className="form-control"
+                />
+              </Form.Group>
+
+              <Button className="submit-btn" variant="success" type="submit">
+                Submit
+              </Button>
+              <p><a href="#" class="login-btn">Login</a> | <a href="#" class="register-btn">Register</a></p>
+            </div>
+
+          </Form>
+        </div>
+      </div>
     </div>
-    <div class="right">
-      <h3>Have an Account ?</h3>
-      <button type="button" class="login-btn">Login</button>
-    </div>
-    <div class="form">
-       {/* <!-- Login form Start --> */}
-       <div class="login-form">
-         <h3 style={{fontWeight:'700'}}>Log In</h3>
-         <div class="form-group">
-           <input type="text" placeholder="Email Address*" class="form-control"/>
-         </div>
-         <div class="form-group">
-           <input type="password" placeholder="Password*" class="form-control"/>
-         </div>
-         <div class="form-group">
-           <label>
-             <input type="checkbox"/> Remember Me
-           </label>
-         </div>
-         <button type="button" class="submit-btn">Login</button>
-         <p><a href="#" class="lost-pass-btn">Lost Your Password ?</a></p>
-       </div>
-       {/* <!-- Login form End --> */}
+  );
+};
 
-            {/* <!-- Register form Start --> */}
-       <div class="register-form form-hidden">
-         <h3 style={{fontWeight:'700'}}>Register</h3>
-         <div class="form-group">
-           <input type="text" placeholder="Name*" class="form-control"/>
-         </div>
-         <div class="form-group">
-           <input type="text" placeholder="Email Address*" class="form-control"/>
-         </div>
-         <div class="form-group">
-           <input type="password" placeholder="Password*" class="form-control"/>
-         </div>
-         <div class="form-group">
-           <i style={{color:'red', fontWeight:'700'}}>Business Account*</i> &nbsp;
-           <select>
-             <option>NO</option>
-             <option>YES</option>
-           </select>
-         </div>
-         <button type="button" class="submit-btn">Register</button>
-         <p><a href="#" class="login-btn">Already have an account?</a></p>
-       </div>
-       {/* <!-- Register form End --> */}
-
-       {/* <!-- Lost Password form Start --> */}
-       <div class="lost-password-form form-hidden">
-         <h3>Lost Your Password ?</h3>
-         <h5>You will receive a link to create a new password via email.</h5>
-         
-         <div class="form-group">
-           <input type="text" placeholder="Email Address*" class="form-control"/>
-         </div>
-         
-         
-         <button type="button" class="submit-btn">Reset Password</button>
-         <p><a href="#" class="login-btn">Login</a> | <a href="#" class="register-btn">Register</a></p>
-       </div>
-       {/* <!-- Lost Password form End --> */}
-
-    </div>
-  </div>
-</div>
-
-    )
-}
-
-export default LoginScreen
+export default LoginScreen;

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Form, Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../actions/userActions"
@@ -40,7 +40,7 @@ window.onload = function () {
 	})
 }
 
-const LoginScreen = () => {
+const LoginScreen = ({ location, history }) => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 
@@ -49,12 +49,19 @@ const LoginScreen = () => {
 	const userLogin = useSelector((state) => state.userLogin)
 	const { loading, error, userInfo } = userLogin
 
+  const redirect = location.search ? location.search.split('=')[1] : '/'
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push(redirect)
+    }
+  }, [history, userInfo, redirect])
+
 	const submitHandler = (e) => {
 		e.preventDefault()
 		dispatch(login(email, password))
 	}
 	return (
-		<div class="container">
 			<div class="login-page">
 				<div class="box">
 					<div class="left">
@@ -188,7 +195,6 @@ const LoginScreen = () => {
 					</Form>
 				</div>
 			</div>
-		</div>
 	)
 }
 

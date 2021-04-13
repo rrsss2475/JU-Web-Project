@@ -49,152 +49,150 @@ const LoginScreen = ({ location, history }) => {
 	const userLogin = useSelector((state) => state.userLogin)
 	const { loading, error, userInfo } = userLogin
 
-  const redirect = location.search ? location.search.split('=')[1] : '/'
+	const redirect = location.search ? location.search.split("=")[1] : "/"
 
-  useEffect(() => {
-    if (userInfo) {
-      history.push(redirect)
-    }
-  }, [history, userInfo, redirect])
+	useEffect(() => {
+		if (userInfo) {
+			history.push(redirect)
+		}
+	}, [history, userInfo, redirect])
 
 	const submitHandler = (e) => {
 		e.preventDefault()
 		dispatch(login(email, password))
 	}
 	return (
-			<div class="login-page">
-				<div class="box">
-					<div class="left">
-						<h3>Create Account</h3>
-						<button type="button" class="register-btn">
-							Register
-						</button>
-					</div>
-					<div class="right">
-						<h3>Have an Account ?</h3>
-						<button type="button" class="login-btn">
-							Login
-						</button>
-					</div>
-					<Form className="form" onSubmit={submitHandler}>
-						{/* LOGIN-FORM START */}
-						<div class="login-form">
-							<h3 style={{ fontWeight: "700" }}>Log In</h3>
-							{error && <Message variant="danger">{error}</Message>}
-							<Form.Group className="form-group" controlId="formBasicEmail">
-								{/* <Form.Label>Email address</Form.Label> */}
-								<Form.Control
-									type="email"
-									placeholder="Enter email"
-									className="form-control"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-								/>
-							</Form.Group>
-
-							<Form.Group className="form-group" controlId="formBasicPassword">
-								{/* <Form.Label>Password</Form.Label> */}
-								<Form.Control
-									type="password"
-									placeholder="Password"
-									className="form-control"
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-								/>
-							</Form.Group>
-
-							<Form.Group className="form-group" controlId="formBasicCheckbox">
-								<Form.Check type="checkbox" label="Remember Me" />
-							</Form.Group>
-							<Button className="submit-btn" variant="success" type="submit">
-								Submit
-							</Button>
-							<p>
-								<a href="#" class="lost-pass-btn">
-									Lost Your Password ?
-								</a>
-							</p>
-						</div>
-						{/* LOGIN-FORM END */}
-
-						{/* REGISTER-FORM START */}
-						<div class="register-form form-hidden">
-							<h3 style={{ fontWeight: "700" }}>Register</h3>
-
-							<Form.Group className="form-group" controlId="formBasicName">
-								{/* <Form.Label>Name</Form.Label> */}
-								<Form.Control
-									type="text"
-									placeholder="Enter Name"
-									className="form-control"
-								/>
-							</Form.Group>
-
-							<Form.Group className="form-group" controlId="formBasicEmail">
-								{/* <Form.Label>Email address</Form.Label> */}
-								<Form.Control
-									type="email"
-									placeholder="Enter email"
-									className="form-control"
-								/>
-							</Form.Group>
-
-							<Form.Group className="form-group" controlId="formBasicPassword">
-								{/* <Form.Label>Password</Form.Label> */}
-								<Form.Control
-									type="password"
-									placeholder="Password"
-									className="form-control"
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-								/>
-							</Form.Group>
-
-							<Button className="submit-btn" variant="success" type="submit">
-								Submit
-							</Button>
-							<p>
-								<a href="#" class="login-btn">
-									Already have an account?
-								</a>
-							</p>
-						</div>
-						{/* REGISTER-FORM END */}
-
-						{/* LOST-PASSWORD START */}
-
-						{/* LOST-PASSWORD END */}
-						<div class="lost-password-form form-hidden">
-							<h3>Lost Your Password ?</h3>
-							<h5>
-								You will receive a link to create a new password via email.
-							</h5>
-
-							<Form.Group className="form-group" controlId="formBasicEmail">
-								<Form.Label>Email address</Form.Label>
-								<Form.Control
-									type="email"
-									placeholder="Enter email"
-									className="form-control"
-								/>
-							</Form.Group>
-
-							<Button className="submit-btn" variant="success" type="submit">
-								Submit
-							</Button>
-							<p>
-								<a href="#" class="login-btn">
-									Login
-								</a>{" "}
-								|{" "}
-								<a href="#" class="register-btn">
-									Register
-								</a>
-							</p>
-						</div>
-					</Form>
+		<div class="login-page">
+			<div class="box">
+				<div class="left">
+					<h3>Create Account</h3>
+					<button type="button" class="register-btn">
+						Register
+					</button>
 				</div>
+				<div class="right">
+					<h3>Have an Account ?</h3>
+					<button type="button" class="login-btn">
+						Login
+					</button>
+				</div>
+				<Form className="form" onSubmit={submitHandler}>
+					{/* LOGIN-FORM START */}
+					<div class="login-form">
+						<h3 style={{ fontWeight: "700" }}>Log In</h3>
+						{error && <Message variant="danger">{error}</Message>}
+						<Form.Group className="form-group" controlId="formBasicEmail">
+							{/* <Form.Label>Email address</Form.Label> */}
+							<Form.Control
+								type="email"
+								placeholder="Enter email"
+								className="form-control"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</Form.Group>
+
+						<Form.Group className="form-group" controlId="formBasicPassword">
+							{/* <Form.Label>Password</Form.Label> */}
+							<Form.Control
+								type="password"
+								placeholder="Password"
+								className="form-control"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</Form.Group>
+
+						<Form.Group className="form-group" controlId="formBasicCheckbox">
+							<Form.Check type="checkbox" label="Remember Me" />
+						</Form.Group>
+						<Button className="submit-btn" variant="success" type="submit">
+							Submit
+						</Button>
+						<p>
+							<a href="#" class="lost-pass-btn">
+								Lost Your Password ?
+							</a>
+						</p>
+					</div>
+					{/* LOGIN-FORM END */}
+
+					{/* REGISTER-FORM START */}
+					<div class="register-form form-hidden">
+						<h3 style={{ fontWeight: "700" }}>Register</h3>
+
+						<Form.Group className="form-group" controlId="formBasicName">
+							{/* <Form.Label>Name</Form.Label> */}
+							<Form.Control
+								type="text"
+								placeholder="Enter Name"
+								className="form-control"
+							/>
+						</Form.Group>
+
+						<Form.Group className="form-group" controlId="formBasicEmail">
+							{/* <Form.Label>Email address</Form.Label> */}
+							<Form.Control
+								type="email"
+								placeholder="Enter email"
+								className="form-control"
+							/>
+						</Form.Group>
+
+						<Form.Group className="form-group" controlId="formBasicPassword">
+							{/* <Form.Label>Password</Form.Label> */}
+							<Form.Control
+								type="password"
+								placeholder="Password"
+								className="form-control"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</Form.Group>
+
+						<Button className="submit-btn" variant="success" type="submit">
+							Submit
+						</Button>
+						<p>
+							<a href="#" class="login-btn">
+								Already have an account?
+							</a>
+						</p>
+					</div>
+					{/* REGISTER-FORM END */}
+
+					{/* LOST-PASSWORD START */}
+
+					{/* LOST-PASSWORD END */}
+					<div class="lost-password-form form-hidden">
+						<h3>Lost Your Password ?</h3>
+						<h5>You will receive a link to create a new password via email.</h5>
+
+						<Form.Group className="form-group" controlId="formBasicEmail">
+							<Form.Label>Email address</Form.Label>
+							<Form.Control
+								type="email"
+								placeholder="Enter email"
+								className="form-control"
+							/>
+						</Form.Group>
+
+						<Button className="submit-btn" variant="success" type="submit">
+							Submit
+						</Button>
+						<p>
+							<a href="#" class="login-btn">
+								Login
+							</a>{" "}
+							|{" "}
+							<a href="#" class="register-btn">
+								Register
+							</a>
+						</p>
+					</div>
+				</Form>
 			</div>
+		</div>
 	)
 }
 

@@ -21,7 +21,11 @@ const Navbar = () => {
         id="nav1"
         class="navbar sticky-top navbar-expand-lg navbar-light bg-dark"
       >
-        <NavLink class="navbar-brand text-white font-weight-bold" to="/">
+        <NavLink
+          id="nav-brand"
+          class="navbar-brand text-white font-weight-bold"
+          to="/"
+        >
           JUstintime
         </NavLink>
 
@@ -71,7 +75,6 @@ const Navbar = () => {
             </li>
           </ul>
           {userInfo ? (
-            
             // <NavDropdown style={{ color:'white' }} className="text-uppercase font-weight-bold" title={userInfo.name} id='username'>
             //   <NavLink to='/profile' style={{ textDecoration: 'none' }}>
             //     <NavDropdown.Item><i className='fas fa-user'></i> Profile</NavDropdown.Item>
@@ -106,7 +109,6 @@ const Navbar = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-
           ) : (
             <form class="form-inline my-2 my-lg-0" action="/login">
               <button

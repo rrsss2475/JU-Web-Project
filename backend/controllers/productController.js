@@ -3,6 +3,7 @@ const router = express.Router()
 const _ = require("lodash")
 const { Category, subCategory } = require("../models/categoryModel")
 const Product = require("../models/productModel")
+const { User } = require("../models/userModel")
 
 const getCategories = async (req, res) => {
 	try {
@@ -43,9 +44,19 @@ const getProductDetails = async (req, res) => {
 	}
 }
 
+const getUserName = async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id)
+		res.json({ name: user.name });
+	} catch (err) {
+		res.status(400).send(err);
+	}
+}
+
 module.exports = {
 	getCategories: getCategories,
 	getSubCategories: getSubCategories,
 	getProducts: getProducts,
 	getProductDetails: getProductDetails,
+	getUserName: getUserName
 }

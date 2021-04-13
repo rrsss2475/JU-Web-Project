@@ -34,7 +34,8 @@ const SubCategoriesScreen = () => {
 
     return (
         <div className="container" style={{ marginTop: '100px' }}>
-            <Link className='btn btn-dark my-3 mx-2' to="/categories">Back to Categories</Link>
+            <Link className='btn btn-dark my-3 mx-2' to={`/`}>Back to Home</Link>
+            <Link className='btn btn-dark my-3 mx-2' to={`/categories`}>Back to Categories</Link>
             <h1>{catName}</h1>
             {loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
 

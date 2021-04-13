@@ -5,10 +5,12 @@ const {
 	getSubCategories,
 	getProducts,
 	getProductDetails,
+	getUserName
 } = require("../controllers/productController")
 const { Category, subCategory } = require("../models/categoryModel")
 const Product = require("../models/productModel")
 
+router.get("/userName/:id", getUserName)
 router.get("/categories", getCategories)
 router.get("/:category", getSubCategories)
 router.get("/:category/:subCategory", getProducts)

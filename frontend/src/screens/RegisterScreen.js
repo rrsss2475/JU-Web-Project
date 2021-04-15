@@ -40,7 +40,7 @@ window.onload = function () {
   });
 };
 
-const RegisterScreen = (location, history) => {
+const RegisterScreen = ({ location, history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,13 +50,13 @@ const RegisterScreen = (location, history) => {
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  // const redirect = location.search ? location.search.split("=")[1] : "/";
 
-  useEffect(() => {
-    if (userInfo) {
-      history.push(redirect);
-    }
-  }, [history, userInfo, redirect]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     history.push(redirect);
+  //   }
+  // }, [history, userInfo, redirect]);
 
   const regHandler = (e) => {
     e.preventDefault();
@@ -94,7 +94,7 @@ const RegisterScreen = (location, history) => {
             placeholder="Password"
             className="form-control"
             value={password}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
 

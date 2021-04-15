@@ -43,7 +43,6 @@ window.onload = function () {
 };
 
 const LoginScreen = ({ location, history }) => {
-  // const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

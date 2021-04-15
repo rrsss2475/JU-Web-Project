@@ -1,10 +1,8 @@
 import React from "react";
-// import { LinkContainer } from 'react-router-bootstrap'
-import { NavDropdown, Dropdown } from "react-bootstrap";
+import { Nav, NavDropdown, Dropdown, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logout } from "../actions/userActions";
-// import AboutusScreen from '../screens/AboutusScreen';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -17,16 +15,37 @@ const Navbar = () => {
 
   return (
     <>
-      <nav
-        id="nav1"
-        class="navbar sticky-top navbar-expand-lg navbar-light bg-dark"
+      <div
+        style={{
+          marginTop: "10px",
+          color: "white",
+          fontWeight: "700",
+          textAlign: "center",
+          fontSize: "14px",
+          border: "1px solid #000000",
+          padding: "10px",
+          background: "rgb(0, 168, 0)",
+        }}
+      >
+        GET FLAT 10% OFF ON YOUR FIRST ORDER
+      </div>
+
+      <Nav
+        // id="nav1"
+        class="navbar navbar-expand-lg navbar-light bg-transparent"
       >
         <NavLink
           id="nav-brand"
           class="navbar-brand text-white font-weight-bold"
           to="/"
         >
-          JUstintime
+          <img
+            src="https://justintime.in/media/logo/stores/1/jitlogo.png"
+            alt="Just in Time Online Watch Store"
+            width="289"
+            height="64"
+          />
+          {/* JUstintime */}
         </NavLink>
 
         <button
@@ -42,10 +61,10 @@ const Navbar = () => {
         </button>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
+          <ul class="navbar-nav mr-auto mt-lg-0">
+            <li class="nav-item">
               <NavLink
-                className="nav-link text-white text-uppercase font-weight-bold"
+                className="nav-link text-uppercase font-weight-bold text-success"
                 to="/"
                 exact
               >
@@ -56,7 +75,7 @@ const Navbar = () => {
 
             <li class="nav-item">
               <NavLink
-                className="nav-link text-white text-uppercase font-weight-bold"
+                className="nav-link text-uppercase font-weight-bold text-success"
                 to="/aboutus"
                 exact
               >
@@ -66,11 +85,11 @@ const Navbar = () => {
 
             <li class="nav-item">
               <NavLink
-                className="nav-link text-white text-uppercase font-weight-bold"
+                className="nav-link text-uppercase font-weight-bold text-success"
                 to="/contactus"
                 exact
               >
-                Contact Us&nbsp;<i class="fas fa-mobile-alt"></i>
+                Contact Us&nbsp;<i class="fas fa-phone"></i>
               </NavLink>
             </li>
           </ul>
@@ -87,40 +106,52 @@ const Navbar = () => {
             //   </NavDropdown.Item>
             // </NavDropdown>
 
-            <Dropdown className="text-uppercase font-weight-bold">
-              <Dropdown.Toggle
-                variant="outline-success"
-                id="dropdown-basic"
-                className="text-white text-uppercase font-weight-bold"
-              >
-                {userInfo.name}
-              </Dropdown.Toggle>
+            <div style={{ display: "flex" }}>
+              <FormControl
+                type="text"
+                placeholder="Search"
+                className="mr-sm-2"
+              />
 
-              <Dropdown.Menu>
-                <Dropdown.Item href="/profile">
-                  <i className="fas fa-user"></i> Profile
-                </Dropdown.Item>
-                <Dropdown.Item href="/cart">
-                  <i className="fas fa-shopping-cart"></i> Cart
-                </Dropdown.Item>
-                <NavDropdown.Divider />
-                <Dropdown.Item onClick={logoutHandler}>
-                  <i class="fas fa-sign-out-alt"></i> Logout
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+              <Dropdown className="text-uppercase font-weight-bold">
+                <Dropdown.Toggle
+                  variant="outline-success"
+                  id="dropdown-basic"
+                  className="text-uppercase font-weight-bold"
+                >
+                  {userInfo.name}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item className="text-success" href="/profile">
+                    <i className="fas fa-user"></i> Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item className="text-success" href="/cart">
+                    <i className="fas fa-shopping-cart"></i> Cart
+                  </Dropdown.Item>
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
+                    className="text-success"
+                    onClick={logoutHandler}
+                  >
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           ) : (
             <form class="form-inline my-2 my-lg-0" action="/login">
               <button
-                class="btn btn-outline-success my-2 my-sm-0 text-white font-weight-bold"
+                class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
                 type="submit"
               >
-                Login
+                Join Us <i class="fas fa-users"></i>
               </button>
             </form>
           )}
         </div>
-      </nav>
+      </Nav>
+      <hr style={{ borderWidth: "2px", borderColor: "green" }} />
     </>
   );
 };

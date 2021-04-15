@@ -3,6 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 import Message from "../components/Message";
+import RegisterScreen from "../screens/RegisterScreen";
+// import { register } from "../actions/userActions";
 
 window.onload = function () {
   const loginBtn = document.querySelectorAll(".login-btn"),
@@ -41,6 +43,7 @@ window.onload = function () {
 };
 
 const LoginScreen = ({ location, history }) => {
+  // const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -61,6 +64,12 @@ const LoginScreen = ({ location, history }) => {
     e.preventDefault();
     dispatch(login(email, password));
   };
+
+  // const regHandler = (e) => {
+  //   e.preventDefault();
+  //   dispatch(register(name, email, password));
+  // };
+
   return (
     <div class="login-page">
       <div class="box">
@@ -76,121 +85,137 @@ const LoginScreen = ({ location, history }) => {
             Login
           </button>
         </div>
-        <Form className="form" onSubmit={submitHandler}>
-          {/* LOGIN-FORM START */}
-          <div class="login-form">
-            <h3 style={{ fontWeight: "700" }}>Log In</h3>
-            {error && <Message variant="danger">{error}</Message>}
-            <Form.Group className="form-group" controlId="formBasicEmail">
-              {/* <Form.Label>Email address</Form.Label> */}
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                className="form-control"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
+        <div className="form">
+          <Form onSubmit={submitHandler}>
+            {/* LOGIN-FORM START */}
+            <div class="login-form">
+              <h3 style={{ fontWeight: "700" }}>Log In</h3>
+              {error && <Message variant="danger">{error}</Message>}
+              <Form.Group className="form-group" controlId="formBasicEmail">
+                {/* <Form.Label>Email address</Form.Label> */}
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  className="form-control"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
 
-            <Form.Group className="form-group" controlId="formBasicPassword">
-              {/* <Form.Label>Password</Form.Label> */}
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
+              <Form.Group className="form-group" controlId="formBasicPassword">
+                {/* <Form.Label>Password</Form.Label> */}
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
 
-            <Form.Group className="form-group" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Remember Me" />
-            </Form.Group>
-            <Button className="submit-btn" variant="success" type="submit">
-              Submit
-            </Button>
-            <p>
-              <a href="#" class="lost-pass-btn">
-                Lost Your Password ?
-              </a>
-            </p>
-          </div>
-          {/* LOGIN-FORM END */}
+              <Form.Group className="form-group" controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Remember Me" />
+              </Form.Group>
+              <Button className="submit-btn" variant="success" type="submit">
+                Submit
+              </Button>
+              <p>
+                <a href="#" class="lost-pass-btn">
+                  Lost Your Password ?
+                </a>
+              </p>
+            </div>
+            {/* LOGIN-FORM END */}
 
-          {/* REGISTER-FORM START */}
-          <div class="register-form form-hidden">
-            <h3 style={{ fontWeight: "700" }}>Register</h3>
+            {/* REGISTER-FORM START */}
+            {/* <RegisterScreen /> */}
 
-            <Form.Group className="form-group" controlId="formBasicName">
-              {/* <Form.Label>Name</Form.Label> */}
-              <Form.Control
-                type="text"
-                placeholder="Enter Name"
-                className="form-control"
-              />
-            </Form.Group>
+            {/* REGISTER-FORM END */}
 
-            <Form.Group className="form-group" controlId="formBasicEmail">
-              {/* <Form.Label>Email address</Form.Label> */}
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                className="form-control"
-              />
-            </Form.Group>
+            {/* LOST-PASSWORD START */}
 
-            <Form.Group className="form-group" controlId="formBasicPassword">
-              {/* <Form.Label>Password</Form.Label> */}
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
+            {/* LOST-PASSWORD START */}
 
-            <Button className="submit-btn" variant="success" type="submit">
-              Submit
-            </Button>
-            <p>
-              <a href="#" class="login-btn">
-                Already have an account?
-              </a>
-            </p>
-          </div>
-          {/* REGISTER-FORM END */}
+            <div class="lost-password-form form-hidden">
+              <h3>Lost Your Password ?</h3>
+              <h5>
+                You will receive a link to create a new password via email.
+              </h5>
 
-          {/* LOST-PASSWORD START */}
+              <Form.Group className="form-group" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  className="form-control"
+                />
+              </Form.Group>
 
-          {/* LOST-PASSWORD END */}
-          <div class="lost-password-form form-hidden">
-            <h3>Lost Your Password ?</h3>
-            <h5>You will receive a link to create a new password via email.</h5>
+              <Button className="submit-btn" variant="success" type="submit">
+                Submit
+              </Button>
+              <p>
+                <a href="#" class="login-btn">
+                  Login
+                </a>{" "}
+                |{" "}
+                <a href="#" class="register-btn">
+                  Register
+                </a>
+              </p>
+            </div>
+            {/* LOST-PASSWORD END */}
+          </Form>
 
-            <Form.Group className="form-group" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                className="form-control"
-              />
-            </Form.Group>
+          {/* <Form onSubmit={regHandler}>
+            <div class="register-form form-hidden">
+              <h3 style={{ fontWeight: "700" }}>Register</h3>
+              {error && <Message variant="danger">{error}</Message>}
+              <Form.Group className="form-group" controlId="formBasicName">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Name"
+                  className="form-control"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Group>
 
-            <Button className="submit-btn" variant="success" type="submit">
-              Submit
-            </Button>
-            <p>
-              <a href="#" class="login-btn">
-                Login
-              </a>{" "}
-              |{" "}
-              <a href="#" class="register-btn">
-                Register
-              </a>
-            </p>
-          </div>
-        </Form>
+              <Form.Group className="form-group" controlId="formBasicEmail">
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  className="form-control"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group className="form-group" controlId="formBasicPassword">
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+
+              <Button className="submit-btn" variant="success" type="submit">
+                Submit
+              </Button>
+              <p>
+                <a href="#" class="login-btn">
+                  Already have an account?
+                </a>
+              </p>
+            </div>
+          </Form> */}
+
+          <RegisterScreen />
+        </div>
+
+        <div>{/* <RegisterScreen /> */}</div>
       </div>
     </div>
   );

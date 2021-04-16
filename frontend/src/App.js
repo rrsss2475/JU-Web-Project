@@ -13,13 +13,15 @@ import ProductScreen from './screens/ProductScreen'
 import ProductDescScreen from './screens/ProductDescScreen';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReviewsScreen from './screens/ReviewsScreen';
+import ScrollToTop from "./components/ScrollToTop";
+
 
 function App() {
   return (
     <Router>
       <Navbar />
-      {/* <Carousel/> */}
-      <main >
+      <ScrollToTop />
+      <main>
         <Route path="/" component={HomeScreen} exact />
         <Route path="/aboutus" component={AboutusScreen} exact />
         <Route path="/contactus" component={ContactusScreen} exact />

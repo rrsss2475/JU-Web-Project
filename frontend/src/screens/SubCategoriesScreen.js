@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
-import Category from '../components/Category';
-import subcategoryList, { listSubCategories } from '../actions/subcategoryActions';
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useParams } from "react-router-dom"
+import { Row, Col } from "react-bootstrap"
+import Category from "../components/Category"
+import Loader from "../components/Loader"
+import Message from "../components/Message"
+import { listSubCategories } from "../actions/subcategoryActions"
 
 const SubCategoriesScreen = () => {
-
     const { catName } = useParams();
     const dispatch = useDispatch();
 

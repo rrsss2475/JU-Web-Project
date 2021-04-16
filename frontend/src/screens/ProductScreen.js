@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
-import Product from '../components/Product';
-import productList, { listProducts } from '../actions/productActions';
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useParams } from "react-router-dom"
+import { Row, Col } from "react-bootstrap"
+import Product from "../components/Product"
+import Loader from "../components/Loader"
+import Message from "../components/Message"
+import { listProducts } from "../actions/productActions"
 
 const ProductScreen = () => {
-
     const { catName, subCatName } = useParams();
     const dispatch = useDispatch();
 
@@ -42,6 +43,7 @@ const ProductScreen = () => {
 
         </div>
     )
+
 }
 
 export default ProductScreen

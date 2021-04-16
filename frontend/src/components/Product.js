@@ -2,12 +2,13 @@ import React from 'react'
 import { Card, CardImg } from 'react-bootstrap'
 import { Link, Switch, Route } from 'react-router-dom'
 import img from '../images/baby.jpg'
+import Rating from './Rating'
 
 const Category = ({ product, catName, subCatName }) => {
   let body = (
     <Card className='my-3 p-3 rounded'>
       <Link to={{
-          pathname: `/categories/${catName}/${subCatName}/${product.name}`,
+          pathname: `/categories/${catName}/${subCatName}/${product._id}`,
           state: { product: product }
         }} exact>
         <Card.Img
@@ -18,13 +19,17 @@ const Category = ({ product, catName, subCatName }) => {
       </Link>
       <Card.Body>
         <Link to={{
-          pathname: `/categories/${catName}/${subCatName}/${product.name}`,
+          pathname: `/categories/${catName}/${subCatName}/${product._id}`,
           state: { product: product }
         }} exact>
           <Card.Title as='div'>
             <strong>{product.name}</strong><br />
+            <Rating
+            value={product.rating}
+          />
           </Card.Title>
         </Link>
+        
         <strong>Rs {product.price}</strong>
       </Card.Body>
     </Card>

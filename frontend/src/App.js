@@ -1,18 +1,20 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import "./App.css";
-import Navbar from "./components/Navbar";
-import HomeScreen from "./screens/HomeScreen";
-import Footer from "./components/Footer";
-import AboutusScreen from "./screens/AboutusScreen";
-import ContactusScreen from "./screens/ContactusScreen";
-import LoginScreen from "./screens/LoginScreen";
-import CategoriesScreen from "./screens/CategoriesScreen";
-import SubCategoriesScreen from "./screens/SubCategoriesScreen";
-import ProductScreen from "./screens/ProductScreen";
-import ProductDescScreen from "./screens/ProductDescScreen";
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import './App.css';
+import Navbar from './components/Navbar';
+import HomeScreen from './screens/HomeScreen';
+import Footer from './components/Footer';
+import AboutusScreen from './screens/AboutusScreen';
+import ContactusScreen from './screens/ContactusScreen';
+import LoginScreen from './screens/LoginScreen';
+import CategoriesScreen from './screens/CategoriesScreen';
+import SubCategoriesScreen from './screens/SubCategoriesScreen';
+import ProductScreen from './screens/ProductScreen'
+import ProductDescScreen from './screens/ProductDescScreen';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ReviewsScreen from './screens/ReviewsScreen';
 import ScrollToTop from "./components/ScrollToTop";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 
 function App() {
   return (
@@ -25,21 +27,10 @@ function App() {
         <Route path="/contactus" component={ContactusScreen} exact />
         <Route path="/login" component={LoginScreen} exact />
         <Route path="/categories" component={CategoriesScreen} exact />
-        <Route
-          path="/categories/:catName"
-          component={SubCategoriesScreen}
-          exact
-        />
-        <Route
-          path="/categories/:catName/:subCatName"
-          component={ProductScreen}
-          exact
-        />
-        <Route
-          path="/categories/:catName/:subCatName/:prodName"
-          component={ProductDescScreen}
-          exact
-        />
+        <Route path="/categories/:catName" component={SubCategoriesScreen} exact />
+        <Route path="/categories/:catName/:subCatName" component={ProductScreen} exact />
+        <Route path="/categories/:catName/:subCatName/:id" component={ProductDescScreen} exact />
+        <Route path="/categories/:catName/:subCatName/:id/reviews" component={ReviewsScreen} exact />
       </main>
       <Footer />
     </Router>

@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler")
 const router = express.Router()
 const { Category, subCategory } = require("../models/categoryModel")
 const Product = require("../models/productModel")
+const { User } = require("../models/userModel")
 
 const getCategories = asyncHandler(async (req, res) => {
 	const categories = await Category.find({ isService: false })
@@ -27,9 +28,29 @@ const getProductDetails = asyncHandler(async (req, res) => {
 	res.json(product)
 })
 
+const getUserName = async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id)
+		res.json({ name: user.name });
+	} catch (err) {
+		res.status(400).send(err);
+	}
+}
+
+const getReviews = async (req,res) => {
+	try {
+		const product = await Product.findById(req.params.id)
+		res.json(product.reviews)
+	} catch(err)  {
+		res.status(400).send(err);
+	}
+}
+
 module.exports = {
 	getCategories: getCategories,
 	getSubCategories: getSubCategories,
 	getProducts: getProducts,
 	getProductDetails: getProductDetails,
+	getUserName: getUserName,
+	getReviews: getReviews
 }

@@ -8,55 +8,41 @@ import Message from "../components/Message"
 import { listProducts } from "../actions/productActions"
 
 const ProductScreen = () => {
-	const { catName, subCatName } = useParams()
-	const dispatch = useDispatch()
+    const { catName, subCatName } = useParams();
+    const dispatch = useDispatch();
 
-	const productList = useSelector((state) => state.productList)
-	const { loading, error, products } = productList
+    const productList = useSelector(state => state.productList);
+    const { loading, error, products } = productList;
 
-	useEffect(() => {
-		dispatch(listProducts(catName, subCatName))
-	}, [dispatch])
+    useEffect(() => {
+        dispatch(listProducts(catName, subCatName))
+    }, [dispatch]);
 
-	let body = <h1></h1>
+    let body = (<h1></h1>);
 
-	if (loading == false) {
-		body = (
-			<Row>
-				{products.map((product) => (
-					<Col sm={12} md={6} lg={4} xl={3}>
-						<Product
-							product={product}
-							catName={catName}
-							subCatName={subCatName}
-						/>
-					</Col>
-				))}
-			</Row>
-		)
-	}
+    if (loading == false) {
+        body = (
+            <Row>
+                {products.map((product) => (
+                    <Col sm={12} md={6} lg={4} xl={3}>
+                        <Product product={product} catName={catName} subCatName={subCatName} />
+                    </Col>
+                ))
+                }
+            </Row>
+        );
+    };
 
-	return (
-		<div className="container" style={{ marginTop: "100px" }}>
-			<Link className="btn btn-dark my-3 mx-2" to={`/`}>
-				Back to Home
-			</Link>
-			<Link className="btn btn-dark my-3 mx-2" to={`/categories`}>
-				Back to Categories
-			</Link>
-			<Link className="btn btn-dark my-3 mx-2" to={`/categories/${catName}`}>
-				Back to {catName}
-			</Link>
-			<h1>{subCatName}</h1>
-			{loading ? (
-				<Loader />
-			) : error ? (
-				<Message variant="danger">{error}</Message>
-			) : (
-				body
-			)}
-		</div>
-	)
+    return (
+        <div className="container" style={{ marginTop: '100px' }}>
+            <Link className='btn btn-dark my-3 mx-2' to={`/`}>Back to Home</Link>
+            <Link className='btn btn-dark my-3 mx-2' to={`/categories`}>Back to Categories</Link>
+            <Link className='btn btn-dark my-3 mx-2' to={`/categories/${catName}`}>Back to {catName}</Link>
+            <h1>{subCatName}</h1>
+            {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : body}
+
+        </div>
+    )
 }
 
 export default ProductScreen

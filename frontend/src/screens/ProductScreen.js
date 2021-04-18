@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
-import Product from '../components/Product';
-import productList, { listProducts } from '../actions/productActions';
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useParams } from "react-router-dom"
+import { Row, Col } from "react-bootstrap"
+import Product from "../components/Product"
+import Loader from "../components/Loader"
+import Message from "../components/Message"
+import { listProducts } from "../actions/productActions"
 
 const ProductScreen = () => {
-
     const { catName, subCatName } = useParams();
     const dispatch = useDispatch();
 
@@ -34,12 +35,15 @@ const ProductScreen = () => {
 
     return (
         <div className="container" style={{ marginTop: '100px' }}>
+            <Link className='btn btn-dark my-3 mx-2' to={`/`}>Back to Home</Link>
+            <Link className='btn btn-dark my-3 mx-2' to={`/categories`}>Back to Categories</Link>
             <Link className='btn btn-dark my-3 mx-2' to={`/categories/${catName}`}>Back to {catName}</Link>
             <h1>{subCatName}</h1>
-            {loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
+            {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : body}
 
         </div>
     )
+
 }
 
 export default ProductScreen

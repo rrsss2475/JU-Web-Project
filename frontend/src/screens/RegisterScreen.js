@@ -98,6 +98,13 @@ const RegisterScreen = ({ location, history }) => {
           />
         </Form.Group>
 
+        <Form.Group controlId="exampleForm.ControlSelect1">
+          <Form.Control as="select">
+            <option>Business Account-NO</option>
+            <option>Business Account-YES</option>
+          </Form.Control>
+        </Form.Group>
+
         <Button className="submit-btn" variant="success" type="submit">
           Submit
         </Button>

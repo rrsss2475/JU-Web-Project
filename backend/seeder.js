@@ -8,10 +8,11 @@ const users = require("./data/users");
 const products = require("./data/products");
 const Service = require("./models/serviceModel");
 const services = require("./data/services");
+const categories = require("./data/categories");
 
-dotenv.config()
+dotenv.config();
 
-connectToDB()
+connectToDB();
 
 const importProducts = async function () {
   await User.deleteMany();

@@ -32,11 +32,14 @@ const CategoriesScreen = () => {
   }
 
   return (
-    <div className="container" style={{ marginTop: "100px" }}>
-      <Link className="btn btn-dark my-3 mx-2" to="/">
-        Back to Home
+    <div className="container" style={{ marginTop: "50px" }}>
+      <Link className="btn btn-warning my-3 mx-2" to="/">
+        <strong>Back to Home</strong>
       </Link>
-      <h1>Categories</h1>
+      <h1>
+        <strong>Categories</strong>
+      </h1>
+      {/* <h1>Categories</h1> */}
       {loading ? (
         <Loader />
       ) : error ? (

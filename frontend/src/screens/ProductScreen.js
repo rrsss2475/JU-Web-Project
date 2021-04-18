@@ -39,7 +39,7 @@ const ProductScreen = () => {
             <Link className='btn btn-dark my-3 mx-2' to={`/categories`}>Back to Categories</Link>
             <Link className='btn btn-dark my-3 mx-2' to={`/categories/${catName}`}>Back to {catName}</Link>
             <h1>{subCatName}</h1>
-            {loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
+            {loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : body}
 
         </div>
     )

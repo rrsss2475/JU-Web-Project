@@ -2,23 +2,31 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Col, Row, Form, Button, Toast } from 'react-bootstrap'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import Rating from '../components/Rating'
 
 const ProductDescScreen = ({ location }) => {
   const { product } = location.state
   const [qty, setqty] = useState(1)
-  const [user, setuser] = useState('Loading...')
+  const [user, setuser] = useState('')
+  const [loading, setloading] = useState(true)
+  const [error, seterror] = useState(false)
   const { catName, subCatName } = useParams()
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/products/userName/${product.user}`)
       .then((res) => {
-        setuser(res.data.name)
+        setuser(res.data.name);
+        setloading(false);
+      })
+      .catch((error) => {
+        seterror(error)
       })
   }, [])
 
-  const addToCartHandler = () => {}
+  const addToCartHandler = () => { }
 
   return (
     <div className='container' style={{ paddingTop: '75px' }}>
@@ -46,7 +54,7 @@ const ProductDescScreen = ({ location }) => {
         </Col>
         <Col sm={12} md={8} lg={5} xl={4}>
           <h1>{product.name}</h1>
-          By {user}
+          {loading ? <Loader size="25" /> : error ? <Message variant="danger">{error}</Message> : `By ${user}`}
           <Rating
             value={product.rating}
             text={`${product.numReviews} reviews`}

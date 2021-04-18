@@ -28,7 +28,18 @@ const register = asyncHandler(async (req, res) => {
 	})
 
 	const savedUser = await user.save()
-	res.json(savedUser)
+
+	const token = jwt.sign({ id: savedUser._id }, process.env.TOKEN_SECRET)
+
+	if (savedUser) {
+		res.status(201).json({
+			_id: savedUser._id,
+			name: savedUser.name,
+			email: savedUser.email,
+			isAdmin: user.isAdmin,
+			token: token,
+		})
+	}
 })
 
 const login = asyncHandler(async (req, res) => {
@@ -59,7 +70,7 @@ const login = asyncHandler(async (req, res) => {
 	})
 })
 
-const getUserDetails = asyncHandler(async (req, res) => {
+const getUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
 
 	if (user) {
@@ -75,6 +86,35 @@ const getUserDetails = asyncHandler(async (req, res) => {
 	}
 })
 
+const updateUserProfile = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id)
+
+	if (user) {
+		user.name = req.body.name || user.name
+		user.email = req.body.email || user.email
+		if (req.body.password) {
+			const salt = await bcrypt.genSalt(10)
+			const hashedPassword = await bcrypt.hash(req.body.password, salt)
+			user.password = hashedPassword
+		}
+
+		const updatedUser = await user.save()
+		const token = jwt.sign({ id: updatedUser._id }, process.env.TOKEN_SECRET)
+
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			isAdmin: updatedUser.isAdmin,
+			token: token,
+		})
+	} else {
+		res.status(404)
+		throw new Error("User Not Found")
+	}
+})
+
 module.exports.register = register
 module.exports.login = login
-module.exports.getUserDetails = getUserDetails
+module.exports.getUserProfile = getUserProfile
+module.exports.updateUserProfile = updateUserProfile

@@ -9,9 +9,9 @@ const products = require("./data/products");
 const Service = require("./models/serviceModel");
 const services = require("./data/services");
 
-dotenv.config()
+dotenv.config();
 
-connectToDB()
+connectToDB();
 
 const importProducts = async function () {
   await User.deleteMany();
@@ -154,5 +154,5 @@ const importServices = async function () {
   process.exit();
 };
 
-// importProducts()
-// importServices()
+// importProducts();
+importServices();

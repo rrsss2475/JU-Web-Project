@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/rrsss2475/JU-Web-Project#readme",
   "dependencies": {
+    "@mongoosejs/double": "^0.2.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
@@ -30,7 +31,8 @@
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
-    "mongoose": "^5.12.0"
+    "mongoose": "^5.12.0",
+    "mongoose-double": "0.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

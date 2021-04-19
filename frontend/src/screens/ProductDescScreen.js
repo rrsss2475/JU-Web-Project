@@ -1,19 +1,23 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, Redirect } from 'react-router-dom'
 import { Col, Row, Form, Button, Toast } from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
 import QuantitySelector from '../components/QuantitySelector'
 
 const ProductDescScreen = ({ location }) => {
-  const { product } = location.state
-  const [qty, setqty] = useState(1)
-  const [user, setuser] = useState('')
-  const [loading, setloading] = useState(true)
-  const [error, seterror] = useState(false)
-  const { catName, subCatName } = useParams()
+  const { product } = location.state;
+  const [qty, setqty] = useState(1);
+  const [user, setuser] = useState('');
+  const [loading, setloading] = useState(true);
+  const [error, seterror] = useState(false);
+  const { catName, subCatName } = useParams();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const [redirectToLogin, setredirectToLogin] = useState(false);
 
   useEffect(() => {
     axios
@@ -28,20 +32,22 @@ const ProductDescScreen = ({ location }) => {
   }, [])
 
   const addToCartHandler = () => {
-      
+    if (userInfo == null) {
+      console.log("helo");
+      setredirectToLogin(true);
+    }
   }
 
   const addQtyHandler = () => {
-    //console.log("Added");
     setqty(qty + 1)
   }
   const subQtyHandler = () => {
-    //console.log("Subtracted");
     setqty(qty - 1)
   }
 
   return (
     <div className='container' style={{ paddingTop: '75px' }}>
+      {redirectToLogin ? <Redirect to={{pathname:"/login", search:`?redirect=/categories/${catName}/${subCatName}/${product._id}`}} /> : <div></div>}
       <Link className='btn btn-dark my-3 mx-2' to={`/`}>
         Back to Home
       </Link>
@@ -95,7 +101,7 @@ const ProductDescScreen = ({ location }) => {
                 limit={10}
               />
               <br />
-              <Button style={{ paddingLeft: '50px', paddingRight: '50px' }}>
+              <Button style={{ paddingLeft: '50px', paddingRight: '50px' }} onClick={addToCartHandler}>
                 Add To Cart
               </Button>
             </div>

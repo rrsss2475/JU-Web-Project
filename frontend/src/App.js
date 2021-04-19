@@ -12,13 +12,16 @@ import SubCategoriesScreen from './screens/SubCategoriesScreen';
 import ProductScreen from './screens/ProductScreen'
 import ProductDescScreen from './screens/ProductDescScreen';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ReviewsScreen from './screens/ReviewsScreen';
+import ScrollToTop from "./components/ScrollToTop";
+
 
 function App() {
   return (
     <Router>
       <Navbar />
-      {/* <Carousel/> */}
-      <main >
+      <ScrollToTop />
+      <main>
         <Route path="/" component={HomeScreen} exact />
         <Route path="/aboutus" component={AboutusScreen} exact />
         <Route path="/contactus" component={ContactusScreen} exact />
@@ -26,7 +29,8 @@ function App() {
         <Route path="/categories" component={CategoriesScreen} exact />
         <Route path="/categories/:catName" component={SubCategoriesScreen} exact />
         <Route path="/categories/:catName/:subCatName" component={ProductScreen} exact />
-        <Route path="/categories/:catName/:subCatName/:prodName" component={ProductDescScreen} exact />
+        <Route path="/categories/:catName/:subCatName/:id" component={ProductDescScreen} exact />
+        <Route path="/categories/:catName/:subCatName/:id/reviews" component={ReviewsScreen} exact />
       </main>
       <Footer />
     </Router>

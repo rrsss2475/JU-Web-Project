@@ -5,6 +5,7 @@ const cors = require("cors")
 require("dotenv").config()
 const mongoose = require("mongoose")
 const connectToDB = require("./database/db")
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware")
 
 connectToDB()
 
@@ -12,23 +13,27 @@ app.use(express.json())
 
 app.use(cors())
 
-const userRoute = require("./routes/user");
-app.use("/user", userRoute);
+const userRoute = require("./routes/userRoutes")
+app.use("/api/users", userRoute)
 
-const productRoute = require("./routes/productRoutes");
-app.use("/api/products", productRoute);
 
-const serviceRoute = require("./routes/serviceRoutes");
-app.use("/api/services", serviceRoute);
+const productRoute = require("./routes/productRoutes")
+app.use("/api/products", productRoute)
+
+const serviceRoute = require("./routes/serviceRoutes")
+app.use("/api/services", serviceRoute)
+
+app.use(notFound)
+app.use(errorHandler)
 
 app.use("/", (req, res) => {
-  res.send("Hello");
-});
+	res.send("Hello")
+})
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000
 app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} port ${PORT}`.yellow.bold
-  )
-);
+	PORT,
+	console.log(
+		`Server running in ${process.env.NODE_ENV} port ${PORT}`.yellow.bold
+	)
+)

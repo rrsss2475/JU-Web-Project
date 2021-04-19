@@ -10,4 +10,5 @@ router.post("/register", register)
 router.post("/login", login)
 router.route("/profile").get(auth, getUserDetails)
 
+
 module.exports = router

@@ -7,34 +7,41 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
 import QuantitySelector from '../components/QuantitySelector'
+import {productDescAction} from '../actions/productDescActions'
+const ProductDescScreen = () => {
 
-const ProductDescScreen = ({ location }) => {
-  const { product } = location.state;
-  const [qty, setqty] = useState(1);
-  const [user, setuser] = useState('');
-  const [loading, setloading] = useState(true);
-  const [error, seterror] = useState(false);
-  const { catName, subCatName } = useParams();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-  const [redirectToLogin, setredirectToLogin] = useState(false);
-
+  const [qty, setqty] = useState(1)
+  const [user, setuser] = useState('')
+  const [userloading, setuserloading] = useState(true)
+  const [usererror, setusererror] = useState(false)
+  const { catName, subCatName, id } = useParams()
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+  const [redirectToLogin, setredirectToLogin] = useState(false)
+  
+  const productDesc = useSelector((state) => state.productDesc)
+  const { loading, error, productDescription } = productDesc
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(productDescAction(catName, subCatName, id))
+  }, [dispatch])
+  
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products/userName/${product.user}`)
+      .get(`http://localhost:5000/api/products/userName/${productDescription.user}`)
       .then((res) => {
         setuser(res.data.name)
-        setloading(false)
+        setuserloading(false)
       })
-      .catch((error) => {
-        seterror(error)
+      .catch((err) => {
+        setusererror(err)
       })
   }, [])
 
   const addToCartHandler = () => {
     if (userInfo == null) {
-      console.log("helo");
-      setredirectToLogin(true);
+      console.log('helo')
+      setredirectToLogin(true)
     }
   }
 
@@ -47,7 +54,16 @@ const ProductDescScreen = ({ location }) => {
 
   return (
     <div className='container' style={{ paddingTop: '75px' }}>
-      {redirectToLogin ? <Redirect to={{pathname:"/login", search:`?redirect=/categories/${catName}/${subCatName}/${product._id}`}} /> : <div></div>}
+      {redirectToLogin ? (
+        <Redirect
+          to={{
+            pathname: '/login',
+            search: `?redirect=/categories/${catName}/${subCatName}/${productDescription._id}`,
+          }}
+        />
+      ) : (
+        <div></div>
+      )}
       <Link className='btn btn-dark my-3 mx-2' to={`/`}>
         Back to Home
       </Link>
@@ -66,33 +82,33 @@ const ProductDescScreen = ({ location }) => {
       <Row>
         <Col sm={12} md={8} lg={6} xl={6}>
           <img
-            src={product.image}
+            src={productDescription.image}
             style={{ height: '100%', width: '100%', maxHeight: '500px' }}
           />
         </Col>
         <Col sm={12} md={8} lg={5} xl={4}>
-          <h1>{product.name}</h1>
-          {loading ? (
+          <h1>{productDescription.name}</h1>
+          {userloading ? (
             <Loader size='25' />
-          ) : error ? (
-            <Message variant='danger'>{error}</Message>
+          ) : usererror ? (
+            <Message variant='danger'>{usererror}</Message>
           ) : (
             `By ${user}`
           )}
           <Rating
-            value={product.rating}
-            text={`${product.numReviews} reviews`}
+            value={productDescription.rating}
+            text={`${productDescription.numReviews} reviews`}
           />
           <br />
-          <b>Price: Rs {product.price}</b>
+          <b>Price: Rs {productDescription.price}</b>
           <br />
-          {product.isAvailable ? (
+          {productDescription.isAvailable ? (
             <div style={{ color: 'green', fontWeight: 'bold' }}>In Stock</div>
           ) : (
             <div style={{ color: 'red', fontWeight: 'bold' }}>Out Of Stock</div>
           )}
           <br />
-          {product.isAvailable ? (
+          {productDescription.isAvailable ? (
             <div>
               <QuantitySelector
                 qty={qty}
@@ -101,7 +117,10 @@ const ProductDescScreen = ({ location }) => {
                 limit={10}
               />
               <br />
-              <Button style={{ paddingLeft: '50px', paddingRight: '50px' }} onClick={addToCartHandler}>
+              <Button
+                style={{ paddingLeft: '50px', paddingRight: '50px' }}
+                onClick={addToCartHandler}
+              >
                 Add To Cart
               </Button>
             </div>
@@ -110,11 +129,11 @@ const ProductDescScreen = ({ location }) => {
           )}
           <br />
           <h3>About this item:</h3>
-          <p>{product.description}</p>
+          <p>{productDescription.description}</p>
           <Link
             to={{
-              pathname: `/categories/${catName}/${subCatName}/${product._id}/reviews`,
-              state: { product: product },
+              pathname: `/categories/${catName}/${subCatName}/${productDescription._id}/reviews`,
+              state: { productDescription: productDescription },
             }}
           >
             <Button className='btn-block' variant='secondary'>

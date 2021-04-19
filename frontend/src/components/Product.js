@@ -9,7 +9,6 @@ const Category = ({ product, catName, subCatName }) => {
     <Card className='my-3 p-3 rounded'>
       <Link to={{
           pathname: `/categories/${catName}/${subCatName}/${product._id}`,
-          state: { product: product }
         }} exact>
         <Card.Img
           src={product.image || img}
@@ -20,7 +19,6 @@ const Category = ({ product, catName, subCatName }) => {
       <Card.Body>
         <Link to={{
           pathname: `/categories/${catName}/${subCatName}/${product._id}`,
-          state: { product: product }
         }} exact>
           <Card.Title as='div'>
             <strong>{product.name}</strong><br />

@@ -14,6 +14,7 @@ import ProductDescScreen from './screens/ProductDescScreen';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReviewsScreen from './screens/ReviewsScreen';
 import ScrollToTop from "./components/ScrollToTop";
+import CartScreen from './screens/CartScreen';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/aboutus" component={AboutusScreen} exact />
         <Route path="/contactus" component={ContactusScreen} exact />
         <Route path="/login" component={LoginScreen} exact />
+        <Route path="/cart" component={CartScreen} exact />
         <Route path="/categories" component={CategoriesScreen} exact />
         <Route path="/categories/:catName" component={SubCategoriesScreen} exact />
         <Route path="/categories/:catName/:subCatName" component={ProductScreen} exact />

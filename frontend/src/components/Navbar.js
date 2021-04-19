@@ -1,8 +1,9 @@
 import React from "react";
 import { Nav, NavDropdown, Dropdown, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { logout } from "../actions/userActions";
+
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -126,8 +127,8 @@ const Navbar = () => {
                   <Dropdown.Item className="text-success" href="/profile">
                     <i className="fas fa-user"></i> Profile
                   </Dropdown.Item>
-                  <Dropdown.Item className="text-success" href="/cart">
-                    <i className="fas fa-shopping-cart"></i> Cart
+                  <Dropdown.Item className="text-success">
+                    <Link to="/cart"><i className="fas fa-shopping-cart"></i> Cart</Link>
                   </Dropdown.Item>
                   <NavDropdown.Divider />
                   <Dropdown.Item

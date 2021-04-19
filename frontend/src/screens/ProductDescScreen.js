@@ -19,8 +19,8 @@ const ProductDescScreen = ({ location }) => {
     axios
       .get(`http://localhost:5000/api/products/userName/${product.user}`)
       .then((res) => {
-        setuser(res.data.name);
-        setloading(false);
+        setuser(res.data.name)
+        setloading(false)
       })
       .catch((error) => {
         seterror(error)
@@ -28,15 +28,16 @@ const ProductDescScreen = ({ location }) => {
   }, [])
 
   const addToCartHandler = () => {
-    
+      
   }
+
   const addQtyHandler = () => {
     //console.log("Added");
     setqty(qty + 1)
   }
   const subQtyHandler = () => {
     //console.log("Subtracted");
-    setqty(qty - 1);
+    setqty(qty - 1)
   }
 
   return (
@@ -65,7 +66,13 @@ const ProductDescScreen = ({ location }) => {
         </Col>
         <Col sm={12} md={8} lg={5} xl={4}>
           <h1>{product.name}</h1>
-          {loading ? <Loader size="25" /> : error ? <Message variant="danger">{error}</Message> : `By ${user}`}
+          {loading ? (
+            <Loader size='25' />
+          ) : error ? (
+            <Message variant='danger'>{error}</Message>
+          ) : (
+            `By ${user}`
+          )}
           <Rating
             value={product.rating}
             text={`${product.numReviews} reviews`}
@@ -81,11 +88,14 @@ const ProductDescScreen = ({ location }) => {
           <br />
           {product.isAvailable ? (
             <div>
-              <QuantitySelector qty={qty} addQtyHandler={addQtyHandler} subQtyHandler={subQtyHandler} limit={10} />
+              <QuantitySelector
+                qty={qty}
+                addQtyHandler={addQtyHandler}
+                subQtyHandler={subQtyHandler}
+                limit={10}
+              />
               <br />
-              <Button
-                style={{ paddingLeft: "50px", paddingRight: "50px" }}
-              >
+              <Button style={{ paddingLeft: '50px', paddingRight: '50px' }}>
                 Add To Cart
               </Button>
             </div>

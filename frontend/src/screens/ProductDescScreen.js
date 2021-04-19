@@ -5,6 +5,7 @@ import { Col, Row, Form, Button, Toast } from 'react-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
+import QuantitySelector from '../components/QuantitySelector'
 
 const ProductDescScreen = ({ location }) => {
   const { product } = location.state
@@ -26,7 +27,17 @@ const ProductDescScreen = ({ location }) => {
       })
   }, [])
 
-  const addToCartHandler = () => { }
+  const addToCartHandler = () => {
+    
+  }
+  const addQtyHandler = () => {
+    //console.log("Added");
+    setqty(qty + 1)
+  }
+  const subQtyHandler = () => {
+    //console.log("Subtracted");
+    setqty(qty - 1);
+  }
 
   return (
     <div className='container' style={{ paddingTop: '75px' }}>
@@ -70,22 +81,10 @@ const ProductDescScreen = ({ location }) => {
           <br />
           {product.isAvailable ? (
             <div>
-              Qty
-              <Form.Control
-                as='select'
-                value={qty}
-                onChange={(e) => setqty(e.target.value)}
-              >
-                {[...Array(4).keys()].map((x) => (
-                  <option key={x + 1} value={x + 1}>
-                    {x + 1}
-                  </option>
-                ))}
-              </Form.Control>
+              <QuantitySelector qty={qty} addQtyHandler={addQtyHandler} subQtyHandler={subQtyHandler} limit={10} />
+              <br />
               <Button
-                onClick={addToCartHandler}
-                className='btn-block'
-                type='button'
+                style={{ paddingLeft: "50px", paddingRight: "50px" }}
               >
                 Add To Cart
               </Button>

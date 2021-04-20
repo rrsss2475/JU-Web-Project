@@ -7,7 +7,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
 import QuantitySelector from '../components/QuantitySelector'
-import {productDescAction} from '../actions/productDescActions'
+import { productDescAction } from '../actions/productDescActions'
 const ProductDescScreen = () => {
 
   const [qty, setqty] = useState(1)
@@ -15,28 +15,37 @@ const ProductDescScreen = () => {
   const [userloading, setuserloading] = useState(true)
   const [usererror, setusererror] = useState(false)
   const { catName, subCatName, id } = useParams()
+  const [redirectToLogin, setredirectToLogin] = useState(false)
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  const [redirectToLogin, setredirectToLogin] = useState(false)
-  
+
   const productDesc = useSelector((state) => state.productDesc)
   const { loading, error, productDescription } = productDesc
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(productDescAction(catName, subCatName, id))
   }, [dispatch])
-  
+
+  if (userInfo) {
+    useEffect(() => {
+      dispatch(cartList(userInfo._id))
+    }, [dispatch])
+  }
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/products/userName/${productDescription.user}`)
-      .then((res) => {
-        setuser(res.data.name)
-        setuserloading(false)
-      })
-      .catch((err) => {
-        setusererror(err)
-      })
-  }, [])
+    if (loading == false) {
+      axios
+        .get(`http://localhost:5000/api/products/userName/${productDescription.user}`)
+        .then((res) => {
+          setuser(res.data.name)
+          setuserloading(false)
+        })
+        .catch((err) => {
+          setusererror(err)
+        })
+    }
+  }, [loading])
 
   const addToCartHandler = () => {
     if (userInfo == null) {
@@ -52,7 +61,7 @@ const ProductDescScreen = () => {
     setqty(qty - 1)
   }
 
-  return (
+  let body = (
     <div className='container' style={{ paddingTop: '75px' }}>
       {redirectToLogin ? (
         <Redirect
@@ -143,6 +152,10 @@ const ProductDescScreen = () => {
         </Col>
       </Row>
     </div>
+  );
+
+  return (
+    loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : body
   )
 }
 

@@ -10,6 +10,6 @@ const auth = require("../middlewares/authMiddleware")
 router.post("/register", register)
 router.post("/login", login)
 router.route("/profile").get(auth, getUserDetails)
-router.route("/cart", cart)
+router.post("/cart", cart)
 
 module.exports = router

@@ -60,10 +60,8 @@ const login = asyncHandler(async (req, res) => {
 })
 
 const cart = asyncHandler(async (req,res) => {
-	const userid = req.body.userid;
-	const productid = req.body.productid;
-	const qty = req.body.qty;
-	console.log(userid, productid, qty);
+	const user = await User.findById(req.body.userid)
+	res.json(user.cart);
 })
 
 const getUserDetails = asyncHandler(async (req, res) => {

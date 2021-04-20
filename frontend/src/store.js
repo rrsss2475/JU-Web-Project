@@ -4,7 +4,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { categoryListReducer } from "./reducers/categoryReducers";
 import { subcategoryListReducer } from "./reducers/subcategoryReducers";
 import { productListReducer } from "./reducers/productReducers";
-import { productDescReducer } from './reducers/productDescReducers'
+import { productDescReducer } from './reducers/productDescReducers';
+import {cartListReducer} from './reducers/cartReducers';
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   subcategoryList: subcategoryListReducer,
   productList: productListReducer,
   productDesc: productDescReducer,
+  cartList: cartListReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
 });

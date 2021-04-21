@@ -1,54 +1,60 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-import Category from "../components/Category";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
-import { listSubCategories } from "../actions/subcategoryActions";
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useParams } from "react-router-dom"
+import { Row, Col } from "react-bootstrap"
+import Category from "../components/Category"
+import Loader from "../components/Loader"
+import Message from "../components/Message"
+import { listSubCategories } from "../actions/subcategoryActions"
 
 const SubCategoriesScreen = () => {
-  const { catName } = useParams();
-  const dispatch = useDispatch();
+	const { catName } = useParams()
+	const dispatch = useDispatch()
 
-  const subcategoryList = useSelector((state) => state.subcategoryList);
-  const { loading, error, subcategories } = subcategoryList;
+	const subcategoryList = useSelector((state) => state.subcategoryList)
+	const { loading, error, subcategories } = subcategoryList
 
-  useEffect(() => {
-    dispatch(listSubCategories(catName));
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(listSubCategories(catName))
+	}, [dispatch, catName])
 
-  let body = <h1></h1>;
+	let body = <h1></h1>
 
-  if (loading == false) {
-    body = (
-      <Row>
-        {subcategories.map((category) => (
-          <Col sm={12} md={6} lg={4} xl={3}>
-            <Category
-              catName={catName}
-              type="subcategory"
-              category={category}
-            />
-          </Col>
-        ))}
-      </Row>
-    );
-  }
+	if (!loading) {
+		body = (
+			<Row>
+				{subcategories.map((category) => (
+					<Col sm={12} md={6} lg={4} xl={3}>
+						<Category
+							catName={catName}
+							type="subcategory"
+							category={category}
+						/>
+					</Col>
+				))}
+			</Row>
+		)
+	}
 
-  return (
-    <div className="container" style={{ marginTop: "50px" }}>
-      <Link className="btn btn-success my-3 mx-2" to={`/`}>
-        <strong>Back to Home</strong>
-      </Link>
-      <strong style={{ color: "green" }}>&gt;</strong>
-      <Link className="btn btn-warning my-3 mx-2" to={`/categories`}>
-        <strong>Back to Categories</strong>
-      </Link>
-      <h1>{catName}</h1>
-      {loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
-    </div>
-  );
-};
+	return (
+		<div className="container" style={{ marginTop: "50px" }}>
+			<Link className="btn btn-success my-3 mx-2" to={`/`}>
+				<strong>Back to Home</strong>
+			</Link>
+			<strong style={{ color: "green" }}>&gt;</strong>
+			<Link className="btn btn-warning my-3 mx-2" to={`/categories`}>
+				<strong>Back to Categories</strong>
+			</Link>
+			<h1>{catName}</h1>
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">{error}</Message>
+			) : (
+				body
+			)}
+		</div>
+	)
+}
 
-export default SubCategoriesScreen;
+export default SubCategoriesScreen

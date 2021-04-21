@@ -30,6 +30,16 @@ const addressSchema = mongoose.Schema({
 	},
 })
 
+const cartSchema = mongoose.Schema({
+	product: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: "Product",
+	},
+	weight: Number,
+	qty: { type: Number, required: true },
+})
+
 const userSchema = mongoose.Schema(
 	{
 		name: {
@@ -50,6 +60,7 @@ const userSchema = mongoose.Schema(
 			required: false,
 			default: false,
 		},
+		cart: [cartSchema],
 	},
 	{
 		timestamps: true,
@@ -58,6 +69,7 @@ const userSchema = mongoose.Schema(
 
 const User = mongoose.model("User", userSchema)
 const Address = mongoose.model("Address", addressSchema)
+
 module.exports = {
 	User: User,
 	Address: Address,

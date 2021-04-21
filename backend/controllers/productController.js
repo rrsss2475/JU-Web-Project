@@ -11,15 +11,15 @@ const getCategories = asyncHandler(async (req, res) => {
 });
 
 const getSubCategories = asyncHandler(async (req, res) => {
-  const categoryname = req.params.category;
-  const category = await Category.findOne({ name: categoryname });
-  const subCategoryList = [];
-  for (const subcategory of category.subCategory) {
-    const subCategoryFound = await subCategory.findById(subcategory._id);
-    subCategoryList.push(subCategoryFound);
-  }
-  res.json(subCategoryList);
-});
+	const categoryname = req.params.category
+	const category = await Category.findOne({ name: categoryname })
+	const subCategoryList = []
+	for (const subcategory of category.subCategory) {
+		const subCategoryFound = await subCategory.findById(subcategory._id)
+		subCategoryList.push(subCategoryFound)
+	}
+	res.json(subCategoryList)
+})
 
 const getProducts = asyncHandler(async (req, res) => {
   const subcategoryname = req.params.subCategory;
@@ -34,28 +34,28 @@ const getProductDetails = asyncHandler(async (req, res) => {
 });
 
 const getUserName = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.json({ name: user.name });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-};
+	try {
+		const user = await User.findById(req.params.id)
+		res.json({ name: user.name })
+	} catch (err) {
+		res.status(400).send(err)
+	}
+}
 
 const getReviews = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    res.json(product.reviews);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-};
+	try {
+		const product = await Product.findById(req.params.id)
+		res.json(product.reviews)
+	} catch (err) {
+		res.status(400).send(err)
+	}
+}
 
 module.exports = {
-  getCategories: getCategories,
-  getSubCategories: getSubCategories,
-  getProducts: getProducts,
-  getProductDetails: getProductDetails,
-  getUserName: getUserName,
-  getReviews: getReviews,
-};
+	getCategories: getCategories,
+	getSubCategories: getSubCategories,
+	getProducts: getProducts,
+	getProductDetails: getProductDetails,
+	getUserName: getUserName,
+	getReviews: getReviews,
+}

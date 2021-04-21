@@ -22,11 +22,22 @@ const ShippingScreen = ({ history }) => {
     history.push("/payment");
   };
 
+  // $(document).ready(function () {
+  //   $("#formButton").click(function () {
+  //     $("#form1").toggle();
+  //   });
+  // });
+
   return (
     <Container>
       {/* <CheckoutSteps step1 step2 /> */}
       <h1>Shipping</h1>
-      <Form onSubmit={submitHandler}>
+
+      <button type="button" id="formButton">
+        Add New Address
+      </button>
+
+      <Form id="form1" onSubmit={submitHandler}>
         <Form.Group controlId="address">
           <Form.Label>Address</Form.Label>
           <Form.Control

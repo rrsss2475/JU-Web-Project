@@ -442,3 +442,13 @@ body {
     right: auto;
   }
 }
+
+#form1 {
+  display: none;
+}
+
+#formButton {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}

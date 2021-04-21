@@ -20,7 +20,7 @@ const SubCategoriesScreen = () => {
 
   let body = <h1></h1>;
 
-  if (loading == false) {
+  if (!loading) {
     body = (
       <Row>
         {subcategories.map((category) => (
@@ -46,7 +46,13 @@ const SubCategoriesScreen = () => {
         <strong>Back to Categories</strong>
       </Link>
       <h1>{catName}</h1>
-      {loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
+      {loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">{error}</Message>
+			) : (
+				body
+			)}
     </div>
   );
 };

@@ -50,7 +50,13 @@ const ProductScreen = () => {
         <strong>Back to {catName}</strong>
       </Link>
       <h1>{subCatName}</h1>
-      {loading ? <h1>Loading...</h1> : error ? <h1>Error</h1> : body}
+      {loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">{error}</Message>
+			) : (
+				body
+			)}
     </div>
   );
 };

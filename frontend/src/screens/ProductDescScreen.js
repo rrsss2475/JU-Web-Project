@@ -1,47 +1,50 @@
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Col, Row, Form, Button, Toast } from 'react-bootstrap'
-import Rating from '../components/Rating'
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Col, Row, Form, Button, Toast } from "react-bootstrap";
+import Rating from "../components/Rating";
 
 const ProductDescScreen = ({ location }) => {
-  const { product } = location.state
-  const [qty, setqty] = useState(1)
-  const [user, setuser] = useState('Loading...')
-  const { catName, subCatName } = useParams()
+  const { product } = location.state;
+  const [qty, setqty] = useState(1);
+  const [user, setuser] = useState("Loading...");
+  const { catName, subCatName } = useParams();
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/products/userName/${product.user}`)
       .then((res) => {
-        setuser(res.data.name)
-      })
-  }, [])
+        setuser(res.data.name);
+      });
+  }, []);
 
-  const addToCartHandler = () => {}
+  const addToCartHandler = () => {};
 
   return (
-    <div className='container' style={{ paddingTop: '75px' }}>
-      <Link className='btn btn-dark my-3 mx-2' to={`/`}>
-        Back to Home
+    <div className="container" style={{ marginTop: "50px" }}>
+      <Link className="btn btn-success my-3 mx-2" to={`/`}>
+        <strong>Back to Home</strong>
       </Link>
-      <Link className='btn btn-dark my-3 mx-2' to={`/categories`}>
-        Back to Categories
+      <strong style={{ color: "green" }}>&gt;</strong>
+      <Link className="btn btn-success my-3 mx-2" to={`/categories`}>
+        <strong>Back to Categories</strong>
       </Link>
-      <Link className='btn btn-dark my-3 mx-2' to={`/categories/${catName}`}>
-        Back to {catName}
+      <strong style={{ color: "green" }}>&gt;</strong>
+      <Link className="btn btn-success my-3 mx-2" to={`/categories/${catName}`}>
+        <strong>Back to {catName}</strong>
       </Link>
+      <strong style={{ color: "green" }}>&gt;</strong>
       <Link
-        className='btn btn-dark my-3 mx-2'
+        className="btn btn-warning my-3 mx-2"
         to={`/categories/${catName}/${subCatName}`}
       >
-        Back to {subCatName}
+        <strong>Back to {subCatName}</strong>
       </Link>
-      <Row>
+      <Row style={{ marginTop: "20px" }}>
         <Col sm={12} md={8} lg={6} xl={6}>
           <img
             src={product.image}
-            style={{ height: '100%', width: '100%', maxHeight: '500px' }}
+            style={{ height: "100%", width: "100%", maxHeight: "500px" }}
           />
         </Col>
         <Col sm={12} md={8} lg={5} xl={4}>
@@ -55,16 +58,17 @@ const ProductDescScreen = ({ location }) => {
           <b>Price: Rs {product.price}</b>
           <br />
           {product.isAvailable ? (
-            <div style={{ color: 'green', fontWeight: 'bold' }}>In Stock</div>
+            <div style={{ color: "green", fontWeight: "bold" }}>In Stock</div>
           ) : (
-            <div style={{ color: 'red', fontWeight: 'bold' }}>Out Of Stock</div>
+            <div style={{ color: "red", fontWeight: "bold" }}>Out Of Stock</div>
           )}
           <br />
           {product.isAvailable ? (
             <div>
-              Qty
+              <strong>Qty -</strong>
               <Form.Control
-                as='select'
+                style={{ marginTop: "5px" }}
+                as="select"
                 value={qty}
                 onChange={(e) => setqty(e.target.value)}
               >
@@ -76,10 +80,11 @@ const ProductDescScreen = ({ location }) => {
               </Form.Control>
               <Button
                 onClick={addToCartHandler}
-                className='btn-block'
-                type='button'
+                className="btn-block btn-warning"
+                type="button"
+                style={{ marginTop: "10px" }}
               >
-                Add To Cart
+                <strong>Add To Cart</strong>
               </Button>
             </div>
           ) : (
@@ -94,14 +99,14 @@ const ProductDescScreen = ({ location }) => {
               state: { product: product },
             }}
           >
-            <Button className='btn-block' variant='secondary'>
-              See all Reviews{' '}
+            <Button className="btn-block" variant="warning">
+              <strong>See all Reviews </strong>
             </Button>
           </Link>
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default ProductDescScreen
+export default ProductDescScreen;

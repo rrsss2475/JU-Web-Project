@@ -1,17 +1,18 @@
-const connectToDB = require("./database/db")
-const dotenv = require("dotenv")
-const colors = require("colors")
-const { User } = require("./models/userModel")
-const Product = require("./models/productModel")
-const { Category, subCategory } = require("./models/categoryModel")
-const users = require("./data/users")
-const products = require("./data/products")
-const Service = require("./models/serviceModel")
-const services = require("./data/services")
+const connectToDB = require("./database/db");
+const dotenv = require("dotenv");
+const colors = require("colors");
+const { User } = require("./models/userModel");
+const Product = require("./models/productModel");
+const { Category, subCategory } = require("./models/categoryModel");
+const users = require("./data/users");
+const products = require("./data/products");
+const Service = require("./models/serviceModel");
+const services = require("./data/services");
+const { categories, subcategories } = require("./data/categories");
 
-dotenv.config()
+dotenv.config();
 
-connectToDB()
+connectToDB();
 
 const importProducts = async function () {
 	await User.deleteMany()
@@ -154,5 +155,21 @@ const importServices = async function () {
 	process.exit()
 }
 
+const importImages = async function () {
+  for (const category of categories) {
+    await Category.updateOne(
+      { name: category.name },
+      { image: category.image }
+    );
+  }
+  for (const subcategory of subcategories) {
+    await subCategory.updateOne(
+      { name: subcategory.name },
+      { image: subcategory.image }
+    );
+  }
+};
+
 // importProducts()
 // importServices()
+importImages();

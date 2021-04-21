@@ -4,6 +4,7 @@ const loginValidation = require("../validations/loginValidation")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const asyncHandler = require("express-async-handler")
+const sortByProperty = require("../utils/userUtils")
 
 const register = asyncHandler(async (req, res) => {
 	const { error } = registerValidation(req.body)
@@ -114,7 +115,46 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 	}
 })
 
+const getUserAddresses = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id)
+
+	const addresses = user.address
+	addresses.sort(sortByProperty("lastUsed"))
+
+	if (user) {
+		res.json(addresses)
+	} else {
+		res.status(404)
+		throw new Error("User Not Found")
+	}
+})
+
+const addUserAddress = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id)
+
+	if (user) {
+		const newAddress = {
+			name: req.body.name,
+			street: req.body.street,
+			city: req.body.city,
+			state: req.body.state,
+			country: req.body.country,
+			zip: Number(req.body.zip),
+			lastUsed: new Date(),
+		}
+
+		await user.address.push(newAddress)
+		await user.save()
+		res.status(201).json({ message: "Address Added Successfully" })
+	} else {
+		res.json(404)
+		throw new Error("User Not Found")
+	}
+})
+
 module.exports.register = register
 module.exports.login = login
 module.exports.getUserProfile = getUserProfile
 module.exports.updateUserProfile = updateUserProfile
+module.exports.getUserAddresses = getUserAddresses
+module.exports.addUserAddress = addUserAddress

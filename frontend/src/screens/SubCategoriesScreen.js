@@ -9,6 +9,7 @@ import { listSubCategories } from "../actions/subcategoryActions"
 
 const SubCategoriesScreen = () => {
 	const { catName } = useParams()
+	console.log(catName)
 	const dispatch = useDispatch()
 
 	const subcategoryList = useSelector((state) => state.subcategoryList)
@@ -16,7 +17,7 @@ const SubCategoriesScreen = () => {
 
 	useEffect(() => {
 		dispatch(listSubCategories(catName))
-	}, [dispatch])
+	}, [dispatch, catName])
 
 	let body = <h1></h1>
 

@@ -16,11 +16,11 @@ const ProductScreen = () => {
 
 	useEffect(() => {
 		dispatch(listProducts(catName, subCatName))
-	}, [dispatch])
+	}, [dispatch, catName, subCatName])
 
 	let body = <h1></h1>
 
-	if (loading == false) {
+	if (!loading) {
 		body = (
 			<Row>
 				{products.map((product) => (

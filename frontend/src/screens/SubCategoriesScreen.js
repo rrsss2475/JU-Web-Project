@@ -16,11 +16,11 @@ const SubCategoriesScreen = () => {
 
 	useEffect(() => {
 		dispatch(listSubCategories(catName))
-	}, [dispatch])
+	}, [dispatch, catName])
 
 	let body = <h1></h1>
 
-	if (loading == false) {
+	if (!loading) {
 		body = (
 			<Row>
 				{subcategories.map((category) => (

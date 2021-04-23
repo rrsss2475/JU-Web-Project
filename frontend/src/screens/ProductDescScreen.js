@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Col, Row, Form, Button, Toast } from "react-bootstrap";
 import Rating from "../components/Rating";
 
-const ProductDescScreen = ({ location }) => {
+const ProductDescScreen = ({ history, match, location }) => {
   const { product } = location.state;
   const [qty, setqty] = useState(1);
   const [user, setuser] = useState("Loading...");
@@ -18,7 +18,9 @@ const ProductDescScreen = ({ location }) => {
       });
   }, []);
 
-  const addToCartHandler = () => {};
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
 
   return (
     <div className="container" style={{ marginTop: "50px" }}>

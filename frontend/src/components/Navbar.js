@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Nav, NavDropdown, Dropdown, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logout } from "../actions/userActions";
 
-const Navbar = () => {
+const Navbar = ({ location, history }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;

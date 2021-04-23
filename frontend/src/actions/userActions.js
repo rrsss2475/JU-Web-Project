@@ -98,16 +98,20 @@ export const getShippingAddress = () => async (dispatch, getState) => {
       type: USER_SHIPPING_ADDRESS_REQUEST,
     });
 
-    const { userLogin: userInfo } = getState();
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    console.log(userInfo.token);
 
     const config = {
       headers: {
-        "Content-type": "application/json",
-        Authorization: `${userInfo.token}`,
+        // "Content-type": "application/json",
+        Authorization: userInfo.token,
       },
     };
 
     const { data } = await axios.get("/api/users/shipping", config);
+    console.log(data);
 
     dispatch({
       type: USER_SHIPPING_ADDRESS_SUCCESS,

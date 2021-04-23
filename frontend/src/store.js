@@ -18,7 +18,8 @@ const reducer = combineReducers({
   productList: productListReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  shippingAddress: userShippingAddressReducer,
+  addressList: userShippingAddressReducer,
+  cart: cartReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")

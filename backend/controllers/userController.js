@@ -59,8 +59,27 @@ const login = asyncHandler(async (req, res) => {
 	})
 })
 
-const cart = asyncHandler(async (req,res) => {
-	const user = await User.findById(req.body.userid)
+const cart = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.body.userid);
+	res.json(user.cart);
+})
+
+const addToCart = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.body.userid);
+	for (item in user.cart) {
+		if (user.cart[item].product == req.body.productid) {
+			user.cart[item].qty = Number(user.cart[item].qty) + Number(req.body.qty);
+			const lmt = 10;
+			if (Number(user.cart[item].qty) > lmt) {
+				res.status(400)
+				throw new Error("Purchase Limit Exceeded")
+			}
+			await user.save();
+			return res.json(user.cart);
+		}
+	}
+	await user.cart.push({ product: req.body.productid, qty: req.body.qty });
+	await user.save();
 	res.json(user.cart);
 })
 
@@ -83,4 +102,5 @@ const getUserDetails = asyncHandler(async (req, res) => {
 module.exports.register = register
 module.exports.login = login
 module.exports.cart = cart
+module.exports.addToCart = addToCart
 module.exports.getUserDetails = getUserDetails

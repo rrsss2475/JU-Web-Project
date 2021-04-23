@@ -27,12 +27,6 @@ const ProductDescScreen = () => {
     dispatch(productDescAction(catName, subCatName, id))
   }, [dispatch])
 
-  if (userInfo) {
-    useEffect(() => {
-      dispatch(cartList(userInfo._id))
-    }, [dispatch])
-  }
-
   useEffect(() => {
     if (loading == false) {
       axios
@@ -49,9 +43,10 @@ const ProductDescScreen = () => {
 
   const addToCartHandler = () => {
     if (userInfo == null) {
-      console.log('helo')
       setredirectToLogin(true)
+      return;
     }
+    
   }
 
   const addQtyHandler = () => {

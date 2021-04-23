@@ -9,6 +9,9 @@ import {
 	USER_SHIPPING_ADDRESS_REQUEST,
 	USER_SHIPPING_ADDRESS_SUCCESS,
 	USER_SHIPPING_ADDRESS_FAIL,
+	USER_ADD_SHIPPING_ADDRESS_REQUEST,
+	USER_ADD_SHIPPING_ADDRESS_SUCCESS,
+	USER_ADD_SHIPPING_ADDRESS_FAIL,
 } from "../constants/userConstants"
 
 export const userLoginReducer = (state = {}, action) => {
@@ -46,6 +49,19 @@ export const userShippingAddressReducer = (state = { address: [] }, action) => {
 		case USER_SHIPPING_ADDRESS_SUCCESS:
 			return { loading: false, address: action.payload }
 		case USER_SHIPPING_ADDRESS_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
+
+export const userAddShippingAddressReducer = (state = {}, action) => {
+	switch (action.type) {
+		case USER_ADD_SHIPPING_ADDRESS_REQUEST:
+			return { loading: true }
+		case USER_ADD_SHIPPING_ADDRESS_SUCCESS:
+			return { loading: false, address: action.payload }
+		case USER_ADD_SHIPPING_ADDRESS_FAIL:
 			return { loading: false, error: action.payload }
 		default:
 			return state

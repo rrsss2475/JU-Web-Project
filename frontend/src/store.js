@@ -5,6 +5,7 @@ import { categoryListReducer } from "./reducers/categoryReducers"
 import { subcategoryListReducer } from "./reducers/subcategoryReducers"
 import { productListReducer } from "./reducers/productReducers"
 import {
+	userAddShippingAddressReducer,
 	userLoginReducer,
 	userRegisterReducer,
 	userShippingAddressReducer,
@@ -17,6 +18,7 @@ const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
 	shippingAddress: userShippingAddressReducer,
+	addShippingAddress: userAddShippingAddressReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

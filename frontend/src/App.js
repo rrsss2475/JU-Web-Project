@@ -17,6 +17,8 @@ import CartScreen from "./screens/CartScreen";
 import UserProfile from "./screens/UserProfile";
 import ShippingScreen from "./screens/ShippingScreen";
 import ScrollToTop from "./components/ScrollToTop";
+import PaymentScreen from "./screens/PaymentScreen";
+import OrderScreen from "./screens/OrderScreen";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
         <Route path="/profile" component={UserProfile} exact />
         <Route path="/cart" component={CartScreen} exact />
         <Route path="/shipping" component={ShippingScreen} exact />
+        <Route path="/payment" component={PaymentScreen} exact />
+        <Route path="/order" component={OrderScreen} exact />
         <Route path="/categories" component={CategoriesScreen} exact />
         <Route
           path="/categories/:catName"

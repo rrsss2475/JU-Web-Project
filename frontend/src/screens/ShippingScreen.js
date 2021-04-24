@@ -3,31 +3,31 @@ import { Form, Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingAddress } from "../actions/cartActions";
 import useVisibilityToggler from "../components/useVisibilityToggler";
-import { getShippingAddress } from "../actions/userActions";
+import { getShippingAddress, addShippingAddress } from "../actions/userActions";
 import Address from "../components/Address";
 import { Row, Col } from "react-bootstrap";
 import Loader from "../components/Loader.js";
 import Message from "../components/Message.js";
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router";
+import CheckoutSteps from "../components/CheckoutSteps";
 
-const ShippingScreen = ({ history }) => {
+const ShippingScreen = ({}) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  const { shippingAddress } = cart;
 
-  const [address, setAddress] = useState(shippingAddress.address);
-  const [street, setStreet] = useState(shippingAddress.street);
-  const [city, setCity] = useState(shippingAddress.city);
-  const [state, setState] = useState(shippingAddress.state);
-  const [zip, setZIP] = useState(shippingAddress.zip);
-  const [country, setCountry] = useState(shippingAddress.country);
+  const [name, setName] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZIP] = useState("");
+  const [country, setCountry] = useState("");
+
+  const history = useHistory();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      saveShippingAddress({ address, street, city, state, zip, country })
-    );
-    history.push("/payment");
+    dispatch(addShippingAddress(name, street, city, state, zip, country));
+    history.go(0);
   };
 
   const addressList = useSelector((state) => state.addressList);
@@ -47,13 +47,13 @@ const ShippingScreen = ({ history }) => {
       id="form1"
       onSubmit={submitHandler}
     >
-      <Form.Group controlId="address">
+      <Form.Group controlId="name">
         <Form.Control
           type="text"
           placeholder="Enter Name"
-          value={address}
+          value={name}
           required
-          onChange={(e) => setAddress(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         ></Form.Control>
       </Form.Group>
 
@@ -122,8 +122,8 @@ const ShippingScreen = ({ history }) => {
     body = (
       <Row>
         {addresses.map((address) => (
-          <Col>
-            <Address address={address} />
+          <Col sm={12} md={6} lg={4} xl={4}>
+            <Address address={address} step={"shipping"} />
           </Col>
         ))}
       </Row>
@@ -132,7 +132,17 @@ const ShippingScreen = ({ history }) => {
 
   return (
     <Container>
-      <h1>Shipping</h1>
+      <CheckoutSteps step1 step2 />
+      <h1
+        style={{
+          fontWeight: "900",
+          fontFamily: "Reggae One",
+          textAlign: "center",
+          marginTop: "50px",
+        }}
+      >
+        Shipping Address
+      </h1>
 
       <Button
         type="submit"

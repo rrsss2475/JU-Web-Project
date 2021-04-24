@@ -1,33 +1,40 @@
 import React, { useEffect } from "react";
 import { Nav, NavDropdown, Dropdown, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { logout } from "../actions/userActions";
 
-const Navbar = ({ location, history }) => {
+const Navbar = ({}) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const history = useHistory();
+
   const logoutHandler = () => {
     dispatch(logout());
+    history.push("/");
   };
 
   return (
     <>
       <div
+        className="marquee"
         style={{
           marginTop: "10px",
           color: "white",
           fontWeight: "700",
           textAlign: "center",
-          fontSize: "14px",
+          fontSize: "17px",
+          letterSpacing: "3px",
           border: "1px solid #000000",
-          padding: "10px",
+          // padding: "10px",
           background: "rgb(0, 168, 0)",
+          fontFamily: "Kaushan Script",
+          textShadow: "1px 1px 10px blue, 1px 1px 10px white",
         }}
       >
-        GET FLAT 10% OFF ON YOUR FIRST ORDER
+        <p>GET FLAT 10% OFF ON ALL ORDERS AND BOOKINGS</p>
       </div>
 
       <Nav
@@ -67,6 +74,11 @@ const Navbar = ({ location, history }) => {
                 className="nav-link text-uppercase font-weight-bold text-success"
                 to="/"
                 exact
+                style={{
+                  fontWeight: "900",
+                  fontFamily: "Reggae One",
+                  fontSize: "18px",
+                }}
               >
                 Home&nbsp;<i class="fas fa-home"></i>
                 <span class="sr-only">(current)</span>
@@ -78,6 +90,11 @@ const Navbar = ({ location, history }) => {
                 className="nav-link text-uppercase font-weight-bold text-success"
                 to="/aboutus"
                 exact
+                style={{
+                  fontWeight: "900",
+                  fontFamily: "Reggae One",
+                  fontSize: "18px",
+                }}
               >
                 About Us&nbsp;<i class="fas fa-info-circle"></i>
               </NavLink>
@@ -88,6 +105,11 @@ const Navbar = ({ location, history }) => {
                 className="nav-link text-uppercase font-weight-bold text-success"
                 to="/contactus"
                 exact
+                style={{
+                  fontWeight: "900",
+                  fontFamily: "Reggae One",
+                  fontSize: "18px",
+                }}
               >
                 Contact Us&nbsp;<i class="fas fa-phone"></i>
               </NavLink>
@@ -111,6 +133,9 @@ const Navbar = ({ location, history }) => {
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
+                style={{
+                  fontSize: "18px",
+                }}
               />
 
               <Dropdown className="text-uppercase font-weight-bold">
@@ -118,6 +143,9 @@ const Navbar = ({ location, history }) => {
                   variant="outline-success"
                   id="dropdown-basic"
                   className="text-uppercase font-weight-bold"
+                  style={{
+                    fontSize: "18px",
+                  }}
                 >
                   {userInfo.name}
                 </Dropdown.Toggle>

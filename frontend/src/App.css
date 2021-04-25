@@ -11,6 +11,10 @@
   border: 1px solid #4a4a4a;
 }
 
+h1 {
+  font-family: "Rubik", sans-serif;
+}
+
 .marquee p {
   position: absolute;
   width: 100%;

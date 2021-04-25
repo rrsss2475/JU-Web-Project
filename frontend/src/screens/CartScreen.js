@@ -31,6 +31,7 @@ const CartScreen = () => {
     }
     if(!loading && !error)
     {
+        
         for(let i in cart)
         {
             pushToCartArr(cart[i].product, cart[i].qty)

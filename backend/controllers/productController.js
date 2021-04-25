@@ -28,6 +28,11 @@ const getProductDetails = asyncHandler(async (req, res) => {
 	res.json(product)
 })
 
+const getProductById = asyncHandler(async (req,res) => {
+	const product = await Product.findById(req.params.id)
+	res.json(product)
+})
+
 const getUserName = async (req, res) => {
 	try {
 		const user = await User.findById(req.params.id)
@@ -51,6 +56,7 @@ module.exports = {
 	getSubCategories: getSubCategories,
 	getProducts: getProducts,
 	getProductDetails: getProductDetails,
+	getProductById: getProductById,
 	getUserName: getUserName,
 	getReviews: getReviews
 }

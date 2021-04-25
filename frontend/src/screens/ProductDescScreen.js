@@ -46,7 +46,18 @@ const ProductDescScreen = () => {
       setredirectToLogin(true)
       return;
     }
-    
+    else
+    {
+      axios
+      .post('http://localhost:5000/api/users/addToCart', {
+        userid: userInfo._id,
+        productid: productDescription._id,
+        qty: qty,
+      })
+      .then(res => {
+        setqty(1)
+      })
+    }
   }
 
   const addQtyHandler = () => {

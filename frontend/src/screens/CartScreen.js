@@ -1,55 +1,158 @@
 import React, { useEffect, useState } from 'react'
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Image } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { listCart } from '../actions/cartActions'
-import Loader from '../components/Loader';
-import Message from '../components/Message';
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import img from '../images/baby.jpg'
-import axios from 'axios';
+import QuantitySelector from '../components/QuantitySelector'
+import axios from 'axios'
 
 const CartScreen = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-    const userLogin = useSelector((state) => state.userLogin)
-    const { userInfo } = userLogin
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
-    const cartList = useSelector(state => state.cartList);
-    const { loading, error, cart } = cartList;
+  const cartList = useSelector((state) => state.cartList)
+  const { loading, error, cart } = cartList
 
-    const [cartArr, setcartArr] = useState([]);
+  const [cartArr, setcartArr] = useState([])
 
-    useEffect(() => {
-        dispatch(listCart(userInfo._id))
-    }, [dispatch, userInfo, cart, cartArr]);
+  useEffect(() => {
+    dispatch(listCart(userInfo._id))
+  }, [dispatch])
 
-   // const cartArr1 = [];
-    function pushToCartArr(id, qty)
-    {
-        axios.get(`http://localhost:5000/api/products/categories/${id}`)
-        .then(item => setcartArr([...cartArr, item.data]))
-        .catch(err => console.log("error"))
+  useEffect(() => {
+    ;(async function fun() {
+      const cartArr1 = []
+      for (let i = 0; i < cart.length; i++) {
+        const item = await axios.get(
+          `http://localhost:5000/api/products/categories/${cart[i].product}`
+        )
+        //setcartArr(prevState => [...prevState, item.data]);
+        cartArr1.push({ ...item.data, qty: cart[i].qty })
+      }
+      setcartArr(cartArr1)
+    })()
+  }, [cart])
+
+  /*
+    if (!loading && !error) {
+        useEffect(() => {
+            (async function fun() {
+                for (let i = 0; i < cart.length; i++) {
+                    const item = await axios.get(`http://localhost:5000/api/products/categories/${cart[i].product}`)
+                    console.log(item.data);
+                    setcartArr(prevState=>[...prevState,item.data]);
+                }
+            })();
+        }, [cart]);
     }
-    if(!loading && !error)
-    {
-        
-        for(let i in cart)
-        {
-            pushToCartArr(cart[i].product, cart[i].qty)
-            console.log(cart[i].product)
+    */
+
+  const addQtyHandler = (item) => {
+    //console.log(cartArr.length)
+    axios
+      .post('http://localhost:5000/api/users/addToCart', {
+        userid: userInfo._id,
+        productid: item._id,
+        qty: 1,
+      })
+      .then((res) => {
+        let cartArr1 = []
+        for (let i in cartArr) {
+          cartArr1.push(cartArr[i])
+          if (cartArr[i]._id == item._id) cartArr1[i].qty += 1
         }
+        setcartArr(cartArr1)
+      })
+      .catch()
+  }
+
+  const subQtyHandler = (item) => {
+    axios
+      .post('http://localhost:5000/api/users/addToCart', {
+        userid: userInfo._id,
+        productid: item._id,
+        qty: 1,
+      })
+      .then((res) => {
+        let cartArr1 = []
+        for (let i in cartArr) {
+          cartArr1.push(cartArr[i])
+          if (cartArr[i]._id == item._id) cartArr1[i].qty -= 1
+        }
+        setcartArr(cartArr1)
+      })
+      .catch()
+  }
+
+  const deleteHandler = (item) => {
+    let cartArr1 = []
+    for (let i in cartArr) {
+      if (cartArr[i]._id != item._id) cartArr1.push(cartArr[i])
     }
+    setcartArr(cartArr1)
+  }
 
-    let body = (
-        <div className="container">
-            <ListGroup>
-                {cartArr.map(item => <div><ListGroup.Item>{item.name}</ListGroup.Item><br /></div>)}
-            </ListGroup>
+  let body = (
+    <div>
+      {cartArr.map((item) => (
+        <div>
+          <li className='list-group-item d-flex justify-content-between align-items-center'>
+            <div className='container'>
+              <p style={{ lineHeight: '10px' }}>
+                <img
+                  src={item.image}
+                  style={{
+                    height: '150px',
+                    float: 'left',
+                    marginRight: '10px',
+                    width: '250px',
+                  }}
+                ></img>
+                <div style={{ fontSize: '40px', marginTop: '20px' }}>
+                  {item.name}
+                </div>{' '}
+                <br />
+                <br />
+                <br />
+                <br />
+                <QuantitySelector
+                  qty={item.qty}
+                  addQtyHandler={() => addQtyHandler(item)}
+                  subQtyHandler={() => subQtyHandler(item)}
+                  limit={10}
+                />
+                <br />
+                <br />
+                <Link onClick={() => deleteHandler(item)}>
+                  <i class='fa fa-trash' aria-hidden='true'></i>Delete
+                </Link>
+              </p>
+            </div>
+            <br />
+          </li>
+          <br />
         </div>
-    );
+      ))}
+    </div>
+  )
 
-    return (
-        loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : body
-    )
+  return (
+    <div className='container'>
+      <h1>Shopping Cart</h1>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
+      ) : (
+        body
+      )}
+    </div>
+  )
 }
 
 export default CartScreen

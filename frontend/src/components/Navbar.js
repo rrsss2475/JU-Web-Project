@@ -127,9 +127,11 @@ const Navbar = () => {
                   <Dropdown.Item className="text-success" href="/profile">
                     <i className="fas fa-user"></i> Profile
                   </Dropdown.Item>
-                  <Dropdown.Item className="text-success">
-                    <Link to="/cart"><i className="fas fa-shopping-cart"></i> Cart</Link>
+                  <Link to="/cart">
+                    <Dropdown.Item className="text-success" href="/cart">
+                      <i className="fas fa-shopping-cart"></i> Cart
                   </Dropdown.Item>
+                  </Link>
                   <NavDropdown.Divider />
                   <Dropdown.Item
                     className="text-success"

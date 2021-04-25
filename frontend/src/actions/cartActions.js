@@ -8,7 +8,7 @@ import {
 export const listCart = (userid) => async (dispatch) => {
 	try {
 		dispatch({ type: CART_LIST_REQUEST })
-		const { data } = await axios.get("http://localhost:5000/api/products/categories",
+		const { data } = await axios.post("http://localhost:5000/api/users/cart",
 			{
 				userid: userid,
 			})

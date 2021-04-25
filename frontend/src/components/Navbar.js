@@ -30,7 +30,8 @@ const Navbar = ({}) => {
           border: "1px solid #000000",
           // padding: "10px",
           background: "rgb(0, 168, 0)",
-          fontFamily: "Kaushan Script",
+          // fontFamily: "Kaushan Script",
+          fontFamily: "Rubik, sans-serif",
           textShadow: "1px 1px 10px blue, 1px 1px 10px white",
         }}
       >
@@ -76,7 +77,7 @@ const Navbar = ({}) => {
                 exact
                 style={{
                   fontWeight: "900",
-                  fontFamily: "Reggae One",
+                  fontFamily: "Rubik, sans-serif",
                   fontSize: "18px",
                 }}
               >
@@ -92,7 +93,7 @@ const Navbar = ({}) => {
                 exact
                 style={{
                   fontWeight: "900",
-                  fontFamily: "Reggae One",
+                  fontFamily: "Rubik, sans-serif",
                   fontSize: "18px",
                 }}
               >
@@ -107,7 +108,7 @@ const Navbar = ({}) => {
                 exact
                 style={{
                   fontWeight: "900",
-                  fontFamily: "Reggae One",
+                  fontFamily: "Rubik, sans-serif",
                   fontSize: "18px",
                 }}
               >
@@ -134,6 +135,7 @@ const Navbar = ({}) => {
                 placeholder="Search"
                 className="mr-sm-2"
                 style={{
+                  fontFamily: "Rubik, sans-serif",
                   fontSize: "18px",
                 }}
               />
@@ -144,6 +146,7 @@ const Navbar = ({}) => {
                   id="dropdown-basic"
                   className="text-uppercase font-weight-bold"
                   style={{
+                    fontFamily: "Rubik, sans-serif",
                     fontSize: "18px",
                   }}
                 >
@@ -151,16 +154,25 @@ const Navbar = ({}) => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item className="text-success" href="/profile">
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    className="text-success"
+                    href="/profile"
+                  >
                     <i className="fas fa-user"></i> Profile
                   </Dropdown.Item>
-                  <Dropdown.Item className="text-success" href="/cart">
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    className="text-success"
+                    href="/cart"
+                  >
                     <i className="fas fa-shopping-cart"></i> Cart
                   </Dropdown.Item>
                   <NavDropdown.Divider />
                   <Dropdown.Item
                     className="text-success"
                     onClick={logoutHandler}
+                    style={{ fontFamily: "Rubik, sans-serif" }}
                   >
                     <i class="fas fa-sign-out-alt"></i> Logout
                   </Dropdown.Item>

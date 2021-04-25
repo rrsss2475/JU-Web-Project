@@ -5,8 +5,6 @@ const AboutusScreen = () => {
     <div class="container">
       <h1
         style={{
-          fontWeight: "900",
-          fontFamily: "Reggae One",
           textAlign: "left",
           marginTop: "100px",
         }}

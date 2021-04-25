@@ -34,11 +34,8 @@ const PaymentScreen = ({ location }) => {
       <CheckoutSteps step1 step2 step3 />
       <h1
         style={{
-          fontWeight: "900",
-          fontFamily: "Reggae One",
           textAlign: "center",
           marginTop: "50px",
-          marginBottom: "50px",
         }}
       >
         Payment Methods

@@ -15,7 +15,7 @@ const Category = ({ category, type, catName }) => {
       </Link>
       <Card.Body>
         <Link to={`/categories/${category.name}`} exact>
-          <Card.Title as="div">
+          <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
             <strong>
               <center>{category.name}</center>
             </strong>
@@ -37,7 +37,7 @@ const Category = ({ category, type, catName }) => {
         </Link>
         <Card.Body>
           <Link to={`/categories/${catName}/${category.name}`} exact>
-            <Card.Title as="div">
+            <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
               <strong>
                 <center>{category.name}</center>
               </strong>

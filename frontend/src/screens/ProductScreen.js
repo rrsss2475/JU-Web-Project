@@ -38,28 +38,30 @@ const ProductScreen = () => {
 
   return (
     <div className="container" style={{ marginTop: "50px" }}>
-      <Link className="btn btn-success my-3 mx-2" to={`/`}>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/`}
+      >
         <strong>Back to Home</strong>
       </Link>
       <strong style={{ color: "green" }}>&gt;</strong>
-      <Link className="btn btn-success my-3 mx-2" to={`/categories`}>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/categories`}
+      >
         <strong>Back to Categories</strong>
       </Link>
       <strong style={{ color: "green" }}>&gt;</strong>
-      <Link className="btn btn-warning my-3 mx-2" to={`/categories/${catName}`}>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-warning my-3 mx-2"
+        to={`/categories/${catName}`}
+      >
         <strong>Back to {catName}</strong>
       </Link>
-      <h1
-        style={{
-          fontWeight: "900",
-          fontFamily: "Reggae One",
-          textAlign: "left",
-          marginTop: "50px",
-          marginBottom: "50px",
-        }}
-      >
-        {subCatName}
-      </h1>
+      <h1>{subCatName}</h1>
       {loading ? (
         <Loader />
       ) : error ? (

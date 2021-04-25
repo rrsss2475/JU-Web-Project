@@ -24,19 +24,32 @@ const ProductDescScreen = ({ history, match, location }) => {
 
   return (
     <div className="container" style={{ marginTop: "50px" }}>
-      <Link className="btn btn-success my-3 mx-2" to={`/`}>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/`}
+      >
         <strong>Back to Home</strong>
       </Link>
       <strong style={{ color: "green" }}>&gt;</strong>
-      <Link className="btn btn-success my-3 mx-2" to={`/categories`}>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/categories`}
+      >
         <strong>Back to Categories</strong>
       </Link>
       <strong style={{ color: "green" }}>&gt;</strong>
-      <Link className="btn btn-success my-3 mx-2" to={`/categories/${catName}`}>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/categories/${catName}`}
+      >
         <strong>Back to {catName}</strong>
       </Link>
       <strong style={{ color: "green" }}>&gt;</strong>
       <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-warning my-3 mx-2"
         to={`/categories/${catName}/${subCatName}`}
       >
@@ -49,7 +62,13 @@ const ProductDescScreen = ({ history, match, location }) => {
             style={{ height: "100%", width: "100%", maxHeight: "500px" }}
           />
         </Col>
-        <Col sm={12} md={8} lg={5} xl={4}>
+        <Col
+          style={{ fontFamily: "Rubik, sans-serif" }}
+          sm={12}
+          md={8}
+          lg={5}
+          xl={4}
+        >
           <h1>{product.name}</h1>
           By {user}
           <Rating

@@ -37,7 +37,7 @@ const Address = ({ address, step }) => {
   let body = (
     <Card className="my-3 p-3 rounded" style={{ border: "2px solid" }}>
       <Card.Body>
-        <Card.Title as="div">
+        <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
           <strong>{address.name}</strong>
           <br />
           {address.street}

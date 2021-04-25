@@ -135,13 +135,11 @@ const ShippingScreen = ({}) => {
       <CheckoutSteps step1 step2 />
       <h1
         style={{
-          fontWeight: "900",
-          fontFamily: "Reggae One",
           textAlign: "center",
           marginTop: "50px",
         }}
       >
-        Shipping Address
+        Address
       </h1>
 
       <Button

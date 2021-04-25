@@ -33,21 +33,16 @@ const CategoriesScreen = () => {
 
   return (
     <div className="container" style={{ marginTop: "50px" }}>
-      <Link className="btn btn-warning my-3 mx-2" to="/">
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-warning my-3 mx-2"
+        to="/"
+      >
         <strong>Back to Home</strong>
       </Link>
-      <h1
-        style={{
-          fontWeight: "900",
-          fontFamily: "Reggae One",
-          textAlign: "left",
-          marginTop: "50px",
-          marginBottom: "50px",
-        }}
-      >
+      <h1>
         <strong>Categories</strong>
       </h1>
-      {/* <h1>Categories</h1> */}
       {loading ? (
         <Loader />
       ) : error ? (

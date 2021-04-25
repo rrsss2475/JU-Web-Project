@@ -5,7 +5,7 @@ const ContactusScreen = () => {
     <div class="container" style={{ marginTop: "100px" }}>
       <div class="row">
         <div class="col-lg-5">
-          <h2 style={{ fontWeight: "700", fontFamily: "Reggae One" }}>
+          <h2 style={{ fontWeight: "700", fontFamily: "Rubik, sans-serif" }}>
             LIVE SUPPORT
           </h2>
           <p>
@@ -41,7 +41,7 @@ const ContactusScreen = () => {
             style={{
               marginBottom: "20px",
               fontWeight: "700",
-              fontFamily: "Reggae One",
+              fontFamily: "Rubik, sans-serif",
             }}
           >
             CONTACT US
@@ -87,10 +87,10 @@ const ContactusScreen = () => {
             style={{
               marginBottom: "20px",
               fontWeight: "700",
-              fontFamily: "Reggae One",
+              fontFamily: "Rubik, sans-serif",
             }}
           >
-            Company Information -
+            Company Information
           </h2>
           <p>833 Mayflower Ave, GD-700106,</p>
           <p>Street No. 3A, Rajarhat, Kolkata</p>

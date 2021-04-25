@@ -16,7 +16,7 @@ const HomeScreen = () => {
           <div class="middle">
             <Link
               className="text"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", fontFamily: "Reggae One" }}
               to="/categories"
             >
               PRODUCTS
@@ -30,7 +30,10 @@ const HomeScreen = () => {
           <div class="middle">
             <Link
               className="text"
-              style={{ textDecoration: "none" }}
+              style={{
+                textDecoration: "none",
+                fontFamily: "Reggae One",
+              }}
               to="/categories"
             >
               SERVICES

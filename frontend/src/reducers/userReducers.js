@@ -63,7 +63,7 @@ export const userAddShippingAddressReducer = (state = {}, action) => {
 		case USER_ADD_SHIPPING_ADDRESS_REQUEST:
 			return { loading: true }
 		case USER_ADD_SHIPPING_ADDRESS_SUCCESS:
-			return { loading: false, message: action.payload }
+			return { loading: false, address: action.payload }
 		case USER_ADD_SHIPPING_ADDRESS_FAIL:
 			return { loading: false, error: action.payload }
 		default:

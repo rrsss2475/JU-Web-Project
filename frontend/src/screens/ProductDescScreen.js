@@ -16,6 +16,8 @@ const ProductDescScreen = () => {
   const [usererror, setusererror] = useState(false)
   const { catName, subCatName, id } = useParams()
   const [redirectToLogin, setredirectToLogin] = useState(false)
+  const [addToCartSuccess, setaddToCartSuccess] = useState('')
+  const [addToCartErr, setaddToCartErr] = useState('')
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -46,17 +48,21 @@ const ProductDescScreen = () => {
       setredirectToLogin(true)
       return;
     }
-    else
-    {
+    else {
       axios
-      .post('http://localhost:5000/api/users/addToCart', {
-        userid: userInfo._id,
-        productid: productDescription._id,
-        qty: qty,
-      })
-      .then(res => {
-        setqty(1)
-      })
+        .post('http://localhost:5000/api/users/addToCart', {
+          userid: userInfo._id,
+          productid: productDescription._id,
+          qty: qty,
+        })
+        .then(res => {
+          setqty(1);
+          setaddToCartSuccess(res)
+        })
+        .catch(err => {
+          setqty(1);
+          setaddToCartErr(err)
+        })
     }
   }
 
@@ -79,6 +85,21 @@ const ProductDescScreen = () => {
       ) : (
         <div></div>
       )}
+
+      <Toast style={{ color: "red", backgroundColor: "pink" }} show={addToCartErr.length != 0} onClose={() => { setaddToCartErr('') }} delay={3000} autohide >
+        <Toast.Header>
+          <strong className="mr-auto">Error:</strong>
+        </Toast.Header>
+        <Toast.Body>Purchase Limit Exceeded!</Toast.Body>
+      </Toast>
+
+      <Toast style={{ color: "green", backgroundColor: "lightgreen" }} show={addToCartSuccess.length != 0} onClose={() => { setaddToCartSuccess('') }} delay={3000} autohide >
+        <Toast.Header>
+          <strong className="mr-auto">Success:</strong>
+        </Toast.Header>
+        <Toast.Body>Added to cart successfully!</Toast.Body>
+      </Toast>
+
       <Link className='btn btn-dark my-3 mx-2' to={`/`}>
         Back to Home
       </Link>

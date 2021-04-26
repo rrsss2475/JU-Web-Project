@@ -83,6 +83,19 @@ const addToCart = asyncHandler(async (req, res) => {
 	res.json(user.cart);
 })
 
+const deleteFromCart = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.body.userid);
+	const cart=[]
+	for (item in user.cart) {
+		if (user.cart[item].product != req.body.productid) {
+			cart.push(user.cart[item]);
+		}
+	}
+	user.cart=cart;
+	await user.save();
+	return res.json(user.cart);
+})
+
 const getUserDetails = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
 
@@ -103,4 +116,5 @@ module.exports.register = register
 module.exports.login = login
 module.exports.cart = cart
 module.exports.addToCart = addToCart
+module.exports.deleteFromCart = deleteFromCart
 module.exports.getUserDetails = getUserDetails

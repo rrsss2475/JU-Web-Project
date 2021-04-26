@@ -5,6 +5,7 @@ const {
 	cart,
 	getUserDetails,
 	addToCart,
+	deleteFromCart
 } = require("../controllers/userController")
 const auth = require("../middlewares/authMiddleware")
 
@@ -13,5 +14,6 @@ router.post("/login", login)
 router.route("/profile").get(auth, getUserDetails)
 router.post("/cart", cart)
 router.post("/addToCart", addToCart)
+router.post("/deleteFromCart", deleteFromCart)
 
 module.exports = router

@@ -70,10 +70,7 @@ const addToCart = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.body.productid)
   for (item in user.cart) {
     if (user.cart[item].product == req.body.productid) {
-      if (
-        !product.isWeighted ||
-        (product.isWeighted && user.cart[item].weight == req.body.weight)
-      ) {
+      if (!product.isWeighted || user.cart[item].weight == req.body.weight) {
         user.cart[item].qty = Number(user.cart[item].qty) + Number(req.body.qty)
         const lmt = 10
         if (Number(user.cart[item].qty) > lmt) {
@@ -87,23 +84,23 @@ const addToCart = asyncHandler(async (req, res) => {
     }
   }
   if (product.isWeighted)
-    await user.cart.push({
-      product: req.body.productid,
-      qty: req.body.qty,
-      weight: req.body.weight,
-    })
-  else await user.cart.push({ product: req.body.productid, qty: req.body.qty })
+    await user.cart.push({ product: req.body.productid, qty: req.body.qty, weight: req.body.weight })
+  else
+    await user.cart.push({ product: req.body.productid, qty: req.body.qty })
   await user.save()
   res.json(user.cart)
 })
 
 const deleteFromCart = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.userid)
+  const product = await Product.findById(req.body.productid)
   const cart = []
   for (item in user.cart) {
-    if (user.cart[item].product != req.body.productid) {
-      cart.push(user.cart[item])
+    if (user.cart[item].product == req.body.productid) {
+      if (!product.isWeighted || user.cart[item].weight == req.body.weight)
+        continue
     }
+    cart.push(user.cart[item])
   }
   user.cart = cart
   await user.save()

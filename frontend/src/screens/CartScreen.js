@@ -33,7 +33,7 @@ const CartScreen = () => {
                     `http://localhost:5000/api/products/categories/${cart[i].product}`
                 )
                 //setcartArr(prevState => [...prevState, item.data]);
-                cartArr1.push({ ...item.data, qty: cart[i].qty })
+                cartArr1.push({ ...item.data, qty: cart[i].qty, weight: cart[i].weight })
             }
             setcartArr(cartArr1)
         })()
@@ -55,57 +55,112 @@ const CartScreen = () => {
 
     const addQtyHandler = (item) => {
         //console.log(cartArr.length)
-        axios
-            .post('http://localhost:5000/api/users/addToCart', {
-                userid: userInfo._id,
-                productid: item._id,
-                qty: 1,
-            })
-            .then((res) => {
-                let cartArr1 = []
-                for (let i in cartArr) {
-                    cartArr1.push(cartArr[i])
-                    if (cartArr[i]._id == item._id) cartArr1[i].qty += 1
-                }
-                setcartArr(cartArr1)
-            })
-            .catch()
+        if (!item.isWeighted)
+            axios
+                .post('http://localhost:5000/api/users/addToCart', {
+                    userid: userInfo._id,
+                    productid: item._id,
+                    qty: 1,
+                })
+                .then((res) => {
+                    let cartArr1 = []
+                    for (let i in cartArr) {
+                        cartArr1.push(cartArr[i])
+                        if (cartArr[i]._id == item._id) cartArr1[i].qty += 1
+                    }
+                    setcartArr(cartArr1)
+                })
+                .catch()
+        else
+            axios
+                .post('http://localhost:5000/api/users/addToCart', {
+                    userid: userInfo._id,
+                    productid: item._id,
+                    weight: item.weight,
+                    qty: 1,
+                })
+                .then((res) => {
+                    let cartArr1 = []
+                    for (let i in cartArr) {
+                        cartArr1.push(cartArr[i])
+                        if (cartArr[i]._id == item._id && cartArr[i].weight == item.weight)
+                            cartArr1[i].qty += 1
+                    }
+                    setcartArr(cartArr1)
+                })
+                .catch()
     }
 
     const subQtyHandler = (item) => {
-        axios
-            .post('http://localhost:5000/api/users/addToCart', {
-                userid: userInfo._id,
-                productid: item._id,
-                qty: -1,
-            })
-            .then((res) => {
-                let cartArr1 = []
-                for (let i in cartArr) {
-                    cartArr1.push(cartArr[i])
-                    if (cartArr[i]._id == item._id) cartArr1[i].qty -= 1
-                }
-                setcartArr(cartArr1)
-            })
-            .catch()
+        if (!item.isWeighted)
+            axios
+                .post('http://localhost:5000/api/users/addToCart', {
+                    userid: userInfo._id,
+                    productid: item._id,
+                    qty: -1,
+                })
+                .then((res) => {
+                    let cartArr1 = []
+                    for (let i in cartArr) {
+                        cartArr1.push(cartArr[i])
+                        if (cartArr[i]._id == item._id) cartArr1[i].qty -= 1
+                    }
+                    setcartArr(cartArr1)
+                })
+                .catch()
+        else
+            axios
+                .post('http://localhost:5000/api/users/addToCart', {
+                    userid: userInfo._id,
+                    productid: item._id,
+                    weight: item.weight,
+                    qty: -1,
+                })
+                .then((res) => {
+                    let cartArr1 = []
+                    for (let i in cartArr) {
+                        cartArr1.push(cartArr[i])
+                        if (cartArr[i]._id == item._id && cartArr[i].weight == item.weight)
+                            cartArr1[i].qty -= 1
+                    }
+                    setcartArr(cartArr1)
+                })
+                .catch()
     }
 
     const deleteHandler = (item) => {
-        axios.post('http://localhost:5000/api/users/deleteFromCart', {
-            userid: userInfo._id,
-            productid: item._id,
-        })
-            .then(res => {
-                let cartArr1 = []
-                for (let i in cartArr) {
-                    if (cartArr[i]._id != item._id) cartArr1.push(cartArr[i])
-                }
-                setcartArr(cartArr1)
+        if (!item.isWeighted)
+            axios.post('http://localhost:5000/api/users/deleteFromCart', {
+                userid: userInfo._id,
+                productid: item._id,
             })
-            .catch()
+                .then(res => {
+                    let cartArr1 = []
+                    for (let i in cartArr) {
+                        if (cartArr[i]._id != item._id) cartArr1.push(cartArr[i])
+                    }
+                    setcartArr(cartArr1)
+                })
+                .catch()
+        else
+            axios.post('http://localhost:5000/api/users/deleteFromCart', {
+                userid: userInfo._id,
+                productid: item._id,
+                weight: item.weight
+            })
+                .then(res => {
+                    let cartArr1 = []
+                    for (let i in cartArr) {
+                        if (cartArr[i]._id == item._id && cartArr[i].weight == item.weight)
+                            continue;
+                        cartArr1.push(cartArr[i])
+                    }
+                    setcartArr(cartArr1)
+                })
+                .catch()
     }
 
-    let body = (<div style={{fontSize:"25px"}}><Link to="/login">Login</Link> to view your cart</div>);
+    let body = (<div style={{ fontSize: "25px" }}><Link to="/login">Login</Link> to view your cart</div>);
 
     if (userInfo != null)
         body = (
@@ -125,7 +180,7 @@ const CartScreen = () => {
                                         }}
                                     ></img>
                                     <div style={{ fontSize: '40px', marginTop: '20px' }}>
-                                        {item.name}
+                                        {item.isWeighted ? <div>{item.name}({item.weight * 1000}grams)</div> : <div>{item.name}</div>}
                                     </div>{' '}
                                     <br />
                                     <br />
@@ -141,10 +196,10 @@ const CartScreen = () => {
                                     <br />
                                     <Link onClick={() => deleteHandler(item)}>
                                         <i class='fa fa-trash' aria-hidden='true'></i>Delete
-                </Link>
+                                    </Link>
                                 </p>
                             </div>
-                            <div style={{ fontSize: "20px" }}><i class="fas fa-rupee-sign">{item.price * item.qty}</i></div>
+                            <div style={{ fontSize: "20px" }}><i class="fas fa-rupee-sign">{item.isWeighted ? item.price * item.weight * item.qty : item.price * item.qty}</i></div>
                             <br />
                         </li>
                         <br />

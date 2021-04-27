@@ -1,52 +1,44 @@
-import axios from "axios";
+import axios from "axios"
 import {
-  CART_ADD_ITEM,
-  CART_REMOVE_ITEM,
-  CART_SAVE_SHIPPING_ADDRESS,
-  CART_SAVE_PAYMENT_METHOD,
-} from "../constants/cartConstants";
+	CART_LIST_REQUEST,
+	CART_LIST_SUCCESS,
+	CART_LIST_FAIL,
+	CART_SAVE_SHIPPING_ADDRESS,
+	CART_SAVE_PAYMENT_METHOD,
+} from "../constants/cartConstants"
 
-export const addToCart = (id, qty) => async (dispatch, getState) => {
-  const { data } = await axios.get(`/api/products/${id}`);
-
-  dispatch({
-    type: CART_ADD_ITEM,
-    payload: {
-      product: data._id,
-      name: data.name,
-      image: data.image,
-      price: data.price,
-      countInStock: data.countInStock,
-      qty,
-    },
-  });
-
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
-};
-
-export const removeFromCart = (id) => (dispatch, getState) => {
-  dispatch({
-    type: CART_REMOVE_ITEM,
-    payload: id,
-  });
-
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
-};
+export const listCart = (userid) => async (dispatch) => {
+	try {
+		dispatch({ type: CART_LIST_REQUEST })
+		const { data } = await axios.post("/api/users/cart", {
+			userid: userid,
+		})
+		dispatch({ type: CART_LIST_SUCCESS, payload: data })
+	} catch (error) {
+		dispatch({
+			type: CART_LIST_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		})
+	}
+}
 
 export const saveShippingAddress = (address) => (dispatch) => {
-  dispatch({
-    type: CART_SAVE_SHIPPING_ADDRESS,
-    payload: address,
-  });
+	dispatch({
+		type: CART_SAVE_SHIPPING_ADDRESS,
+		payload: address,
+	})
 
-  // localStorage.setItem("shippingAddress", JSON.stringify(data));
-};
+	// localStorage.setItem("shippingAddress", JSON.stringify(data));
+}
 
 export const savePaymentMethod = (data) => (dispatch) => {
-  dispatch({
-    type: CART_SAVE_PAYMENT_METHOD,
-    payload: data,
-  });
+	dispatch({
+		type: CART_SAVE_PAYMENT_METHOD,
+		payload: data,
+	})
 
-  localStorage.setItem("paymentMethod", JSON.stringify(data));
-};
+	localStorage.setItem("paymentMethod", JSON.stringify(data))
+}

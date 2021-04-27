@@ -1,122 +1,318 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Form,
-  Button,
-  Card,
-} from "react-bootstrap";
-import Message from "../components/Message";
-import { addToCart, removeFromCart } from "../actions/cartActions";
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { listCart } from "../actions/cartActions"
+import Loader from "../components/Loader"
+import Message from "../components/Message"
+import QuantitySelector from "../components/QuantitySelector"
+import axios from "axios"
 
-const CartScreen = ({ match, location, history }) => {
-  const productId = match.params.id;
+const CartScreen = () => {
+	const dispatch = useDispatch()
 
-  const qty = location.search ? Number(location.search.split("=")[1]) : 1;
+	const userLogin = useSelector((state) => state.userLogin)
+	const { userInfo } = userLogin
 
-  const dispatch = useDispatch();
+	const cart = useSelector((state) => state.cart)
+	const { loading, error, cartItems } = cart
 
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+	const [cartArr, setcartArr] = useState([])
 
-  useEffect(() => {
-    if (productId) {
-      dispatch(addToCart(productId, qty));
-    }
-  }, [dispatch, productId, qty]);
+	const [amount, setamount] = useState(0)
 
-  const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
-  };
+	useEffect(() => {
+		if (userInfo != null) dispatch(listCart(userInfo._id))
+	}, [dispatch, userInfo])
 
-  const checkoutHandler = () => {
-    history.push("/shipping");
-  };
+	useEffect(() => {
+		;(async function fun() {
+			const cartArr1 = []
+			let amt = 0
+			for (let i = 0; i < cartItems.length; i++) {
+				const item = await axios.get(
+					`http://localhost:5000/api/products/categories/${cartItems[i].product}`
+				)
+				//setcartArr(prevState => [...prevState, item.data]);
+				cartArr1.push({
+					...item.data,
+					qty: cartItems[i].qty,
+					weight: cartItems[i].weight,
+				})
+				amt += cartArr1[i].isWeighted
+					? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
+					: cartArr1[i].price * cartArr1[i].qty
+			}
+			//console.log(amt)
+			setcartArr(cartArr1)
+			setamount(amt)
+		})()
+	}, [cartItems])
 
-  return (
-    <Row>
-      <Col md={8}>
-        <h1>Shopping Cart</h1>
-        {cartItems.length !== 0 ? (
-          <Message>
-            Your cart is empty <Link to="/">Go Back</Link>
-          </Message>
-        ) : (
-          <ListGroup variant="flush">
-            {cartItems.map((item) => (
-              <ListGroup.Item key={item.product}>
-                <Row>
-                  <Col md={2}>
-                    <Image src={item.image} alt={item.name} fluid rounded />
-                  </Col>
-                  <Col md={3}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                  </Col>
-                  <Col md={2}>${item.price}</Col>
-                  <Col md={2}>
-                    <Form.Control
-                      as="select"
-                      value={item.qty}
-                      onChange={(e) =>
-                        dispatch(
-                          addToCart(item.product, Number(e.target.value))
-                        )
-                      }
-                    >
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Col>
-                  <Col md={2}>
-                    <Button
-                      type="button"
-                      variant="light"
-                      onClick={() => removeFromCartHandler(item.product)}
-                    >
-                      <i className="fas fa-trash"></i>
-                    </Button>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        )}
-      </Col>
-      <Col md={4}>
-        <Card>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <h2>
-                Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                items
-              </h2>
-              $
-              {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
-                .toFixed(2)}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button
-                type="button"
-                className="btn-block"
-                // disabled={cartItems.length === 0}
-                onClick={checkoutHandler}
-              >
-                Proceed To Checkout
-              </Button>
-            </ListGroup.Item>
-          </ListGroup>
-        </Card>
-      </Col>
-    </Row>
-  );
-};
+	/*
+      if (!loading && !error) {
+          useEffect(() => {
+              (async function fun() {
+                  for (let i = 0; i < cart.length; i++) {
+                      const item = await axios.get(`http://localhost:5000/api/products/categories/${cart[i].product}`)
+                      console.log(item.data);
+                      setcartArr(prevState=>[...prevState,item.data]);
+                  }
+              })();
+          }, [cart]);
+      }
+      */
 
-export default CartScreen;
+	const addQtyHandler = (item) => {
+		//console.log(cartArr.length)
+		if (!item.isWeighted)
+			axios
+				.post("http://localhost:5000/api/users/addToCart", {
+					userid: userInfo._id,
+					productid: item._id,
+					qty: 1,
+				})
+				.then((res) => {
+					let cartArr1 = []
+					let amt = 0
+					for (let i in cartArr) {
+						cartArr1.push(cartArr[i])
+						if (cartArr[i]._id == item._id) {
+							//cartArr1[i].qty += 1;
+							cartArr1[i].qty = res.data[i].qty
+						}
+						amt += cartArr1[i].isWeighted
+							? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
+							: cartArr1[i].price * cartArr1[i].qty
+					}
+					setcartArr(cartArr1)
+					setamount(amt)
+				})
+				.catch()
+		else
+			axios
+				.post("http://localhost:5000/api/users/addToCart", {
+					userid: userInfo._id,
+					productid: item._id,
+					weight: item.weight,
+					qty: 1,
+				})
+				.then((res) => {
+					let cartArr1 = []
+					let amt = 0
+					for (let i in cartArr) {
+						cartArr1.push(cartArr[i])
+						if (
+							cartArr[i]._id == item._id &&
+							cartArr[i].weight == item.weight
+						) {
+							//cartArr1[i].qty += 1;
+							cartArr1[i].qty = res.data[i].qty
+						}
+						amt += cartArr1[i].isWeighted
+							? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
+							: cartArr1[i].price * cartArr1[i].qty
+					}
+					setcartArr(cartArr1)
+					setamount(amt)
+				})
+				.catch()
+	}
+
+	const subQtyHandler = (item) => {
+		if (!item.isWeighted)
+			axios
+				.post("http://localhost:5000/api/users/addToCart", {
+					userid: userInfo._id,
+					productid: item._id,
+					qty: -1,
+				})
+				.then((res) => {
+					let cartArr1 = []
+					let amt = 0
+					for (let i in cartArr) {
+						cartArr1.push(cartArr[i])
+						if (cartArr[i]._id == item._id) {
+							//cartArr1[i].qty -= 1;
+							cartArr1[i].qty = res.data[i].qty
+						}
+						amt += cartArr1[i].isWeighted
+							? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
+							: cartArr1[i].price * cartArr1[i].qty
+					}
+					setcartArr(cartArr1)
+					setamount(amt)
+				})
+				.catch()
+		else
+			axios
+				.post("http://localhost:5000/api/users/addToCart", {
+					userid: userInfo._id,
+					productid: item._id,
+					weight: item.weight,
+					qty: -1,
+				})
+				.then((res) => {
+					let cartArr1 = []
+					let amt = 0
+					for (let i in cartArr) {
+						cartArr1.push(cartArr[i])
+						if (
+							cartArr[i]._id == item._id &&
+							cartArr[i].weight == item.weight
+						) {
+							//cartArr1[i].qty -= 1;
+							cartArr1[i].qty = res.data[i].qty
+						}
+						amt += cartArr1[i].isWeighted
+							? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
+							: cartArr1[i].price * cartArr1[i].qty
+					}
+					setcartArr(cartArr1)
+					setamount(amt)
+				})
+				.catch()
+	}
+
+	const deleteHandler = (item) => {
+		if (!item.isWeighted)
+			axios
+				.post("http://localhost:5000/api/users/deleteFromCart", {
+					userid: userInfo._id,
+					productid: item._id,
+				})
+				.then((res) => {
+					let cartArr1 = []
+					let amt = 0
+					for (let i in cartArr) {
+						if (cartArr[i]._id != item._id) {
+							cartArr1.push(cartArr[i])
+							amt += cartArr1[i].isWeighted
+								? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
+								: cartArr1[i].price * cartArr1[i].qty
+						}
+					}
+					setcartArr(cartArr1)
+					setamount(amt)
+				})
+				.catch()
+		else
+			axios
+				.post("http://localhost:5000/api/users/deleteFromCart", {
+					userid: userInfo._id,
+					productid: item._id,
+					weight: item.weight,
+				})
+				.then((res) => {
+					let cartArr1 = []
+					let amt = 0
+
+					for (let i in cartArr) {
+						if (cartArr[i]._id == item._id && cartArr[i].weight == item.weight)
+							continue
+						cartArr1.push(cartArr[i])
+						let x = cartArr1.length - 1
+						amt += cartArr1[x].isWeighted
+							? cartArr1[x].price * cartArr1[x].qty * cartArr1[x].weight
+							: cartArr1[x].price * cartArr1[x].qty
+					}
+					setcartArr(cartArr1)
+					setamount(amt)
+				})
+				.catch()
+	}
+
+	let body = (
+		<div style={{ fontSize: "25px" }}>
+			<Link to="/login">Login</Link> to view your cart
+		</div>
+	)
+
+	if (userInfo != null) {
+		if (cartArr.length == 0) {
+			body = (
+				<div>
+					<h3>Your Shopping Cart is Empty</h3>
+				</div>
+			)
+		} else {
+			body = (
+				<div>
+					<div
+						style={{ textAlign: "right", fontWeight: "bold", fontSize: "25px" }}
+					>
+						Subtotal:{" "}
+						<i style={{ marginLeft: "10px" }} class="fas fa-rupee-sign">
+							{amount}
+						</i>
+					</div>
+					{cartArr.map((item) => (
+						<div>
+							<li className="list-group-item d-flex justify-content-between align-items-center">
+								<div className="container">
+									<p style={{ lineHeight: "10px" }}>
+										<img
+											src={item.image}
+											style={{
+												height: "150px",
+												float: "left",
+												marginRight: "10px",
+												width: "200px",
+											}}
+										></img>
+										<div style={{ fontSize: "40px", marginTop: "20px" }}>
+											{item.isWeighted ? (
+												<div>
+													{item.name}({item.weight * 1000}grams)
+												</div>
+											) : (
+												<div>{item.name}</div>
+											)}
+										</div>{" "}
+										<br />
+										<br />
+										<br />
+										<br />
+										<QuantitySelector
+											qty={item.qty}
+											addQtyHandler={() => addQtyHandler(item)}
+											subQtyHandler={() => subQtyHandler(item)}
+											limit={10}
+										/>
+										<br />
+										<br />
+										<Link onClick={() => deleteHandler(item)}>
+											<i class="fa fa-trash" aria-hidden="true"></i>Delete
+										</Link>
+									</p>
+								</div>
+								<div style={{ fontSize: "20px" }}>
+									<i class="fas fa-rupee-sign">
+										{item.isWeighted
+											? item.price * item.weight * item.qty
+											: item.price * item.qty}
+									</i>
+								</div>
+								<br />
+							</li>
+							<br />
+						</div>
+					))}
+				</div>
+			)
+		}
+	}
+	return (
+		<div className="container">
+			<h1>Shopping Cart</h1>
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">{error}</Message>
+			) : (
+				body
+			)}
+		</div>
+	)
+}
+
+export default CartScreen

@@ -3,7 +3,10 @@ import thunk from "redux-thunk"
 import { composeWithDevTools } from "redux-devtools-extension"
 import { categoryListReducer } from "./reducers/categoryReducers"
 import { subcategoryListReducer } from "./reducers/subcategoryReducers"
-import { productListReducer } from "./reducers/productReducers"
+import {
+	productListReducer,
+	productDescReducer,
+} from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
 import {
 	userAddShippingAddressReducer,
@@ -16,6 +19,7 @@ const reducer = combineReducers({
 	categoryList: categoryListReducer,
 	subcategoryList: subcategoryListReducer,
 	productList: productListReducer,
+	productDesc: productDescReducer,
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
 	addressList: userShippingAddressReducer,

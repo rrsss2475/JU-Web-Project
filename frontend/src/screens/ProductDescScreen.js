@@ -9,7 +9,6 @@ import Rating from '../components/Rating'
 import QuantitySelector from '../components/QuantitySelector'
 import { productDescAction } from '../actions/productDescActions'
 const ProductDescScreen = () => {
-
   const [qty, setqty] = useState(1)
   const [user, setuser] = useState('')
   const [userloading, setuserloading] = useState(true)
@@ -18,13 +17,14 @@ const ProductDescScreen = () => {
   const [redirectToLogin, setredirectToLogin] = useState(false)
   const [addToCartSuccess, setaddToCartSuccess] = useState('')
   const [addToCartErr, setaddToCartErr] = useState('')
+  const [weight, setWeight] = useState(0)
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   const productDesc = useSelector((state) => state.productDesc)
   const { loading, error, productDescription } = productDesc
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   useEffect(() => {
     dispatch(productDescAction(catName, subCatName, id))
   }, [dispatch])
@@ -32,7 +32,9 @@ const ProductDescScreen = () => {
   useEffect(() => {
     if (loading == false) {
       axios
-        .get(`http://localhost:5000/api/products/userName/${productDescription.user}`)
+        .get(
+          `http://localhost:5000/api/products/userName/${productDescription.user}`
+        )
         .then((res) => {
           setuser(res.data.name)
           setuserloading(false)
@@ -40,29 +42,49 @@ const ProductDescScreen = () => {
         .catch((err) => {
           setusererror(err)
         })
+      if (productDescription.isWeighted)
+        setWeight(productDescription.weights[0])
     }
   }, [loading])
 
   const addToCartHandler = () => {
     if (userInfo == null) {
       setredirectToLogin(true)
-      return;
-    }
-    else {
-      axios
-        .post('http://localhost:5000/api/users/addToCart', {
-          userid: userInfo._id,
-          productid: productDescription._id,
-          qty: qty,
-        })
-        .then(res => {
-          setqty(1);
-          setaddToCartSuccess(res)
-        })
-        .catch(err => {
-          setqty(1);
-          setaddToCartErr(err)
-        })
+      return
+    } else {
+      if (productDescription.isWeighted) {
+        axios
+          .post('http://localhost:5000/api/users/addToCart', {
+            userid: userInfo._id,
+            productid: productDescription._id,
+            qty: qty,
+            weight: weight,
+          })
+          .then((res) => {
+            setqty(1)
+            setaddToCartSuccess(res)
+          })
+          .catch((err) => {
+            setqty(1)
+            setaddToCartErr(err)
+          })
+      }
+      else{
+        axios
+          .post('http://localhost:5000/api/users/addToCart', {
+            userid: userInfo._id,
+            productid: productDescription._id,
+            qty: qty,
+          })
+          .then((res) => {
+            setqty(1)
+            setaddToCartSuccess(res)
+          })
+          .catch((err) => {
+            setqty(1)
+            setaddToCartErr(err)
+          })
+      }
     }
   }
 
@@ -86,16 +108,32 @@ const ProductDescScreen = () => {
         <div></div>
       )}
 
-      <Toast style={{ color: "red", backgroundColor: "pink" }} show={addToCartErr.length != 0} onClose={() => { setaddToCartErr('') }} delay={3000} autohide >
+      <Toast
+        style={{ color: 'red', backgroundColor: 'pink' }}
+        show={addToCartErr.length != 0}
+        onClose={() => {
+          setaddToCartErr('')
+        }}
+        delay={3000}
+        autohide
+      >
         <Toast.Header>
-          <strong className="mr-auto">Error:</strong>
+          <strong className='mr-auto'>Error:</strong>
         </Toast.Header>
         <Toast.Body>Purchase Limit Exceeded!</Toast.Body>
       </Toast>
 
-      <Toast style={{ color: "green", backgroundColor: "lightgreen" }} show={addToCartSuccess.length != 0} onClose={() => { setaddToCartSuccess('') }} delay={3000} autohide >
+      <Toast
+        style={{ color: 'green', backgroundColor: 'lightgreen' }}
+        show={addToCartSuccess.length != 0}
+        onClose={() => {
+          setaddToCartSuccess('')
+        }}
+        delay={3000}
+        autohide
+      >
         <Toast.Header>
-          <strong className="mr-auto">Success:</strong>
+          <strong className='mr-auto'>Success:</strong>
         </Toast.Header>
         <Toast.Body>Added to cart successfully!</Toast.Body>
       </Toast>
@@ -136,12 +174,29 @@ const ProductDescScreen = () => {
             text={`${productDescription.numReviews} reviews`}
           />
           <br />
-          <b>Price: Rs {productDescription.price}</b>
+          <b>Price: Rs {productDescription.price * weight}</b>
           <br />
           {productDescription.isAvailable ? (
             <div style={{ color: 'green', fontWeight: 'bold' }}>In Stock</div>
           ) : (
             <div style={{ color: 'red', fontWeight: 'bold' }}>Out Of Stock</div>
+          )}
+          <br />
+          {productDescription.isWeighted ? (
+            <div>
+              <select
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                style={{ fontSize: '20px', border: 'solid black' }}
+              >
+                {productDescription.weights.map((wt) => {
+                  return <option value={wt}>{wt * 1000}</option>
+                })}
+              </select>
+              grams
+            </div>
+          ) : (
+            <div></div>
           )}
           <br />
           {productDescription.isAvailable ? (
@@ -179,10 +234,14 @@ const ProductDescScreen = () => {
         </Col>
       </Row>
     </div>
-  );
+  )
 
-  return (
-    loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : body
+  return loading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant='danger'>{error}</Message>
+  ) : (
+    body
   )
 }
 

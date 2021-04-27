@@ -1,7 +1,7 @@
 import React  from 'react'
 import { Button } from 'react-bootstrap'
 
-const QuantitySelector = ({ qty, addQtyHandler, subQtyHandler, limit }) => {
+const QuantitySelector = ({ qty, addQtyHandler, subQtyHandler, limit, disabled }) => {
 
     let subButton = (
         <Button
@@ -13,7 +13,7 @@ const QuantitySelector = ({ qty, addQtyHandler, subQtyHandler, limit }) => {
         </Button>
     );
 
-    if (qty == 1) {
+    if (qty == 1 || disabled) {
         subButton = (
             <Button
                 disabled
@@ -36,7 +36,7 @@ const QuantitySelector = ({ qty, addQtyHandler, subQtyHandler, limit }) => {
         </Button>
     );
 
-    if (qty == limit) {
+    if (qty == limit || disabled) {
         addButton = (
             <Button
                 disabled

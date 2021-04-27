@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { ListGroup, ListGroupItem, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { listCart } from '../actions/cartActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import img from '../images/baby.jpg'
 import QuantitySelector from '../components/QuantitySelector'
 import axios from 'axios'
 
@@ -33,7 +31,7 @@ const CartScreen = () => {
                     `http://localhost:5000/api/products/categories/${cart[i].product}`
                 )
                 //setcartArr(prevState => [...prevState, item.data]);
-                cartArr1.push({ ...item.data, qty: cart[i].qty, weight: cart[i].weight })
+                cartArr1.push({ ...item.data, qty: cart[i].qty, weight: cart[i].weight})
             }
             setcartArr(cartArr1)
         })()
@@ -66,7 +64,10 @@ const CartScreen = () => {
                     let cartArr1 = []
                     for (let i in cartArr) {
                         cartArr1.push(cartArr[i])
-                        if (cartArr[i]._id == item._id) cartArr1[i].qty += 1
+                        if (cartArr[i]._id == item._id) {
+                            //cartArr1[i].qty += 1;
+                            cartArr1[i].qty=res.data[i].qty;
+                        }
                     }
                     setcartArr(cartArr1)
                 })
@@ -83,8 +84,10 @@ const CartScreen = () => {
                     let cartArr1 = []
                     for (let i in cartArr) {
                         cartArr1.push(cartArr[i])
-                        if (cartArr[i]._id == item._id && cartArr[i].weight == item.weight)
-                            cartArr1[i].qty += 1
+                        if (cartArr[i]._id == item._id && cartArr[i].weight == item.weight) {
+                            //cartArr1[i].qty += 1;
+                            cartArr1[i].qty=res.data[i].qty;
+                        }
                     }
                     setcartArr(cartArr1)
                 })
@@ -103,7 +106,10 @@ const CartScreen = () => {
                     let cartArr1 = []
                     for (let i in cartArr) {
                         cartArr1.push(cartArr[i])
-                        if (cartArr[i]._id == item._id) cartArr1[i].qty -= 1
+                        if (cartArr[i]._id == item._id) {
+                            //cartArr1[i].qty -= 1;
+                            cartArr1[i].qty=res.data[i].qty;
+                        }
                     }
                     setcartArr(cartArr1)
                 })
@@ -121,7 +127,10 @@ const CartScreen = () => {
                     for (let i in cartArr) {
                         cartArr1.push(cartArr[i])
                         if (cartArr[i]._id == item._id && cartArr[i].weight == item.weight)
-                            cartArr1[i].qty -= 1
+                        {
+                            //cartArr1[i].qty -= 1;
+                            cartArr1[i].qty=res.data[i].qty;
+                        }
                     }
                     setcartArr(cartArr1)
                 })

@@ -77,6 +77,10 @@ const addToCart = asyncHandler(async (req, res) => {
           res.status(400)
           throw new Error('Purchase Limit Exceeded')
         }
+        if (Number(user.cart[item].qty) <= 0) {
+          res.status(400)
+          throw new Error('Qty cannot be less than 1')
+        }
 
         await user.save()
         return res.json(user.cart)

@@ -17,8 +17,9 @@ const OrderItems = ({}) => {
   let body = (
     // <Card className="my-3 p-3 rounded" style={{ border: "2px solid" }}>
     <Card
+      className="my-3"
       style={{
-        width: "40rem",
+        // width: "40rem",
         border: "2px solid",
         marginLeft: "auto",
         marginRight: "auto",

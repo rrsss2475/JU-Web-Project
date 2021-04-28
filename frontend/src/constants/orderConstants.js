@@ -1,0 +1,2 @@
+export const SAVE_ORDER_ITEMS = "SAVE_ORDER_ITEMS"
+export const SAVE_ORDER_FAIL = "SAVE_ORDER_FAIL"

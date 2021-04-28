@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { listCart } from "../actions/cartActions"
+import { listCart, saveShippingAddress } from "../actions/cartActions"
 import Loader from "../components/Loader"
 import Message from "../components/Message"
 import QuantitySelector from "../components/QuantitySelector"
 import axios from "axios"
 import { Button, Col, ListGroup, Card } from "react-bootstrap"
+import { saveOrderItems } from "../actions/orderActions"
 
 const CartScreen = ({ history }) => {
 	const dispatch = useDispatch()
@@ -68,6 +69,7 @@ const CartScreen = ({ history }) => {
       */
 
 	const checkoutHandler = () => {
+		dispatch(saveOrderItems(cartItems, amount))
 		history.push("/shipping")
 	}
 

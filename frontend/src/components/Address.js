@@ -35,7 +35,18 @@ const Address = ({ address, step }) => {
   }
 
   let body = (
-    <Card className="my-3 p-3 rounded" style={{ border: "2px solid" }}>
+    <Card
+      className="my-3"
+      style={{
+        border: "2px solid",
+        marginLeft: "auto",
+        marginRight: "auto",
+        textAlign: "center",
+      }}
+    >
+      <Card.Header style={{ backgroundColor: "#ffc107" }} as="h5">
+        <strong>Address</strong>
+      </Card.Header>
       <Card.Body>
         <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
           <strong>{address.name}</strong>

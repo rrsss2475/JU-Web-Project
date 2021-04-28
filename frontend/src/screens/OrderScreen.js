@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Address from "../components/Address";
 import CheckoutSteps from "../components/CheckoutSteps";
+import OrderItems from "../components/OrderItems";
 
 const OrderScreen = ({ location }) => {
   const addressList = useSelector((state) => state.addressList);
@@ -19,10 +20,15 @@ const OrderScreen = ({ location }) => {
       >
         Order Summary
       </h1>
+      <OrderItems />
+      &nbsp;
       <Address address={shippingAddress} />
-      <Button variant="warning">
-        <strong>Place Order</strong>
-      </Button>
+      <br />
+      <center>
+        <Button style={{ width: "55%" }} variant="warning">
+          <strong>Place Order</strong>
+        </Button>
+      </center>
     </div>
   );
 };

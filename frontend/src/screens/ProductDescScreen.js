@@ -45,7 +45,7 @@ const ProductDescScreen = () => {
 			if (productDescription.isWeighted)
 				setWeight(productDescription.weights[0])
 		}
-	}, [loading])
+	}, [loading, productDescription])
 
 	const addToCartHandler = () => {
 		if (userInfo == null) {

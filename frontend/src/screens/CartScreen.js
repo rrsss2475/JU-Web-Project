@@ -69,7 +69,7 @@ const CartScreen = ({ history }) => {
       */
 
 	const checkoutHandler = () => {
-		dispatch(saveOrderItems(cartItems, amount))
+		dispatch(saveOrderItems(userInfo))
 		history.push("/shipping")
 	}
 
@@ -270,24 +270,6 @@ const CartScreen = ({ history }) => {
 		} else {
 			body = (
 				<div>
-					<div
-						style={{
-							textAlign: "right",
-							fontWeight: "bold",
-							fontSize: "25px",
-						}}
-					>
-						Subtotal:{" "}
-						<i
-							style={{
-								marginLeft: "10px",
-							}}
-							class="fas fa-rupee-sign"
-						>
-							{" "}
-							{amount}{" "}
-						</i>{" "}
-					</div>{" "}
 					{cartArr.map((item) => (
 						<div>
 							<li className="list-group-item d-flex justify-content-between align-items-center">
@@ -350,14 +332,14 @@ const CartScreen = ({ history }) => {
 									}}
 								>
 									<i class="fas fa-rupee-sign">
-										{" "}
+										&nbsp;
 										{item.isWeighted
 											? item.price * item.weight * item.qty
-											: item.price * item.qty}{" "}
-									</i>{" "}
-								</div>{" "}
+											: item.price * item.qty}
+									</i>
+								</div>
 								<br />
-							</li>{" "}
+							</li>
 							<br />
 						</div>
 					))}

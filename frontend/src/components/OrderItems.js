@@ -9,6 +9,7 @@ import {
   Col,
   Row,
 } from "react-bootstrap";
+import { strikethrough } from "colors";
 
 const OrderItems = ({}) => {
   const orderList = useSelector((state) => state.order);
@@ -27,7 +28,7 @@ const OrderItems = ({}) => {
       }}
     >
       <Card.Header
-        style={{ backgroundColor: "#ffc107" }}
+        style={{ backgroundColor: "#ffc107", fontFamily: "Rubik, sans-serif" }}
         className="text-center"
         bg="warning"
         as="h5"
@@ -46,21 +47,36 @@ const OrderItems = ({}) => {
                 }}
                 alt={item.name}
               ></img>
-              <h5 style={{ marginLeft: " 220px" }}>
+              <h5
+                style={{
+                  fontSize: "20px",
+                  marginLeft: " 25px",
+                  fontFamily: "Rubik, sans-serif",
+                }}
+              >
                 Name : {item.name}
                 <br />
                 Qty : {item.qty}
                 <br />
-                Weight : {item.weight ? <>{item.weight * 1000}</> : <></>}
+                Weight : {item.weight ? <>{item.weight * 1000} grams</> : <></>}
                 <br />
-                Price : {item.price}
+                Price : <i class="fas fa-rupee-sign"></i>&nbsp;
+                {item.price}
               </h5>
             </Row>
           </Col>
         ))}
         <hr style={{ border: "1px solid green" }} />
-        <h4 style={{ float: "right" }}>
-          <strong>Total Amount</strong> : Rs. {totalPrice}
+        <h4 style={{ float: "right", fontFamily: "Rubik, sans-serif" }}>
+          <strong>Total Amount</strong> :{" "}
+          <i
+            style={{
+              marginLeft: "10px",
+            }}
+            class="fas fa-rupee-sign"
+          ></i>
+          &nbsp;
+          <strike>{totalPrice}</strike>&nbsp;{totalPrice - totalPrice * 0.1}
         </h4>
       </Card.Body>
     </Card>

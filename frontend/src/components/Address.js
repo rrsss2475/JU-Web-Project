@@ -49,18 +49,20 @@ const Address = ({ address, step }) => {
       </Card.Header>
       <Card.Body>
         <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
-          <strong>{address.name}</strong>
-          <br />
-          {address.street}
-          <br />
-          {address.city}
-          <br />
-          {address.state}
-          <br />
-          {address.zip}
-          <br />
-          {address.country}
-          <br />
+          <h5>
+            <strong>{address.name}</strong>
+            <br />
+            {address.street}
+            <br />
+            {address.city}
+            <br />
+            {address.state}
+            <br />
+            {address.zip}
+            <br />
+            {address.country}
+            <br />
+          </h5>
         </Card.Title>
         <center>{btn}</center>
       </Card.Body>

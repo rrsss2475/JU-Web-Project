@@ -10,6 +10,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { logout } from "../actions/userActions";
+import img from "../images/logo1.png";
 
 const Navbar = ({}) => {
   const dispatch = useDispatch();
@@ -55,10 +56,10 @@ const Navbar = ({}) => {
           to="/"
         >
           <img
-            src="https://justintime.in/media/logo/stores/1/jitlogo.png"
+            src={img}
             alt="Just in Time Online Watch Store"
-            width="289"
-            height="64"
+            width="250"
+            height="90"
           />
           {/* JUstintime */}
         </NavLink>
@@ -211,7 +212,9 @@ const Navbar = ({}) => {
           )}
         </div>
       </Nav>
-      <hr style={{ borderWidth: "2px", borderColor: "green" }} />
+      <hr
+        style={{ borderWidth: "2px", borderColor: "green", marginTop: "0px" }}
+      />
     </>
   );
 };

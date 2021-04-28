@@ -25,7 +25,7 @@ const OrderScreen = ({ location }) => {
       <Address address={shippingAddress} />
       <br />
       <center>
-        <Button style={{ width: "55%" }} variant="warning">
+        <Button style={{ width: "100%", fontSize: "18px" }} variant="warning">
           <strong>Place Order</strong>
         </Button>
       </center>

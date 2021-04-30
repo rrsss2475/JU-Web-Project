@@ -16,12 +16,14 @@ app.use(cors())
 const userRoute = require("./routes/userRoutes")
 app.use("/api/users", userRoute)
 
-
 const productRoute = require("./routes/productRoutes")
 app.use("/api/products", productRoute)
 
 const serviceRoute = require("./routes/serviceRoutes")
 app.use("/api/services", serviceRoute)
+
+const orderRoute = require("./routes/orderRoutes")
+app.use("/api/orders", orderRoute)
 
 app.use(notFound)
 app.use(errorHandler)

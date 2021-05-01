@@ -12,3 +12,5 @@ router.route("/").post(auth, createOrder)
 router.route("/:id").get(auth, getOrderById)
 router.route("/:id/pay").put(auth, updateOrderToPaid)
 router.route("/id/status").put(auth, updateStatusOfOrder)
+
+module.exports = router

@@ -208,6 +208,30 @@ const deleteFromCart = asyncHandler(async (req, res) => {
 	return res.json(user.cart)
 })
 
+const resetUserCart = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id)
+
+	if (user) {
+		user.cart = []
+		await user.save()
+		return res.json({ message: "Cart Reset" })
+	} else {
+		res.status(404)
+		throw new Error("User Not Found")
+	}
+})
+
+const getAllOrders = asyncHandler(async (req, res) => {
+	const orders = await Order.findOne({ user: req.user._id })
+
+	if (orders) {
+		return res.json(orders)
+	} else {
+		res.json(404)
+		throw new Error("Orders not found")
+	}
+})
+
 module.exports = {
 	register: register,
 	login: login,
@@ -218,4 +242,6 @@ module.exports = {
 	cart: cart,
 	addToCart: addToCart,
 	deleteFromCart: deleteFromCart,
+	resetUserCart: resetUserCart,
+	getAllOrders: getAllOrders,
 }

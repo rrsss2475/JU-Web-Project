@@ -1,4 +1,6 @@
 import axios from "axios";
+import { CART_LIST_RESEST } from "../constants/cartConstants";
+import { ORDER_LIST_RESEST } from "../constants/orderConstants";
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -55,6 +57,8 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem("orderDetails");
   localStorage.removeItem("shippingAddress");
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: ORDER_LIST_RESEST });
+  dispatch({ type: CART_LIST_RESEST });
 };
 
 export const register = (name, email, password) => async (dispatch) => {

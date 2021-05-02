@@ -1,15 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Card,
-  FormControl,
-  Button,
-  InputGroup,
-  Container,
-  Col,
-  Row,
-} from "react-bootstrap";
-import { strikethrough } from "colors";
+import { Card, Col, Row } from "react-bootstrap";
 
 const OrderItems = ({}) => {
   const orderList = useSelector((state) => state.order);

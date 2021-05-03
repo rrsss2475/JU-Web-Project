@@ -10,7 +10,7 @@ const HomeScreen = () => {
       <ImageSlider />
       <div class="wrapper">
         <div class="pic">
-          <Link to="/categories">
+          <Link to="/products/categories">
             <img class="image" src={img1} alt="products" />
           </Link>
           <div class="middle">
@@ -20,14 +20,14 @@ const HomeScreen = () => {
                 textDecoration: "none",
                 fontFamily: "Rubik, sans-serif",
               }}
-              to="/categories"
+              to="/products/categories"
             >
               PRODUCTS
             </Link>
           </div>
         </div>
         <div class="pic">
-          <Link to="/categories">
+          <Link to="/services/categories">
             <img class="image" src={img2} alt="services" />
           </Link>
           <div class="middle">
@@ -37,7 +37,7 @@ const HomeScreen = () => {
                 textDecoration: "none",
                 fontFamily: "Rubik, sans-serif",
               }}
-              to="/categories"
+              to="/services/categories"
             >
               SERVICES
             </Link>

@@ -7,7 +7,8 @@ import Footer from "./components/Footer"
 import AboutusScreen from "./screens/AboutusScreen"
 import ContactusScreen from "./screens/ContactusScreen"
 import LoginScreen from "./screens/LoginScreen"
-import CategoriesScreen from "./screens/CategoriesScreen"
+import CategoriesScreen from "./screens/Products/CategoriesScreen"
+import ServCategoriesScreen from './screens/Services/CategoriesScreen'
 import SubCategoriesScreen from "./screens/SubCategoriesScreen"
 import ProductScreen from "./screens/ProductScreen"
 import ProductDescScreen from "./screens/ProductDescScreen"
@@ -35,7 +36,8 @@ function App() {
 				<Route path="/shipping" component={ShippingScreen} exact />
 				<Route path="/payment" component={PaymentScreen} exact />
 				<Route path="/order" component={OrderScreen} exact />
-				<Route path="/categories" component={CategoriesScreen} exact />
+				<Route path="/products/categories" component={CategoriesScreen} exact />
+				<Route path="/services/categories" component={ServCategoriesScreen} exact />
 				<Route
 					path="/categories/:catName"
 					component={SubCategoriesScreen}

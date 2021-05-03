@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useParams } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import Category from "../components/Category.js";
-import Loader from "../components/Loader.js";
-import Message from "../components/Message.js";
-import { listCategories } from "../actions/categoryActions";
+import Category from "../../components/Category.js";
+import Loader from "../../components/Loader.js";
+import Message from "../../components/Message.js";
+import { listCategories } from "../../actions/Services/categoryActions";
 
 const CategoriesScreen = () => {
   const dispatch = useDispatch();
-
+   
   const categoryList = useSelector((state) => state.categoryList);
   const { loading, error, categories } = categoryList;
 

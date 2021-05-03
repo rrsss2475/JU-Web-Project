@@ -8,7 +8,7 @@ const Category = ({ category, type, catName }) => {
     <Card className="my-3 p-3 rounded" style={{ border: "3px ridge green" }}>
       <Link to={`/categories/${category.name}`} exact>
         <Card.Img
-          src={category.image}
+          src={category.image || img}
           variant="top"
           style={{ height: "150px" }}
         />

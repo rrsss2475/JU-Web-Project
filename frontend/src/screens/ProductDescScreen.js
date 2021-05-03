@@ -189,7 +189,9 @@ const ProductDescScreen = () => {
             text={`${productDescription.numReviews} reviews`}
           />
           <br />
-          <b>Price: Rs {productDescription.price * weight}</b>
+          {productDescription.isWeighted ? (<b>Price: Rs {productDescription.price * weight}</b>):
+          (<b>Price: Rs {productDescription.price}</b>)}
+          
           <br />
           {productDescription.isAvailable ? (
             <div style={{ color: "green", fontWeight: "bold" }}>In Stock</div>

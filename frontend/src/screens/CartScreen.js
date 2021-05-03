@@ -214,8 +214,9 @@ const CartScreen = ({ history }) => {
               amt += cartArr1[i].isWeighted
                 ? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
                 : cartArr1[i].price * cartArr1[i].qty;
+                total += cartArr1[i].qty;
             }
-            total += cartArr1[i].qty;
+            
           }
           setcartArr(cartArr1);
           setamount(amt);

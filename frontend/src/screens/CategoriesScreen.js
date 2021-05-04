@@ -1,20 +1,25 @@
-import React, { useEffect, useParams } from "react";
+import React, { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import Category from "../../components/Category.js";
-import Loader from "../../components/Loader.js";
-import Message from "../../components/Message.js";
-import { listCategories } from "../../actions/Services/categoryActions";
+import Category from "../components/Category.js";
+import Loader from "../components/Loader.js";
+import Message from "../components/Message.js";
+import { listCategories } from "../actions/categoryActions";
+import { listservCategories } from "../actions/servcategoryActions"
 
 const CategoriesScreen = () => {
   const dispatch = useDispatch();
-   
+  const {type}  = useParams();
   const categoryList = useSelector((state) => state.categoryList);
   const { loading, error, categories } = categoryList;
 
+
   useEffect(() => {
+    if(type == "products")
     dispatch(listCategories());
+    else
+    dispatch(listservCategories());
   }, [dispatch]);
 
   let body = <h1></h1>;
@@ -24,7 +29,7 @@ const CategoriesScreen = () => {
       <Row>
         {categories.map((category) => (
           <Col sm={12} md={6} lg={4} xl={3}>
-            <Category type="category" category={category} />
+            <Category variant="category" type={type} category={category} />
           </Col>
         ))}
       </Row>

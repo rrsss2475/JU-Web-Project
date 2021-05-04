@@ -3,10 +3,10 @@ import { Card, CardImg, Button } from "react-bootstrap";
 import { Link, Switch, Route } from "react-router-dom";
 import img from "../images/baby.jpg";
 
-const Category = ({ category, type, catName }) => {
+const Category = ({ category,type, variant, catName }) => {
   let body = (
-    <Card className="my-3 p-3 rounded" style={{ border: "3px ridge green" }}>
-      <Link to={`/categories/${category.name}`} exact>
+    <Card className="my-3 p-3 rounded" style={{ border: "3px ridge green", height: "260px" }}>
+      <Link to={`/${type}/${category.name}`} exact>
         <Card.Img
           src={category.image || img}
           variant="top"
@@ -14,7 +14,7 @@ const Category = ({ category, type, catName }) => {
         />
       </Link>
       <Card.Body>
-        <Link to={`/categories/${category.name}`} exact>
+        <Link to={`/${type}/${category.name}`} exact>
           <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
             <strong>
               <center>{category.name}</center>
@@ -25,10 +25,10 @@ const Category = ({ category, type, catName }) => {
     </Card>
   );
 
-  if (type == "subcategory") {
+  if (variant == "subcategory") {
     body = (
       <Card className="my-3 p-3 rounded" style={{ border: "3px ridge green" }}>
-        <Link to={`/categories/${catName}/${category.name}/`} exact>
+        <Link to={`/${type}/${catName}/${category.name}/`} exact>
           <Card.Img
             src={category.image || img}
             variant="top"
@@ -36,7 +36,7 @@ const Category = ({ category, type, catName }) => {
           />
         </Link>
         <Card.Body>
-          <Link to={`/categories/${catName}/${category.name}`} exact>
+          <Link to={`/${type}/${catName}/${category.name}`} exact>
             <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
               <strong>
                 <center>{category.name}</center>

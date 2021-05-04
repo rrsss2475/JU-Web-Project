@@ -6,16 +6,20 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { listProducts } from "../actions/productActions";
+import { listServices } from "../actions/serviceActions";
 
 const ProductScreen = () => {
-  const { catName, subCatName } = useParams();
+  const { type, catName, subCatName } = useParams();
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
+    if(type == "products")
     dispatch(listProducts(catName, subCatName));
+    else 
+    dispatch(listServices(catName, subCatName));
   }, [dispatch, catName, subCatName]);
 
   let body = <h1></h1>;
@@ -27,6 +31,7 @@ const ProductScreen = () => {
           <Col sm={12} md={6} lg={4} xl={3}>
             <Product
               product={product}
+              type={type}
               catName={catName}
               subCatName={subCatName}
             />
@@ -49,15 +54,15 @@ const ProductScreen = () => {
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-success my-3 mx-2"
-        to={`/categories`}
+        to={`/${type}`}
       >
-        <strong>Back to Categories</strong>
+        <strong>Back to {type}</strong>
       </Link>
       <strong style={{ color: "green" }}>&gt;</strong>
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-warning my-3 mx-2"
-        to={`/categories/${catName}`}
+        to={`/${type}/${catName}`}
       >
         <strong>Back to {catName}</strong>
       </Link>

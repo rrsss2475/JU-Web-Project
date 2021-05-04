@@ -1,23 +1,18 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import { getOrderDetails } from "../actions/orderActions"
+import { useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
+import CheckoutSteps from "../components/CheckoutSteps"
 
-const OrderScreen = ({ match }) => {
-	const orderId = match.params.id
+const PlaceOrderScreen = ({ match }) => {
+	const cart = useSelector((state) => state.cart)
+	const { shippingAddress, paymentMethod, loading, error } = cart
 
-	const dispatch = useDispatch()
+	const order = useSelector((state) => state.order)
+	const { orderItems, totalPrice } = order
 
-	const orderDetails = useSelector((state) => state.orderDetails)
-	const { order, loading, error } = orderDetails
-
-	useEffect(() => {
-		if (!order || order._id !== orderId) {
-			dispatch(getOrderDetails(orderId))
-		}
-	}, [order, orderId])
+	const { userInfo } = useSelector((state) => state.userLogin)
 
 	return loading ? (
 		<Loader />
@@ -25,7 +20,8 @@ const OrderScreen = ({ match }) => {
 		<Message variant="danger">{error}</Message>
 	) : (
 		<div className="container">
-			<h2>Order {orderId}</h2>
+			<CheckoutSteps step1 step2 step3 step4 />
+			<h2>Order Summary</h2>
 			<Row style={{ fontFamily: "Rubik, sans-serif" }}>
 				<Col md={8}>
 					<ListGroup variant="flush">
@@ -34,47 +30,35 @@ const OrderScreen = ({ match }) => {
 							{/* <br /> */}
 							<p>
 								<strong>Name: </strong>
-								{order.user.name}
+								{userInfo.name}
 							</p>
 							<p>
 								<strong>Email: </strong>
-								{order.user.email}
+								{userInfo.email}
 							</p>
 							<p>
 								<strong>Address: </strong>
-								{order.shippingAddress.name}, {order.shippingAddress.street},{" "}
-								{order.shippingAddress.city},{order.shippingAddress.state},
-								{order.shippingAddress.country},{order.shippingAddress.zip}
+								{shippingAddress.name}, {shippingAddress.street},{" "}
+								{shippingAddress.city},{shippingAddress.state},
+								{shippingAddress.country},{shippingAddress.zip}
 							</p>
-							{order.isDelivered ? (
-								<Message variant="success">
-									Delivered on {order.deliveredAt}
-								</Message>
-							) : (
-								<Message variant="danger">Not Delivered</Message>
-							)}
 						</ListGroup.Item>
 
 						<ListGroup.Item>
 							<h2>Payment Method</h2>
 							<p>
 								<strong>Method: </strong>
-								{order.paymentMethod}
+								{paymentMethod}
 							</p>
-							{order.isPaid ? (
-								<Message variant="success">Paid on {order.paidAt}</Message>
-							) : (
-								<Message variant="danger">Not Paid</Message>
-							)}
 						</ListGroup.Item>
 
 						<ListGroup.Item>
 							<h2>Order Items</h2>
-							{order.orderItems.length === 0 ? (
+							{orderItems.length === 0 ? (
 								<Message>Order is empty</Message>
 							) : (
 								<ListGroup variant="flush">
-									{order.orderItems.map((item, index) => (
+									{orderItems.map((item, index) => (
 										<ListGroup.Item key={index}>
 											<Row style={{ fontFamily: "Rubik, sans-serif" }}>
 												<Col md={1}>
@@ -91,7 +75,7 @@ const OrderScreen = ({ match }) => {
 													{/* </Link> */}
 												</Col>
 												<Col md={4}>
-													{item.qty} x ₹{item.price} = ₹{item.qty * item.price}
+													Qty: {item.qty} | ₹{item.price}
 												</Col>
 											</Row>
 										</ListGroup.Item>
@@ -108,7 +92,7 @@ const OrderScreen = ({ match }) => {
 					>
 						<ListGroup variant="flush">
 							<ListGroup.Item>
-								<h2>Order Summary</h2>
+								<h2>Payment Summary</h2>
 								<hr />
 							</ListGroup.Item>
 
@@ -117,10 +101,7 @@ const OrderScreen = ({ match }) => {
 									<Col>
 										<strong>Total</strong>
 									</Col>
-									<Col>
-										₹<strike>{order.totalPrice}</strike>&nbsp;
-										{order.totalPrice - order.totalPrice * 0.1}
-									</Col>
+									<Col>₹ {totalPrice}</Col>
 								</Row>
 							</ListGroup.Item>
 						</ListGroup>
@@ -131,4 +112,4 @@ const OrderScreen = ({ match }) => {
 	)
 }
 
-export default OrderScreen
+export default PlaceOrderScreen

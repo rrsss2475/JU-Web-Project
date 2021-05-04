@@ -1,5 +1,6 @@
 const { User } = require("../models/userModel")
 const Product = require("../models/productModel")
+const Order = require("../models/orderModel")
 const registerValidation = require("../validations/registerValidation")
 const loginValidation = require("../validations/loginValidation")
 const bcrypt = require("bcryptjs")
@@ -222,7 +223,7 @@ const resetUserCart = asyncHandler(async (req, res) => {
 })
 
 const getAllOrders = asyncHandler(async (req, res) => {
-	const orders = await Order.findOne({ user: req.user._id })
+	const orders = await Order.find({ user: req.user._id })
 
 	if (orders) {
 		return res.json(orders)

@@ -9,6 +9,8 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "mdb-ui-kit": "^3.5.1",
+    "mdbreact": "^5.0.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.2",
     "react-datepicker": "^3.8.0",

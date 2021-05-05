@@ -3,14 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, Redirect } from "react-router-dom";
 import { Col, Row, Form, Button, Toast } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
 import QuantitySelector from "../components/QuantitySelector";
 import { productDescAction } from "../actions/productActions";
 import { serviceDescAction } from "../actions/serviceActions"
+import DateSelector from "../components/DateSelector";
+
 const ProductDescScreen = () => {
   const [qty, setqty] = useState(1);
   const [user, setuser] = useState("");
@@ -21,7 +21,7 @@ const ProductDescScreen = () => {
   const [addToCartSuccess, setaddToCartSuccess] = useState("");
   const [addToCartErr, setaddToCartErr] = useState("");
   const [weight, setWeight] = useState(0);
-  const [date, setDate] = useState(new Date());
+  const [date, setdate] = useState(new Date());
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -115,6 +115,9 @@ const ProductDescScreen = () => {
   const subQtyHandler = () => {
     setqty(qty - 1);
   };
+  const setDateHandler=(date1)=>{
+    setdate(date1)
+  };
 
   let body = (
     <div className="container" style={{ marginTop: "50px" }}>
@@ -200,7 +203,7 @@ const ProductDescScreen = () => {
         <Col sm={12} md={8} lg={5} xl={4}>
           <h1>{productDescription.name}</h1>
           {userloading ? (
-            <Loader size="25" />
+            <Loader size="25px" />
           ) : usererror ? (
             <Message variant="danger">{usererror}</Message>
           ) : (
@@ -228,9 +231,9 @@ const ProductDescScreen = () => {
           )}
           <br />
           {type == "services" ? (
-            <DatePicker
-            selected={date}
-            onChange={date => setDate(date)}
+            <DateSelector
+            date={date}
+            setDateHandler={setDateHandler}
           />
           ) : 
           <div></div>}

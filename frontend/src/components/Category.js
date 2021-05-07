@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardImg, Button } from "react-bootstrap";
 import { Link, Switch, Route } from "react-router-dom";
-import img from "../images/baby.jpg";
+import img from "../images/placeholder.png";
 
 const Category = ({ category,type, variant, catName }) => {
   let body = (

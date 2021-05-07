@@ -5,14 +5,16 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const DateSelector = ({ date, setDateHandler }) => {
-    let endDate=new Date();
-    endDate.setDate(endDate.getDate() + 7)
+    let strtDate = new Date();
+    strtDate.setDate(strtDate.getDate() + 1);
+    let endDate = new Date();
+    endDate.setDate(endDate.getDate() + 7);
     return (
         <div>
             <b>Select Date: </b>
             <DatePicker
                 dateFormat="dd/MM/yyyy"
-                minDate={new Date()}
+                minDate={strtDate}
                 maxDate={endDate}
                 selected={date}
                 onChange={date1 => setDateHandler(date1)}

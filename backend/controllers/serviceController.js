@@ -13,7 +13,12 @@ const getCategories = asyncHandler(async (req, res) => {
 const getSubCategories = asyncHandler(async (req, res) => {
 	const categoryname = req.params.category
 	const category = await Category.findOne({ name: categoryname })
-	res.json(category.subCategory)
+	const subCategoryList = []
+	for (const subcategory of category.subCategory) {
+		const subCategoryFound = await subCategory.findById(subcategory._id)
+		subCategoryList.push(subCategoryFound)
+	}
+	res.json(subCategoryList)
 })
 
 const getServices = asyncHandler(async (req, res) => {

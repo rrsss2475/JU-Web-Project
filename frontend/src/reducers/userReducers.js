@@ -12,6 +12,9 @@ import {
 	USER_ADD_SHIPPING_ADDRESS_REQUEST,
 	USER_ADD_SHIPPING_ADDRESS_SUCCESS,
 	USER_ADD_SHIPPING_ADDRESS_FAIL,
+	USER_MY_ORDERS_LIST_REQUEST,
+	USER_MY_ORDERS_LIST_SUCCESS,
+	USER_MY_ORDERS_LIST_FAIL,
 } from "../constants/userConstants"
 
 export const userLoginReducer = (state = {}, action) => {
@@ -65,6 +68,19 @@ export const userAddShippingAddressReducer = (state = {}, action) => {
 		case USER_ADD_SHIPPING_ADDRESS_SUCCESS:
 			return { loading: false, address: action.payload }
 		case USER_ADD_SHIPPING_ADDRESS_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
+
+export const userOrderList = (state = { orders: [] }, action) => {
+	switch (action.type) {
+		case USER_MY_ORDERS_LIST_REQUEST:
+			return { loading: true }
+		case USER_MY_ORDERS_LIST_SUCCESS:
+			return { loading: false, orders: action.payload }
+		case USER_MY_ORDERS_LIST_FAIL:
 			return { loading: false, error: action.payload }
 		default:
 			return state

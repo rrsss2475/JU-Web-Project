@@ -11,9 +11,15 @@ import { cartReducer } from "./reducers/cartReducers"
 import {
 	userAddShippingAddressReducer,
 	userLoginReducer,
+	userOrderList,
 	userRegisterReducer,
 	userShippingAddressReducer,
 } from "./reducers/userReducers.js"
+import {
+	orderCreateReducer,
+	orderReducer,
+	orderDetailsReducer,
+} from "./reducers/orderReducers"
 
 const reducer = combineReducers({
 	categoryList: categoryListReducer,
@@ -25,11 +31,23 @@ const reducer = combineReducers({
 	addressList: userShippingAddressReducer,
 	cart: cartReducer,
 	addShippingAddress: userAddShippingAddressReducer,
+	order: orderReducer,
+	orderCreate: orderCreateReducer,
+	orderDetails: orderDetailsReducer,
+	myOrders: userOrderList,
 })
 
-const cartItemsFromStorage = localStorage.getItem("cartItems")
-	? JSON.parse(localStorage.getItem("cartItems"))
+const paymentMethodFromStorage = localStorage.getItem("paymentMethod")
+	? JSON.parse(localStorage.getItem("paymentMethod"))
 	: []
+
+const orderDetailsFromStorage = localStorage.getItem("orderDetails")
+	? JSON.parse(localStorage.getItem("orderDetails"))
+	: null
+
+const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
+	? JSON.parse(localStorage.getItem("shippingAddress"))
+	: null
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
 	? JSON.parse(localStorage.getItem("userInfo"))
@@ -37,6 +55,19 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 
 const initialState = {
 	userLogin: { userInfo: userInfoFromStorage },
+	cart: {
+		cartItems: [],
+		shippingAddress: shippingAddressFromStorage,
+		paymentMethod: paymentMethodFromStorage,
+	},
+	order: {
+		orderItems: orderDetailsFromStorage
+			? orderDetailsFromStorage.orderItems
+			: null,
+		totalPrice: orderDetailsFromStorage
+			? orderDetailsFromStorage.totalPrice
+			: null,
+	},
 }
 
 const middleware = [thunk]

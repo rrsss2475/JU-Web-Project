@@ -1,8 +1,16 @@
 import React, { useEffect } from "react";
-import { Nav, NavDropdown, Dropdown, FormControl } from "react-bootstrap";
+import {
+  Nav,
+  NavDropdown,
+  Dropdown,
+  FormControl,
+  Button,
+} from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { logout } from "../actions/userActions";
+import img from "../images/logo3.png";
 
 const Navbar = ({}) => {
   const dispatch = useDispatch();
@@ -48,10 +56,10 @@ const Navbar = ({}) => {
           to="/"
         >
           <img
-            src="https://justintime.in/media/logo/stores/1/jitlogo.png"
+            src={img}
             alt="Just in Time Online Watch Store"
-            width="289"
-            height="64"
+            width="150"
+            height="60"
           />
           {/* JUstintime */}
         </NavLink>
@@ -78,7 +86,7 @@ const Navbar = ({}) => {
                 style={{
                   fontWeight: "900",
                   fontFamily: "Rubik, sans-serif",
-                  fontSize: "18px",
+                  fontSize: "16px",
                 }}
               >
                 Home&nbsp;<i class="fas fa-home"></i>
@@ -94,7 +102,7 @@ const Navbar = ({}) => {
                 style={{
                   fontWeight: "900",
                   fontFamily: "Rubik, sans-serif",
-                  fontSize: "18px",
+                  fontSize: "16px",
                 }}
               >
                 About Us&nbsp;<i class="fas fa-info-circle"></i>
@@ -109,7 +117,7 @@ const Navbar = ({}) => {
                 style={{
                   fontWeight: "900",
                   fontFamily: "Rubik, sans-serif",
-                  fontSize: "18px",
+                  fontSize: "16px",
                 }}
               >
                 Contact Us&nbsp;<i class="fas fa-phone"></i>
@@ -117,40 +125,33 @@ const Navbar = ({}) => {
             </li>
           </ul>
           {userInfo ? (
-            // <NavDropdown style={{ color:'white' }} className="text-uppercase font-weight-bold" title={userInfo.name} id='username'>
-            //   <NavLink to='/profile' style={{ textDecoration: 'none' }}>
-            //     <NavDropdown.Item><i className='fas fa-user'></i> Profile</NavDropdown.Item>
-            //   </NavLink>
-            //   <NavLink to='/cart' style={{ textDecoration: 'none' }}>
-            //     <NavDropdown.Item><i className='fas fa-shopping-cart'></i> Cart</NavDropdown.Item>
-            //   </NavLink>
-            //   <NavDropdown.Item onClick={logoutHandler}>
-            //     Logout
-            //   </NavDropdown.Item>
-            // </NavDropdown>
-
             <div style={{ display: "flex" }}>
+              <LinkContainer to="/cart">
+                <Button type="submit" variant="success">
+                  <i className="fas fa-shopping-cart"></i>
+                </Button>
+              </LinkContainer>
+              &nbsp;
               <FormControl
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
                 style={{
                   fontFamily: "Rubik, sans-serif",
-                  fontSize: "18px",
+                  fontSize: "17px",
                 }}
               />
-
-              <Dropdown className="text-uppercase font-weight-bold">
+              <Dropdown className="font-weight-bold">
                 <Dropdown.Toggle
-                  variant="outline-success"
+                  variant="success"
                   id="dropdown-basic"
-                  className="text-uppercase font-weight-bold"
+                  className="font-weight-bold"
                   style={{
                     fontFamily: "Rubik, sans-serif",
-                    fontSize: "18px",
+                    fontSize: "16px",
                   }}
                 >
-                  {userInfo.name}
+                  Hello, {userInfo.name.split(" ")[0]}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
@@ -161,13 +162,16 @@ const Navbar = ({}) => {
                   >
                     <i className="fas fa-user"></i> Profile
                   </Dropdown.Item>
+
+                  <NavDropdown.Divider />
                   <Dropdown.Item
                     style={{ fontFamily: "Rubik, sans-serif" }}
                     className="text-success"
-                    href="/cart"
+                    href="/myOrders"
                   >
-                    <i className="fas fa-shopping-cart"></i> Cart
+                    <i className="fas fa-user"></i> My Orders
                   </Dropdown.Item>
+
                   <NavDropdown.Divider />
                   <Dropdown.Item
                     className="text-success"
@@ -180,18 +184,28 @@ const Navbar = ({}) => {
               </Dropdown>
             </div>
           ) : (
-            <form class="form-inline my-2 my-lg-0" action="/login">
-              <button
-                class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
-                type="submit"
-              >
-                Join Us <i class="fas fa-users"></i>
-              </button>
-            </form>
+            <>
+              <LinkContainer to="/cart">
+                <Button type="submit" variant="success">
+                  <i className="fas fa-shopping-cart"></i>
+                </Button>
+              </LinkContainer>
+              &nbsp;
+              <form class="form-inline my-2 my-lg-0" action="/login">
+                <button
+                  class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
+                  type="submit"
+                >
+                  Join Us <i class="fas fa-users"></i>
+                </button>
+              </form>
+            </>
           )}
         </div>
       </Nav>
-      <hr style={{ borderWidth: "2px", borderColor: "green" }} />
+      <hr
+        style={{ borderWidth: "2px", borderColor: "green", marginTop: "0px" }}
+      />
     </>
   );
 };

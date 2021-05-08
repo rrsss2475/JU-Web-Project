@@ -9,6 +9,8 @@ const {
 	addUserAddress,
 	addToCart,
 	deleteFromCart,
+	resetUserCart,
+	getAllOrders,
 } = require("../controllers/userController")
 const auth = require("../middlewares/authMiddleware")
 
@@ -20,5 +22,7 @@ router.route("/shipping").get(auth, getUserAddresses).post(auth, addUserAddress)
 router.post("/cart", cart)
 router.post("/addToCart", addToCart)
 router.post("/deleteFromCart", deleteFromCart)
+router.route("/resetCart").post(auth, resetUserCart)
+router.route("/getOrders").get(auth, getAllOrders)
 
 module.exports = router

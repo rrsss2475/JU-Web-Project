@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const { Address } = require("userModel")
+const { Address } = require("./userModel")
 
 const orderSchema = mongoose.Schema(
 	{
@@ -22,7 +22,7 @@ const orderSchema = mongoose.Schema(
 				},
 			},
 		],
-		shippingAddress: Address,
+		shippingAddress: Address.schema,
 		paymentMethod: {
 			type: String,
 			required: true,
@@ -56,6 +56,10 @@ const orderSchema = mongoose.Schema(
 		},
 		deliveredAt: {
 			type: Date,
+		},
+		status: {
+			type: String,
+			required: true,
 		},
 	},
 	{

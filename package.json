@@ -35,7 +35,7 @@
     "mongoose": "^5.12.0",
     "stripe": "^8.146.0",
     "uuid": "^8.3.2",
-    "mdb-ui-kit": "^3.5.1",
+    "mdb-ui-kit": "^3.5.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

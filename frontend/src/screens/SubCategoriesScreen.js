@@ -6,16 +6,20 @@ import Category from "../components/Category";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { listSubCategories } from "../actions/subcategoryActions";
+import {listservSubCategories} from '../actions/servsubcategoryActions'
 
 const SubCategoriesScreen = () => {
-  const { catName } = useParams();
+  const { type, catName } = useParams();
   const dispatch = useDispatch();
 
   const subcategoryList = useSelector((state) => state.subcategoryList);
   const { loading, error, subcategories } = subcategoryList;
 
   useEffect(() => {
+    if(type == "products")
     dispatch(listSubCategories(catName));
+    else
+    dispatch(listservSubCategories(catName));
   }, [dispatch, catName]);
 
   let body = <h1></h1>;
@@ -27,7 +31,8 @@ const SubCategoriesScreen = () => {
           <Col sm={12} md={6} lg={4} xl={3}>
             <Category
               catName={catName}
-              type="subcategory"
+              type={type}
+              variant="subcategory"
               category={category}
             />
           </Col>
@@ -49,7 +54,7 @@ const SubCategoriesScreen = () => {
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-warning my-3 mx-2"
-        to={`/categories`}
+        to={`/${type}`}
       >
         <strong>Back to Categories</strong>
       </Link>

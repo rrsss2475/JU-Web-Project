@@ -4,12 +4,12 @@ import { Link, Switch, Route } from "react-router-dom"
 import img from "../images/baby.jpg"
 import Rating from "./Rating"
 
-const Category = ({ product, catName, subCatName }) => {
+const Category = ({ product, type, catName, subCatName }) => {
 	let body = (
 		<Card className="my-3 p-3 rounded">
 			<Link
 				to={{
-					pathname: `/categories/${catName}/${subCatName}/${product._id}`,
+					pathname: `/${type}/${catName}/${subCatName}/${product._id}`,
 				}}
 				exact
 			>
@@ -22,7 +22,7 @@ const Category = ({ product, catName, subCatName }) => {
 			<Card.Body>
 				<Link
 					to={{
-						pathname: `/categories/${catName}/${subCatName}/${product._id}`,
+						pathname: `/${type}/${catName}/${subCatName}/${product._id}`,
 					}}
 					exact
 				>

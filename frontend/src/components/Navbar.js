@@ -1,8 +1,16 @@
 import React, { useEffect } from "react";
-import { Nav, NavDropdown, Dropdown, FormControl } from "react-bootstrap";
+import {
+  Nav,
+  NavDropdown,
+  Dropdown,
+  FormControl,
+  Button,
+} from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { logout } from "../actions/userActions";
+import img from "../images/logo1.png";
 
 const Navbar = ({}) => {
   const dispatch = useDispatch();
@@ -48,10 +56,10 @@ const Navbar = ({}) => {
           to="/"
         >
           <img
-            src="https://justintime.in/media/logo/stores/1/jitlogo.png"
+            src={img}
             alt="Just in Time Online Watch Store"
-            width="289"
-            height="64"
+            width="250"
+            height="90"
           />
           {/* JUstintime */}
         </NavLink>
@@ -130,6 +138,12 @@ const Navbar = ({}) => {
             // </NavDropdown>
 
             <div style={{ display: "flex" }}>
+              <LinkContainer to="/cart">
+                <Button type="submit" variant="success">
+                  <i className="fas fa-shopping-cart"></i>
+                </Button>
+              </LinkContainer>
+              &nbsp;
               <FormControl
                 type="text"
                 placeholder="Search"
@@ -139,7 +153,6 @@ const Navbar = ({}) => {
                   fontSize: "18px",
                 }}
               />
-
               <Dropdown className="text-uppercase font-weight-bold">
                 <Dropdown.Toggle
                   variant="outline-success"
@@ -161,13 +174,13 @@ const Navbar = ({}) => {
                   >
                     <i className="fas fa-user"></i> Profile
                   </Dropdown.Item>
-                  <Dropdown.Item
+                  {/* <Dropdown.Item
                     style={{ fontFamily: "Rubik, sans-serif" }}
                     className="text-success"
                     href="/cart"
                   >
                     <i className="fas fa-shopping-cart"></i> Cart
-                  </Dropdown.Item>
+                  </Dropdown.Item> */}
                   <NavDropdown.Divider />
                   <Dropdown.Item
                     className="text-success"
@@ -180,18 +193,28 @@ const Navbar = ({}) => {
               </Dropdown>
             </div>
           ) : (
-            <form class="form-inline my-2 my-lg-0" action="/login">
-              <button
-                class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
-                type="submit"
-              >
-                Join Us <i class="fas fa-users"></i>
-              </button>
-            </form>
+            <>
+              <LinkContainer to="/cart">
+                <Button type="submit" variant="success">
+                  <i className="fas fa-shopping-cart"></i>
+                </Button>
+              </LinkContainer>
+              &nbsp;
+              <form class="form-inline my-2 my-lg-0" action="/login">
+                <button
+                  class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
+                  type="submit"
+                >
+                  Join Us <i class="fas fa-users"></i>
+                </button>
+              </form>
+            </>
           )}
         </div>
       </Nav>
-      <hr style={{ borderWidth: "2px", borderColor: "green" }} />
+      <hr
+        style={{ borderWidth: "2px", borderColor: "green", marginTop: "0px" }}
+      />
     </>
   );
 };

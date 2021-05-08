@@ -35,21 +35,34 @@ const Address = ({ address, step }) => {
   }
 
   let body = (
-    <Card className="my-3 p-3 rounded" style={{ border: "2px solid" }}>
+    <Card
+      className="my-3"
+      style={{
+        border: "2px solid",
+        marginLeft: "auto",
+        marginRight: "auto",
+        textAlign: "center",
+      }}
+    >
+      <Card.Header style={{ backgroundColor: "#ffc107" }} as="h5">
+        <strong>Address</strong>
+      </Card.Header>
       <Card.Body>
         <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
-          <strong>{address.name}</strong>
-          <br />
-          {address.street}
-          <br />
-          {address.city}
-          <br />
-          {address.state}
-          <br />
-          {address.zip}
-          <br />
-          {address.country}
-          <br />
+          <h5>
+            <strong>{address.name}</strong>
+            <br />
+            {address.street}
+            <br />
+            {address.city}
+            <br />
+            {address.state}
+            <br />
+            {address.zip}
+            <br />
+            {address.country}
+            <br />
+          </h5>
         </Card.Title>
         <center>{btn}</center>
       </Card.Body>

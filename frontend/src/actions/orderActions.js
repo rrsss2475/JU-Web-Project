@@ -35,7 +35,7 @@ export const saveOrderItems = (userInfo) => async (dispatch) => {
 				product: cartItems[i].product,
 			}
 
-			console.log(orderItem)
+			//console.log(orderItem)
 			totalPrice += orderItem.price
 			orderItems.push(orderItem)
 		}
@@ -104,7 +104,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
 			},
 		}
 
-		console.log(id)
+		// console.log(id)
 
 		const { data } = await axios.get(`/api/orders/${id}`, config)
 

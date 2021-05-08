@@ -11,6 +11,7 @@ import { cartReducer } from "./reducers/cartReducers"
 import {
 	userAddShippingAddressReducer,
 	userLoginReducer,
+	userOrderList,
 	userRegisterReducer,
 	userShippingAddressReducer,
 } from "./reducers/userReducers.js"
@@ -33,6 +34,7 @@ const reducer = combineReducers({
 	order: orderReducer,
 	orderCreate: orderCreateReducer,
 	orderDetails: orderDetailsReducer,
+	myOrders: userOrderList,
 })
 
 const paymentMethodFromStorage = localStorage.getItem("paymentMethod")

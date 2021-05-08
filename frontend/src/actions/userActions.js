@@ -18,6 +18,9 @@ import {
 	USER_ADD_SHIPPING_ADDRESS_REQUEST,
 	USER_ADD_SHIPPING_ADDRESS_SUCCESS,
 	USER_ADD_SHIPPING_ADDRESS_FAIL,
+	USER_MY_ORDERS_LIST_FAIL,
+	USER_MY_ORDERS_LIST_REQUEST,
+	USER_MY_ORDERS_LIST_SUCCESS,
 } from "../constants/userConstants"
 
 export const login = (email, password) => async (dispatch) => {
@@ -209,4 +212,31 @@ export const resetUserCartandOrder = () => async (dispatch, getState) => {
 		dispatch({ type: ORDER_LIST_RESET })
 		dispatch({ type: RESET_ORDER_ITEMS })
 	} catch (error) {}
+}
+
+export const getMyOrders = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: USER_MY_ORDERS_LIST_REQUEST })
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				Authorization: userInfo.token,
+			},
+		}
+
+		const { data } = await axios.get("/api/users/getOrders", config)
+
+		dispatch({ type: USER_MY_ORDERS_LIST_SUCCESS, payload: data })
+	} catch (error) {
+		dispatch({
+			type: USER_MY_ORDERS_LIST_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		})
+	}
 }

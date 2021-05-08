@@ -33,8 +33,8 @@ const PlaceOrderScreen = ({ history }) => {
 		}
 
 		const { data, status } = await axios.post("/payment", body, headers)
-		console.log(data)
-		console.log(status)
+		//console.log(data)
+		//console.log(status)
 		if (data.paid && status === 200) {
 			dispatch(
 				createOrder({

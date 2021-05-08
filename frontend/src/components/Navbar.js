@@ -162,13 +162,16 @@ const Navbar = ({}) => {
                   >
                     <i className="fas fa-user"></i> Profile
                   </Dropdown.Item>
-                  {/* <Dropdown.Item
+
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
                     style={{ fontFamily: "Rubik, sans-serif" }}
                     className="text-success"
-                    href="/cart"
+                    href="/myOrders"
                   >
-                    <i className="fas fa-shopping-cart"></i> Cart
-                  </Dropdown.Item> */}
+                    <i className="fas fa-user"></i> My Orders
+                  </Dropdown.Item>
+
                   <NavDropdown.Divider />
                   <Dropdown.Item
                     className="text-success"

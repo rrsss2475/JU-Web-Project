@@ -8,16 +8,20 @@ import Message from "../components/Message";
 import Rating from "../components/Rating";
 import QuantitySelector from "../components/QuantitySelector";
 import { productDescAction } from "../actions/productActions";
+import { serviceDescAction } from "../actions/serviceActions"
+import DateSelector from "../components/DateSelector";
+
 const ProductDescScreen = () => {
   const [qty, setqty] = useState(1);
   const [user, setuser] = useState("");
   const [userloading, setuserloading] = useState(true);
   const [usererror, setusererror] = useState(false);
-  const { catName, subCatName, id } = useParams();
+  const { type, catName, subCatName, id } = useParams();
   const [redirectToLogin, setredirectToLogin] = useState(false);
   const [addToCartSuccess, setaddToCartSuccess] = useState("");
   const [addToCartErr, setaddToCartErr] = useState("");
   const [weight, setWeight] = useState(0);
+  const [date, setdate] = useState((new Date()).setDate((new Date()).getDate() + 1));
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -26,22 +30,40 @@ const ProductDescScreen = () => {
   const { loading, error, productDescription } = productDesc;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(productDescAction(catName, subCatName, id));
+    if (type == "products")
+      dispatch(productDescAction(catName, subCatName, id));
+    else
+      dispatch(serviceDescAction(catName, subCatName, id));
   }, [dispatch]);
 
   useEffect(() => {
     if (loading == false) {
-      axios
-        .get(
-          `http://localhost:5000/api/products/userName/${productDescription.user}`
-        )
-        .then((res) => {
-          setuser(res.data.name);
-          setuserloading(false);
-        })
-        .catch((err) => {
-          setusererror(err);
-        });
+      if (type == "products") {
+        axios
+          .get(
+            `http://localhost:5000/api/products/userName/${productDescription.user}`
+          )
+          .then((res) => {
+            setuser(res.data.name);
+            setuserloading(false);
+          })
+          .catch((err) => {
+            setusererror(err);
+          });
+      }
+      else {
+        axios
+          .get(
+            `http://localhost:5000/api/services/userName/${productDescription.user}`
+          )
+          .then((res) => {
+            setuser(res.data.name);
+            setuserloading(false);
+          })
+          .catch((err) => {
+            setusererror(err);
+          });
+      }
       if (productDescription.isWeighted)
         setWeight(productDescription.weights[0]);
     }
@@ -87,11 +109,18 @@ const ProductDescScreen = () => {
     }
   };
 
+  const bookServiceHandler = () => {
+    
+  };
+
   const addQtyHandler = () => {
     setqty(qty + 1);
   };
   const subQtyHandler = () => {
     setqty(qty - 1);
+  };
+  const setDateHandler = (date1) => {
+    setdate(date1)
   };
 
   let body = (
@@ -107,36 +136,6 @@ const ProductDescScreen = () => {
         <div></div>
       )}
 
-      {/* <Toast
-        style={{ color: "red", backgroundColor: "pink" }}
-        show={addToCartErr.length != 0}
-        onClose={() => {
-          setaddToCartErr("");
-        }}
-        delay={3000}
-        autohide
-      >
-        <Toast.Header>
-          <strong className="mr-auto">Error:</strong>
-        </Toast.Header>
-        <Toast.Body>Purchase Limit Exceeded!</Toast.Body>
-      </Toast>
-
-      <Toast
-        style={{ color: "green", backgroundColor: "lightgreen" }}
-        show={addToCartSuccess.length != 0}
-        onClose={() => {
-          setaddToCartSuccess("");
-        }}
-        delay={3000}
-        autohide
-      >
-        <Toast.Header>
-          <strong className="mr-auto">Success:</strong>
-        </Toast.Header>
-        <Toast.Body>Added to cart successfully!</Toast.Body>
-      </Toast> */}
-
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-success my-3 mx-2"
@@ -148,7 +147,7 @@ const ProductDescScreen = () => {
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-success my-3 mx-2"
-        to={`/categories`}
+        to={`/${type}`}
       >
         <strong>Back to Categories</strong>
       </Link>
@@ -156,7 +155,7 @@ const ProductDescScreen = () => {
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-success my-3 mx-2"
-        to={`/categories/${catName}`}
+        to={`/${type}/${catName}`}
       >
         <strong>Back to {catName}</strong>
       </Link>
@@ -164,7 +163,7 @@ const ProductDescScreen = () => {
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}
         className="btn btn-warning my-3 mx-2"
-        to={`/categories/${catName}/${subCatName}`}
+        to={`/${type}/${catName}/${subCatName}`}
       >
         <strong>Back to {subCatName}</strong>
       </Link>
@@ -178,7 +177,7 @@ const ProductDescScreen = () => {
         <Col sm={12} md={8} lg={5} xl={4}>
           <h1>{productDescription.name}</h1>
           {userloading ? (
-            <Loader size="25" />
+            <Loader size="25px" />
           ) : usererror ? (
             <Message variant="danger">{usererror}</Message>
           ) : (
@@ -195,12 +194,25 @@ const ProductDescScreen = () => {
             <b>Price: Rs {productDescription.price}</b>
           )}
           <br />
-          {productDescription.isAvailable ? (
+          {type == "products" ? (productDescription.isAvailable ? (
             <div style={{ color: "green", fontWeight: "bold" }}>In Stock</div>
           ) : (
             <div style={{ color: "red", fontWeight: "bold" }}>Out Of Stock</div>
+          )) : (productDescription.isAvailable ? (
+            <div style={{ color: "green", fontWeight: "bold" }}>Available</div>
+          ) : (
+            <div style={{ color: "red", fontWeight: "bold" }}>Not Available</div>
+          )
+
           )}
           <br />
+          {type == "services" ? (
+            <DateSelector
+              date={date}
+              setDateHandler={setDateHandler}
+            />
+          ) :
+            <div></div>}
           {productDescription.isWeighted ? (
             <div>
               <select
@@ -227,14 +239,25 @@ const ProductDescScreen = () => {
                 limit={10}
               />
               <br />
-              <Button
-                variant="warning"
-                // style={{ paddingLeft: "130px", paddingRight: "130px" }}
-                style={{ width: "100%" }}
-                onClick={addToCartHandler}
-              >
-                <strong>Add To Cart</strong>
-              </Button>
+              {
+                type == "products" ?
+                  (<Button
+                    variant="warning"
+                    // style={{ paddingLeft: "130px", paddingRight: "130px" }}
+                    style={{ width: "100%" }}
+                    onClick={addToCartHandler}
+                  >
+                    <strong>Add To Cart</strong>
+                  </Button>)
+                  : (<Button
+                    variant="warning"
+                    // style={{ paddingLeft: "130px", paddingRight: "130px" }}
+                    style={{ width: "100%" }}
+                    onClick={bookServiceHandler}
+                  >
+                    <strong>Book Service</strong>
+                  </Button>)
+              }
               <Toast
                 style={{
                   color: "red",
@@ -283,7 +306,7 @@ const ProductDescScreen = () => {
           </p>
           <Link
             to={{
-              pathname: `/categories/${catName}/${subCatName}/${productDescription._id}/reviews`,
+              pathname: `/${type}/${catName}/${subCatName}/${productDescription._id}/reviews`,
               state: { productDescription: productDescription },
             }}
           >

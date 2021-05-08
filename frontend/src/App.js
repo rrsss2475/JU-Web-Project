@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import "./App.css"
 import Navbar from "./components/Navbar"
 import HomeScreen from "./screens/HomeScreen"
@@ -28,38 +28,41 @@ function App() {
 			<Navbar />
 			<ScrollToTop />
 			<main>
-				<Route path="/" component={HomeScreen} exact />
-				<Route path="/aboutus" component={AboutusScreen} exact />
-				<Route path="/contactus" component={ContactusScreen} exact />
-				<Route path="/login" component={LoginScreen} exact />
-				<Route path="/profile" component={UserProfile} exact />
-				<Route path="/myOrders" component={MyOrders} exact />
-				<Route path="/cart" component={CartScreen} exact />
-				<Route path="/shipping" component={ShippingScreen} exact />
-				<Route path="/payment" component={PaymentScreen} exact />
-				<Route path="/order" component={PlaceOrderScreen} exact />
-				<Route path="/order/:id" component={OrderScreen} exact />
-				<Route path="/categories" component={CategoriesScreen} exact />
-				<Route
-					path="/categories/:catName"
-					component={SubCategoriesScreen}
-					exact
-				/>
-				<Route
-					path="/categories/:catName/:subCatName"
-					component={ProductScreen}
-					exact
-				/>
-				<Route
-					path="/categories/:catName/:subCatName/:id"
-					component={ProductDescScreen}
-					exact
-				/>
-				<Route
-					path="/categories/:catName/:subCatName/:id/reviews"
-					component={ReviewsScreen}
-					exact
-				/>
+
+				<Switch>
+					<Route path="/" component={HomeScreen} exact />
+					<Route path="/aboutus" component={AboutusScreen} exact />
+					<Route path="/contactus" component={ContactusScreen} exact />
+					<Route path="/login" component={LoginScreen} exact />
+					<Route path="/profile" component={UserProfile} exact />
+          <Route path="/myOrders" component={MyOrders} exact />
+					<Route path="/cart" component={CartScreen} exact />
+					<Route path="/shipping" component={ShippingScreen} exact />
+					<Route path="/payment" component={PaymentScreen} exact />
+					<Route path="/order" component={PlaceOrderScreen} exact />
+				  <Route path="/order/:id" component={OrderScreen} exact />
+					<Route path="/:type" component={CategoriesScreen} exact />
+					<Route
+						path="/:type/:catName"
+						component={SubCategoriesScreen}
+						exact
+					/>
+					<Route
+						path="/:type/:catName/:subCatName"
+						component={ProductScreen}
+						exact
+					/>
+					<Route
+						path="/:type/:catName/:subCatName/:id"
+						component={ProductDescScreen}
+						exact
+					/>
+					<Route
+						path="/:type/:catName/:subCatName/:id/reviews"
+						component={ReviewsScreen}
+						exact
+					/>
+				</Switch>
 			</main>
 			<Footer />
 		</Router>

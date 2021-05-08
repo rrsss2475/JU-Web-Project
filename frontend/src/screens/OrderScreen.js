@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrderDetails } from "../actions/orderActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import moment from "moment";
 
 const OrderScreen = ({ match }) => {
   const orderId = match.params.id;
@@ -46,9 +47,13 @@ const OrderScreen = ({ match }) => {
                 {order.shippingAddress.city},{order.shippingAddress.state},
                 {order.shippingAddress.country},{order.shippingAddress.zip}
               </p>
+              <p>
+                <strong>Delivery By: </strong>
+                {moment(order.toBeDelivered).format("DD-MM-YYYY")}
+              </p>
               {order.isDelivered ? (
                 <Message variant="success">
-                  Delivered on {order.deliveredAt}
+                  Delivered on {moment(order.deliveredAt).format("DD-MM-YYYY")}
                 </Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
@@ -62,7 +67,9 @@ const OrderScreen = ({ match }) => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">
+                  Paid on {moment(order.paidAt).format("DD-MM-YYYY")}
+                </Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}

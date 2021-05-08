@@ -6,6 +6,7 @@ import { getMyOrders } from "../actions/userActions";
 import { Container, Card, Row, Col, Image, CardDeck } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const MyOrders = () => {
       </h1>
       {orders.map((order) => (
         <>
-          <Card border="primary" style={{ width: "36rem" }}>
+          <Card border="primary">
             <Card.Header>
               <Row>
                 <Col>
@@ -49,7 +50,15 @@ const MyOrders = () => {
               </Row>
             </Card.Header>
             <Card.Body>
-              <Card.Title>{order.status}</Card.Title>
+              <Card.Title>
+                <h4>
+                  {order.status}
+                  &nbsp;&nbsp;
+                  {order.status === "Delivered"
+                    ? moment(order.toBeDelivered).format("DD-MM-YYYY")
+                    : ""}
+                </h4>
+              </Card.Title>
               <Card.Text>
                 {order.orderItems.map((item) => (
                   <Row>
@@ -58,7 +67,9 @@ const MyOrders = () => {
                       <Image src={item.image} fluid />
                     </Col>
                     <Col md={1}></Col>
-                    <Col>{item.name}</Col>
+                    <Col>
+                      <h5>{item.name}</h5>
+                    </Col>
                   </Row>
                 ))}
               </Card.Text>

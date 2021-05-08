@@ -12,6 +12,12 @@ const createOrder = asyncHandler(async (req, res) => {
 		status: "Inititated",
 	})
 
+	if (req.body.isPaid) {
+		order.isPaid = req.body.isPaid
+		order.paidAt = req.body.paidAt
+		order.paymentResult = req.body.paymentResult
+	}
+
 	if (moment().hours() > 22) {
 		order.toBeDelivered = moment().add(2, "days")
 	} else {

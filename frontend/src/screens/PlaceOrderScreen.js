@@ -1,18 +1,79 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import CheckoutSteps from "../components/CheckoutSteps"
+import StripeCheckout from "react-stripe-checkout"
+import { resetUserCartandOrder } from "../actions/userActions"
+import { createOrder } from "../actions/orderActions"
+import axios from "axios"
 
-const PlaceOrderScreen = ({ match }) => {
+const PlaceOrderScreen = ({ history }) => {
+	const dispatch = useDispatch()
 	const cart = useSelector((state) => state.cart)
 	const { shippingAddress, paymentMethod, loading, error } = cart
 
-	const order = useSelector((state) => state.order)
-	const { orderItems, totalPrice } = order
+	const orderState = useSelector((state) => state.order)
+	const { orderItems, totalPrice } = orderState
 
 	const { userInfo } = useSelector((state) => state.userLogin)
+
+	const orderCreate = useSelector((state) => state.orderCreate)
+	const { order, success } = orderCreate
+
+	async function makePayment(token) {
+		const body = {
+			order: orderState,
+			token,
+		}
+
+		const headers = {
+			"Content-type": "application/json",
+		}
+
+		const { data, status } = await axios.post("/payment", body, headers)
+		console.log(data)
+		console.log(status)
+		if (data.paid && status === 200) {
+			dispatch(
+				createOrder({
+					orderItems: orderItems,
+					shippingAddress: shippingAddress,
+					paymentMethod: paymentMethod,
+					totalPrice: totalPrice,
+					isPaid: true,
+					paidAt: new Date(),
+					paymentResult: {
+						id: data.id,
+						status: data.status,
+						update_time: new Date(),
+						email_address: data.billing_details.name,
+					},
+				})
+			)
+		}
+	}
+
+	useEffect(() => {
+		if (success) {
+			const orderId = order._id
+			dispatch(resetUserCartandOrder())
+			history.push(`/order/${orderId}`)
+		}
+		// eslint-disable-next-line
+	}, [history, success])
+
+	const placeOrderHandler = () => {
+		dispatch(
+			createOrder({
+				orderItems: orderItems,
+				shippingAddress: shippingAddress,
+				paymentMethod: paymentMethod,
+				totalPrice: totalPrice,
+			})
+		)
+	}
 
 	return loading ? (
 		<Loader />
@@ -105,6 +166,24 @@ const PlaceOrderScreen = ({ match }) => {
 								</Row>
 							</ListGroup.Item>
 						</ListGroup>
+
+						{paymentMethod === "COD" ? (
+							<Button variant="warning" onClick={placeOrderHandler}>
+								<strong>Place Order</strong>
+							</Button>
+						) : (
+							<StripeCheckout
+								stripeKey="pk_test_51In4ZVSGLfLBZvSuj7DmeGH97gK74A9C5pdJMf5HLaRQfsrdszwT76UucTnHReckb3juORKpWqnQcYM047VFrbcI00poAQ5P3m"
+								token={makePayment}
+								name="Card Details"
+								amount={totalPrice * 100}
+								currency="inr"
+							>
+								<Button style={{ width: "100%" }} variant="warning">
+									<strong>Place Order and Pay</strong>
+								</Button>
+							</StripeCheckout>
+						)}
 					</Card>
 				</Col>
 			</Row>

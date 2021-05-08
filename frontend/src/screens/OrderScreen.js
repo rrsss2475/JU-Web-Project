@@ -91,7 +91,7 @@ const OrderScreen = ({ match }) => {
 													{/* </Link> */}
 												</Col>
 												<Col md={4}>
-													{item.qty} x ₹{item.price} = ₹{item.qty * item.price}
+													Qty: {item.qty} | ₹{item.price}
 												</Col>
 											</Row>
 										</ListGroup.Item>
@@ -108,7 +108,7 @@ const OrderScreen = ({ match }) => {
 					>
 						<ListGroup variant="flush">
 							<ListGroup.Item>
-								<h2>Order Summary</h2>
+								<h2>Payment Summary</h2>
 								<hr />
 							</ListGroup.Item>
 
@@ -117,10 +117,7 @@ const OrderScreen = ({ match }) => {
 									<Col>
 										<strong>Total</strong>
 									</Col>
-									<Col>
-										₹<strike>{order.totalPrice}</strike>&nbsp;
-										{order.totalPrice - order.totalPrice * 0.1}
-									</Col>
+									<Col>₹ {order.totalPrice}</Col>
 								</Row>
 							</ListGroup.Item>
 						</ListGroup>

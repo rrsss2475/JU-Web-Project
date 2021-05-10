@@ -9,22 +9,20 @@ import { resetUserCartandOrder } from "../actions/userActions";
 import { createOrder } from "../actions/orderActions";
 import axios from "axios";
 
-const PlaceOrderScreen = ({ history }) => {
+const PlaceBookingScreen = ({ history }) => {
   const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress, paymentMethod, loading, error } = cart;
 
-  const orderState = useSelector((state) => state.order);
-  const { orderItems, totalPrice } = orderState;
+  const bookingState = useSelector((state) => state.booking);
+  const { bookingItem } = bookingState;
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
-  const orderCreate = useSelector((state) => state.orderCreate);
-  const { order, success } = orderCreate;
-
   async function makePayment(token) {
     const body = {
-      order: orderState,
+      order: bookingItem,
       token,
     };
 
@@ -33,46 +31,23 @@ const PlaceOrderScreen = ({ history }) => {
     };
 
     const { data, status } = await axios.post("/payment", body, headers);
-    //console.log(data)
-    //console.log(status)
+
     if (data.paid && status === 200) {
-      dispatch(
-        createOrder({
-          orderItems: orderItems,
-          shippingAddress: shippingAddress,
-          paymentMethod: paymentMethod,
-          totalPrice: totalPrice,
-          isPaid: true,
-          paidAt: new Date(),
-          paymentResult: {
-            id: data.id,
-            status: data.status,
-            update_time: new Date(),
-            email_address: data.billing_details.name,
-          },
-        })
-      );
+      dispatch();
     }
   }
 
-  useEffect(() => {
-    if (success) {
-      const orderId = order._id;
-      dispatch(resetUserCartandOrder());
-      history.push(`/checkout/order/${orderId}`);
-    }
-    // eslint-disable-next-line
-  }, [history, success]);
+  //   useEffect(() => {
+  //     if (success) {
+  //       //   const orderId = order._id;
+  //       dispatch(resetUserCartandOrder());
+  //       history.push(`/checkout/booking/${orderId}`);
+  //     }
+  //     // eslint-disable-next-line
+  //   }, [history, success]);
 
-  const placeOrderHandler = () => {
-    dispatch(
-      createOrder({
-        orderItems: orderItems,
-        shippingAddress: shippingAddress,
-        paymentMethod: paymentMethod,
-        totalPrice: totalPrice,
-      })
-    );
+  const placeBookingHandler = () => {
+    dispatch();
   };
 
   return loading ? (
@@ -81,8 +56,8 @@ const PlaceOrderScreen = ({ history }) => {
     <Message variant="danger">{error}</Message>
   ) : (
     <div className="container">
-      <CheckoutSteps step1 step2 step3 step4 type={"products"} />
-      <h2>Order Summary</h2>
+      <CheckoutSteps step1 step2 step3 type={"services"} />
+      <h2>Booking Summary</h2>
       <Row style={{ fontFamily: "Rubik, sans-serif" }}>
         <Col md={8}>
           <ListGroup variant="flush">
@@ -114,35 +89,25 @@ const PlaceOrderScreen = ({ history }) => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Items</h2>
-              {orderItems.length === 0 ? (
-                <Message>Order is empty</Message>
-              ) : (
-                <ListGroup variant="flush">
-                  {orderItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row style={{ fontFamily: "Rubik, sans-serif" }}>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          {/* <Link to={`/product/${item.product}`}> */}
-                          {item.name}
-                          {/* </Link> */}
-                        </Col>
-                        <Col md={4}>
-                          Qty: {item.qty} | ₹{item.price}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              )}
+              <h2>Booking Items</h2>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <Row style={{ fontFamily: "Rubik, sans-serif" }}>
+                    <Col md={1}>
+                      <Image
+                        src={bookingItem.service.image}
+                        alt={bookingItem.service.name}
+                        fluid
+                        rounded
+                      />
+                    </Col>
+                    <Col>{bookingItem.service.name}</Col>
+                    <Col md={4}>
+                      Qty: {bookingItem.qty} | ₹{bookingItem.service.price}
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              </ListGroup>
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -162,25 +127,25 @@ const PlaceOrderScreen = ({ history }) => {
                   <Col>
                     <strong>Total</strong>
                   </Col>
-                  <Col>₹ {totalPrice}</Col>
+                  <Col>₹ {bookingItem.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
             </ListGroup>
 
             {paymentMethod === "COD" ? (
-              <Button variant="warning" onClick={placeOrderHandler}>
-                <strong>Place Order</strong>
+              <Button variant="warning" onClick={placeBookingHandler}>
+                <strong>Place Booking</strong>
               </Button>
             ) : (
               <StripeCheckout
                 stripeKey="pk_test_51In4ZVSGLfLBZvSuj7DmeGH97gK74A9C5pdJMf5HLaRQfsrdszwT76UucTnHReckb3juORKpWqnQcYM047VFrbcI00poAQ5P3m"
                 token={makePayment}
                 name="Card Details"
-                amount={totalPrice * 100}
+                amount={bookingItem.totalPrice * 100}
                 currency="inr"
               >
                 <Button style={{ width: "100%" }} variant="warning">
-                  <strong>Place Order and Pay</strong>
+                  <strong>Place Booking and Pay</strong>
                 </Button>
               </StripeCheckout>
             )}
@@ -191,4 +156,4 @@ const PlaceOrderScreen = ({ history }) => {
   );
 };
 
-export default PlaceOrderScreen;
+export default PlaceBookingScreen;

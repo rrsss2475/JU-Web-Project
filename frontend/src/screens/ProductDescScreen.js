@@ -119,7 +119,7 @@ const ProductDescScreen = ({ history }) => {
 
   const bookServiceHandler = () => {
     dispatch(saveBookingItem(booking));
-    history.push("/shipping");
+    history.push("/checkout/services/shipping");
   };
 
   const addQtyHandler = () => {

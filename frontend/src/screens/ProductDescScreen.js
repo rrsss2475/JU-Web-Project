@@ -10,8 +10,9 @@ import QuantitySelector from "../components/QuantitySelector"
 import { productDescAction } from "../actions/productActions"
 import { serviceDescAction } from "../actions/serviceActions"
 import DateSelector from "../components/DateSelector"
+import { saveBookingItem } from "../actions/bookingActions"
 
-const ProductDescScreen = () => {
+const ProductDescScreen = ({ history }) => {
 	const [qty, setqty] = useState(1)
 	const [user, setuser] = useState("")
 	const [userloading, setuserloading] = useState(true)
@@ -106,7 +107,17 @@ const ProductDescScreen = () => {
 		}
 	}
 
-	const bookServiceHandler = () => {}
+	const booking = {
+		service: productDescription,
+		totalPrice: qty * productDescription.price,
+		qty: qty,
+		date: date,
+	}
+
+	const bookServiceHandler = () => {
+		dispatch(saveBookingItem(booking))
+		history.push("/shipping")
+	}
 
 	const addQtyHandler = () => {
 		setqty(qty + 1)

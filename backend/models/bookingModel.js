@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const Address = require("userModel")
+const { Address } = require("./userModel")
 
 const bookingSchema = mongoose.Schema(
 	{
@@ -11,6 +11,7 @@ const bookingSchema = mongoose.Schema(
 		bookingItem: {
 			name: { type: String, required: true },
 			image: { type: String, required: true },
+			qty: { type: Number, required: true },
 			price: { type: Number, required: true },
 			service: {
 				type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +19,7 @@ const bookingSchema = mongoose.Schema(
 				ref: "Service",
 			},
 		},
-		shippingAddress: Address,
+		shippingAddress: Address.schema,
 		paymentMethod: {
 			type: String,
 			required: true,

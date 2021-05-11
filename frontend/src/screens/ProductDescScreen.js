@@ -8,10 +8,11 @@ import Message from "../components/Message";
 import Rating from "../components/Rating";
 import QuantitySelector from "../components/QuantitySelector";
 import { productDescAction } from "../actions/productActions";
-import { serviceDescAction } from "../actions/serviceActions"
+import { serviceDescAction } from "../actions/serviceActions";
 import DateSelector from "../components/DateSelector";
+import { saveBookingItem } from "../actions/bookingActions";
 
-const ProductDescScreen = () => {
+const ProductDescScreen = ({ history }) => {
   const [qty, setqty] = useState(1);
   const [user, setuser] = useState("");
   const [userloading, setuserloading] = useState(true);
@@ -21,7 +22,9 @@ const ProductDescScreen = () => {
   const [addToCartSuccess, setaddToCartSuccess] = useState("");
   const [addToCartErr, setaddToCartErr] = useState("");
   const [weight, setWeight] = useState(0);
-  const [date, setdate] = useState((new Date()).setDate((new Date()).getDate() + 1));
+  const [date, setdate] = useState(
+    new Date().setDate(new Date().getDate() + 1)
+  );
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,8 +35,7 @@ const ProductDescScreen = () => {
   useEffect(() => {
     if (type == "products")
       dispatch(productDescAction(catName, subCatName, id));
-    else
-      dispatch(serviceDescAction(catName, subCatName, id));
+    else dispatch(serviceDescAction(catName, subCatName, id));
   }, [dispatch]);
 
   useEffect(() => {
@@ -50,8 +52,7 @@ const ProductDescScreen = () => {
           .catch((err) => {
             setusererror(err);
           });
-      }
-      else {
+      } else {
         axios
           .get(
             `http://localhost:5000/api/services/userName/${productDescription.user}`
@@ -109,8 +110,16 @@ const ProductDescScreen = () => {
     }
   };
 
+  const booking = {
+    service: productDescription,
+    totalPrice: qty * productDescription.price,
+    qty: qty,
+    date: date,
+  };
+
   const bookServiceHandler = () => {
-    
+    dispatch(saveBookingItem(booking));
+    history.push("/checkout/services/shipping");
   };
 
   const addQtyHandler = () => {
@@ -120,7 +129,7 @@ const ProductDescScreen = () => {
     setqty(qty - 1);
   };
   const setDateHandler = (date1) => {
-    setdate(date1)
+    setdate(date1);
   };
 
   let body = (
@@ -194,25 +203,27 @@ const ProductDescScreen = () => {
             <b>Price: Rs {productDescription.price}</b>
           )}
           <br />
-          {type == "products" ? (productDescription.isAvailable ? (
-            <div style={{ color: "green", fontWeight: "bold" }}>In Stock</div>
-          ) : (
-            <div style={{ color: "red", fontWeight: "bold" }}>Out Of Stock</div>
-          )) : (productDescription.isAvailable ? (
+          {type == "products" ? (
+            productDescription.isAvailable ? (
+              <div style={{ color: "green", fontWeight: "bold" }}>In Stock</div>
+            ) : (
+              <div style={{ color: "red", fontWeight: "bold" }}>
+                Out Of Stock
+              </div>
+            )
+          ) : productDescription.isAvailable ? (
             <div style={{ color: "green", fontWeight: "bold" }}>Available</div>
           ) : (
-            <div style={{ color: "red", fontWeight: "bold" }}>Not Available</div>
-          )
-
+            <div style={{ color: "red", fontWeight: "bold" }}>
+              Not Available
+            </div>
           )}
           <br />
           {type == "services" ? (
-            <DateSelector
-              date={date}
-              setDateHandler={setDateHandler}
-            />
-          ) :
-            <div></div>}
+            <DateSelector date={date} setDateHandler={setDateHandler} />
+          ) : (
+            <div></div>
+          )}
           {productDescription.isWeighted ? (
             <div>
               <select
@@ -239,25 +250,25 @@ const ProductDescScreen = () => {
                 limit={10}
               />
               <br />
-              {
-                type == "products" ?
-                  (<Button
-                    variant="warning"
-                    // style={{ paddingLeft: "130px", paddingRight: "130px" }}
-                    style={{ width: "100%" }}
-                    onClick={addToCartHandler}
-                  >
-                    <strong>Add To Cart</strong>
-                  </Button>)
-                  : (<Button
-                    variant="warning"
-                    // style={{ paddingLeft: "130px", paddingRight: "130px" }}
-                    style={{ width: "100%" }}
-                    onClick={bookServiceHandler}
-                  >
-                    <strong>Book Service</strong>
-                  </Button>)
-              }
+              {type == "products" ? (
+                <Button
+                  variant="warning"
+                  // style={{ paddingLeft: "130px", paddingRight: "130px" }}
+                  style={{ width: "100%" }}
+                  onClick={addToCartHandler}
+                >
+                  <strong>Add To Cart</strong>
+                </Button>
+              ) : (
+                <Button
+                  variant="warning"
+                  // style={{ paddingLeft: "130px", paddingRight: "130px" }}
+                  style={{ width: "100%" }}
+                  onClick={bookServiceHandler}
+                >
+                  <strong>Book Service</strong>
+                </Button>
+              )}
               <Toast
                 style={{
                   color: "red",

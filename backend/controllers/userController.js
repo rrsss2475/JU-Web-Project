@@ -73,6 +73,18 @@ const login = asyncHandler(async (req, res) => {
   });
 });
 
+// const getUsers = asyncHandler(async (req, res) => {
+//   console.log("xyz")
+//   const users = await User.find({});
+//   if(users) {
+//   res.json(users);
+//   }
+//   else {
+//     res.status(404);
+//     throw new Error("User not found");
+//   }
+// });
+
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -88,6 +100,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 });
+
+
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -248,4 +262,5 @@ module.exports = {
   deleteFromCart: deleteFromCart,
   resetUserCart: resetUserCart,
   getAllOrders: getAllOrders,
+ 
 };

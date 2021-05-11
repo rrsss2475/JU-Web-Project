@@ -4,6 +4,7 @@ const {
 	login,
 	cart,
 	getUserProfile,
+	getUsers,
 	updateUserProfile,
 	getUserAddresses,
 	addUserAddress,
@@ -11,9 +12,12 @@ const {
 	deleteFromCart,
 	resetUserCart,
 	getAllOrders,
+	
 } = require("../controllers/userController")
 const auth = require("../middlewares/authMiddleware")
+//const admin = require("../middlewares/authMiddleware")
 
+//router.route('/').get(auth, getUsers)
 router.post("/register", register)
 router.post("/login", login)
 router.route("/profile").get(auth, getUserProfile).put(auth, updateUserProfile)

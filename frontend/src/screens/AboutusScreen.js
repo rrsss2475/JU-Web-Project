@@ -10,14 +10,14 @@ const AboutusScreen = () => {
     { name: "Sourav" },
     { name: "Swapnil" },
   ];
-  let len = people.length;
 
   return (
     <Container>
       <h1
         style={{
-          textAlign: "left",
+          textAlign: "center",
           marginTop: "100px",
+          marginBottom: "50px",
         }}
       >
         OUR CREATORS
@@ -25,7 +25,7 @@ const AboutusScreen = () => {
 
       <Row>
         {people.map((people) => (
-          <Col sm={12} md={6} lg={4} xl={3}>
+          <Col>
             <Creator person={people} />
             &nbsp;
           </Col>

@@ -1,8 +1,42 @@
+// import axios from "axios";
 import React from "react";
+import { Container, Form, Button } from "react-bootstrap";
+import emailjs from "emailjs-com";
 
 const ContactusScreen = () => {
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [description, setDescription] = useState("");
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    // const dataToSubmit = {
+    //   name,
+    //   email,
+    //   title,
+    //   description,
+    // };
+    emailjs
+      .sendForm(
+        "service_mbgg01s",
+        "template_p1q082k",
+        e.target,
+        "user_czeANaqCrF9HdVcjbSoJh"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+    e.target.reset();
+  };
   return (
-    <div class="container" style={{ marginTop: "100px" }}>
+    <Container style={{ marginTop: "100px" }}>
       <div class="row">
         <div class="col-lg-5">
           <h2 style={{ fontWeight: "700", fontFamily: "Rubik, sans-serif" }}>
@@ -44,42 +78,90 @@ const ContactusScreen = () => {
               fontFamily: "Rubik, sans-serif",
             }}
           >
-            CONTACT US
+            CONTACT US 📞
           </h2>
-          <form>
-            <div class="form-group">
-              <label
-                style={{ fontWeight: "500" }}
-                class="contact-us-label"
-                for="name"
-              >
-                Name :
-              </label>
-              <input type="text" name="name" class="form-control" />
-            </div>
-
-            <div class="form-group">
-              <label style={{ fontWeight: "500" }} for="email">
-                Email :
-              </label>
-              <input type="email" name="email" class="form-control" />
-            </div>
-
-            <div class="form-group">
-              <label style={{ fontWeight: "500" }} for="msg">
-                Message :
-              </label>
-              <textarea name="msg" class="form-control"></textarea>
-            </div>
-
-            <button
-              style={{ marginTop: "10px", fontWeight: "700" }}
-              type="button"
-              class="btn btn-warning"
-            >
+          {/* 
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="textarea"
+                placeholder="Title of your issue"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Describe your issue"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
               Submit
-            </button>
-          </form>
+            </Button>
+          </Form> */}
+
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="textarea"
+                placeholder="Enter your name"
+                name="name"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                name="email"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="textarea"
+                placeholder="Title of your issue"
+                name="title"
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Describe your issue"
+                name="description"
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
         </div>
 
         <div style={{ marginTop: "70px" }} class="col-lg-4">
@@ -95,11 +177,11 @@ const ContactusScreen = () => {
           <p>833 Mayflower Ave, GD-700106,</p>
           <p>Street No. 3A, Rajarhat, Kolkata</p>
           <p>Phone: +91-6666699999</p>
-          <p>Email: justintime@gmail.com</p>
+          <p>Email: helpdeskjustintime@gmail.com</p>
           <p>Follow on: Facebook, Instagram</p>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

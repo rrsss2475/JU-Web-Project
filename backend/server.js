@@ -1,41 +1,45 @@
-const color = require("colors")
-const express = require("express")
-const app = express()
-const cors = require("cors")
-require("dotenv").config()
-const mongoose = require("mongoose")
-const connectToDB = require("./database/db")
-const { notFound, errorHandler } = require("./middlewares/errorMiddleware")
+const color = require("colors");
+const express = require("express");
+const app = express();
+const cors = require("cors");
+require("dotenv").config();
+const mongoose = require("mongoose");
+const connectToDB = require("./database/db");
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
-connectToDB()
+connectToDB();
 
-app.use(express.json())
+app.use(express.json());
 
-app.use(cors())
+app.use(cors());
 
-const userRoute = require("./routes/userRoutes")
-app.use("/api/users", userRoute)
+const userRoute = require("./routes/userRoutes");
+app.use("/api/users", userRoute);
 
-const productRoute = require("./routes/productRoutes")
-app.use("/api/products", productRoute)
+const productRoute = require("./routes/productRoutes");
+app.use("/api/products", productRoute);
 
-const serviceRoute = require("./routes/serviceRoutes")
-app.use("/api/services", serviceRoute)
+const serviceRoute = require("./routes/serviceRoutes");
+app.use("/api/services", serviceRoute);
 
-const orderRoute = require("./routes/orderRoutes")
-app.use("/api/orders", orderRoute)
+const orderRoute = require("./routes/orderRoutes");
+app.use("/api/orders", orderRoute);
 
-app.use(notFound)
-app.use(errorHandler)
+app.use(notFound);
+app.use(errorHandler);
 
 app.use("/", (req, res) => {
-	res.send("Hello")
-})
+  res.send("Hello");
+});
 
-const PORT = process.env.PORT || 5000
+app.post("api/contactus", (req, res) => {
+  console.log(req.body);
+});
+
+const PORT = process.env.PORT || 5000;
 app.listen(
-	PORT,
-	console.log(
-		`Server running in ${process.env.NODE_ENV} port ${PORT}`.yellow.bold
-	)
-)
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} port ${PORT}`.yellow.bold
+  )
+);

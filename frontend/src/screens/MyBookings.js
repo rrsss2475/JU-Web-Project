@@ -59,6 +59,8 @@ const MyBookings = () => {
                     {booking.isCompleted
                       ? "Completed On : " +
                         moment(booking.completedAt).format("DD-MM-YYYY")
+                      : booking.status === "Cancelled"
+                      ? booking.status
                       : "To be Completed By : " +
                         moment(booking.toBeCompleted).format("DD-MM-YYYY")}
                   </b>

@@ -69,7 +69,7 @@ const PaymentScreen = ({ match }) => {
                 onChange={(e) => setPaymentMethod(e.target.value)}
               ></Form.Check>
               <Col>
-                <i class="fab fa-cc-paypal"></i>
+                <i class="fas fa-credit-card"></i>
               </Col>
             </Row>
             <Row>

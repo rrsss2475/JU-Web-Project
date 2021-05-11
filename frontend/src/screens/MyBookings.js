@@ -2,21 +2,20 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getMyOrders } from "../actions/userActions";
+import { getMyBookings } from "../actions/userActions";
 import { Container, Card, Row, Col, Image, CardDeck } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-const MyOrders = () => {
+const MyBookings = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMyOrders());
+    dispatch(getMyBookings());
   }, [dispatch]);
 
-  const myOrders = useSelector((state) => state.myOrders);
-  const { orders, loading, error } = myOrders;
+  const myBookings = useSelector((state) => state.myBookings);
+  const { bookings, loading, error } = myBookings;
 
   return loading ? (
     <Loader />
@@ -31,23 +30,23 @@ const MyOrders = () => {
           marginTop: "50px",
         }}
       >
-        My Orders
+        My Bookings
       </h1>
-      {orders.map((order) => (
+      {bookings.map((booking) => (
         <>
           <Card border="primary">
             <Card.Header>
               <Row>
                 <Col>
                   <h5>
-                    <strong>Total Price : ₹ {order.totalPrice}</strong>
+                    <strong>Total Price : ₹ {booking.totalPrice}</strong>
                   </h5>
                 </Col>
                 {/* <Col></Col> */}
                 <Col>
-                  <Link to={`/checkout/order/${order._id}`}>
+                  <Link to={`/checkout/booking/${booking._id}`}>
                     <h5>
-                      <strong>Order # {order._id}</strong>
+                      <strong>Booking # {booking._id}</strong>
                     </h5>
                   </Link>
                 </Col>
@@ -56,31 +55,32 @@ const MyOrders = () => {
             <Card.Body>
               <Card.Title>
                 <h4>
-                  <b>{order.status}</b>
-                  &nbsp;&nbsp;
                   <b>
-                    {order.status === "Delivered"
-                      ? "on : " + moment(order.deliveredAt).format("DD-MM-YYYY")
-                      : ""}
+                    {booking.isCompleted
+                      ? "Completed On : " +
+                        moment(booking.completedAt).format("DD-MM-YYYY")
+                      : "To be Completed By : " +
+                        moment(booking.toBeCompleted).format("DD-MM-YYYY")}
                   </b>
                 </h4>
               </Card.Title>
+              <br />
               <Card.Text>
-                {order.orderItems.map((item) => (
-                  <Row>
-                    <Col md={1}></Col>
-                    <Col md={2}>
-                      <Image src={item.image} fluid />
-                    </Col>
-                    <Col>
-                      <center>
-                        <h5>
-                          <b>{item.name}</b>
-                        </h5>
-                      </center>
-                    </Col>
-                  </Row>
-                ))}
+                <Row>
+                  <Col md={1}></Col>
+                  <Col md={2}>
+                    <center>
+                      <Image src={booking.bookingItem.image} fluid />
+                    </center>
+                  </Col>
+                  <Col>
+                    <center>
+                      <h5>
+                        <b>{booking.bookingItem.name}</b>
+                      </h5>
+                    </center>
+                  </Col>
+                </Row>
               </Card.Text>
             </Card.Body>
           </Card>
@@ -91,4 +91,4 @@ const MyOrders = () => {
   );
 };
 
-export default MyOrders;
+export default MyBookings;

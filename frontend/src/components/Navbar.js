@@ -159,13 +159,17 @@ const Navbar = ({}) => {
                   variant="success"
                   id="dropdown-basic"
                 >
-                  <b>CATEGORIES</b>
+                  <b>Browse by, Categories</b>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/products">Products</Dropdown.Item>
+                  <Dropdown.Item className="text-success" href="/products">
+                    Products
+                  </Dropdown.Item>
                   <NavDropdown.Divider />
-                  <Dropdown.Item href="/services">Services</Dropdown.Item>
+                  <Dropdown.Item className="text-success" href="/services">
+                    Services
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               &emsp;
@@ -219,6 +223,15 @@ const Navbar = ({}) => {
                     href="/myOrders"
                   >
                     <i className="fas fa-user"></i> My Orders
+                  </Dropdown.Item>
+
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    className="text-success"
+                    href="/myBookings"
+                  >
+                    <i className="fas fa-user"></i> My Bookings
                   </Dropdown.Item>
 
                   <NavDropdown.Divider />

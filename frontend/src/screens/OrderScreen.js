@@ -48,9 +48,18 @@ const OrderScreen = ({ match }) => {
                 {order.shippingAddress.country},{order.shippingAddress.zip}
               </p>
               <p>
-                <strong>Delivery By: </strong>
-                {moment(order.toBeDelivered).format("DD-MM-YYYY")}
+                <strong>Order Status: </strong>
+                {order.status}
               </p>
+
+              {order.status !== "Delivered" ? (
+                <p>
+                  <strong>Delivery By: </strong>
+                  {moment(order.toBeDelivered).format("DD-MM-YYYY")}
+                </p>
+              ) : (
+                ""
+              )}
               {order.isDelivered ? (
                 <Message variant="success">
                   Delivered on {moment(order.deliveredAt).format("DD-MM-YYYY")}

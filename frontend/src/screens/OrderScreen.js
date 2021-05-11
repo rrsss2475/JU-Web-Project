@@ -5,6 +5,7 @@ import { getOrderDetails } from "../actions/orderActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import moment from "moment";
+import { MyVerticallyCenteredModal } from "../components/Modal";
 
 const OrderScreen = ({ match }) => {
   const orderId = match.params.id;
@@ -19,6 +20,8 @@ const OrderScreen = ({ match }) => {
       dispatch(getOrderDetails(orderId));
     }
   }, [dispatch, order, orderId]);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   return loading ? (
     <Loader />
@@ -143,6 +146,20 @@ const OrderScreen = ({ match }) => {
               </ListGroup.Item>
             </ListGroup>
           </Card>
+          <br />
+          <Button
+            variant="danger"
+            style={{ width: "100%" }}
+            onClick={() => setModalShow(true)}
+          >
+            Cancel Order
+          </Button>
+          <MyVerticallyCenteredModal
+            show={modalShow}
+            type={"Order"}
+            id={orderId}
+            onHide={() => setModalShow(false)}
+          />
         </Col>
       </Row>
     </div>

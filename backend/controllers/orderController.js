@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler")
 const Order = require("../models/orderModel")
+const { User } = require("../models/userModel")
 const moment = require("moment")
 
 const createOrder = asyncHandler(async (req, res) => {
@@ -27,6 +28,23 @@ const createOrder = asyncHandler(async (req, res) => {
 	const savedOrder = await order.save()
 	if (savedOrder) {
 		res.json(savedOrder)
+		const user = await User.findById(savedOrder.user)
+		for (let item of savedOrder.orderItems) {
+			let alreadyPresent=false;
+			for(let i of user.orderedProducts)
+			{
+				console.log(JSON.stringify(i.product));
+				console.log(JSON.stringify(item.product));
+				if(JSON.stringify(i.product)==JSON.stringify(item.product))
+				{
+					alreadyPresent=true;
+					break;
+				}
+			}
+			if(!alreadyPresent)
+			await user.orderedProducts.push({ product: item.product });
+		}
+		await user.save()
 	} else {
 		res.status(400)
 		throw new Error("Failed to create order")

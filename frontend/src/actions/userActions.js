@@ -24,6 +24,9 @@ import {
   USER_MY_BOOKINGS_LIST_SUCCESS,
   USER_MY_BOOKINGS_LIST_REQUEST,
   USER_MY_BOOKINGS_LIST_FAIL,
+  USER_DETAILS_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
 } from "../constants/userConstants";
 
 export const login = (email, password) => async (dispatch) => {
@@ -103,6 +106,40 @@ export const register = (name, email, password) => async (dispatch) => {
   } catch (errorR) {
     dispatch({
       type: USER_REGISTER_FAIL,
+      payload:
+        errorR.response && errorR.response.data.message
+          ? errorR.response.data.message
+          : errorR.message,
+    });
+  }
+};
+
+export const getUserDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/users/${id}`, config);
+
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (errorR) {
+    dispatch({
+      type: USER_DETAILS_FAIL,
       payload:
         errorR.response && errorR.response.data.message
           ? errorR.response.data.message

@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  Table,
-  Form,
-  Button,
-  Row,
-  Col,
-  Container,
-  Card,
-} from "react-bootstrap";
+import { Form, Button, Col, Container } from "react-bootstrap";
 // import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -25,9 +16,24 @@ const ProfileScreen = ({ location, history }) => {
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const userDetails = useSelector((state) => state.userDetails);
+  const { loading, error, user } = userDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/login");
+    } else {
+      if (!user.name) {
+        dispatch(getUserDetails("profile"));
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+      }
+    }
+  }, [dispatch, history, userInfo, user]);
   //   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   //   const { success } = userUpdateProfile;
 

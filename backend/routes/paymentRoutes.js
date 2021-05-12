@@ -1,5 +1,5 @@
 const express = require("express")
-const auth = require("../middlewares/authMiddleware")
+const { auth, admin } = require("../middlewares/authMiddleware")
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const { v4: uuidv4 } = require("uuid")
 const asyncHandler = require("express-async-handler")

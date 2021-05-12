@@ -1,15 +1,15 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useParams, Redirect } from "react-router-dom";
-import { Col, Row, Form, Button, Toast } from "react-bootstrap";
+import { Col, Row, Form, Button, Toast, Modal } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import Rating from "../components/Rating";
 import QuantitySelector from "../components/QuantitySelector";
 import { productDescAction } from "../actions/productActions";
 import { serviceDescAction } from "../actions/serviceActions"
 import DateSelector from "../components/DateSelector";
+import StarRatings from 'react-star-ratings';
 
 const ProductDescScreen = () => {
   const [qty, setqty] = useState(1);
@@ -22,6 +22,19 @@ const ProductDescScreen = () => {
   const [addToCartErr, setaddToCartErr] = useState("");
   const [weight, setWeight] = useState(0);
   const [date, setdate] = useState((new Date()).setDate((new Date()).getDate() + 1));
+  const [canBeRated, setcanBeRated] = useState(false);
+  const [rating, setrating] = useState(0);
+  const [review, setreview] = useState("");
+  const [ratingStatus, setratingStatus] = useState("");
+  const [ratingStatusColor, setratingStatusColor] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    setrating(0);
+    setreview("");
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -69,6 +82,20 @@ const ProductDescScreen = () => {
     }
   }, [loading]);
 
+  useEffect(() => {
+    if (userInfo != null)
+      console.log(productDescription._id)
+    if (productDescription._id != undefined)
+      axios.get(`/api/${type}/canBeRated/${userInfo._id}/${productDescription._id}`)
+        .then((res) => {
+          if (res.data.product != undefined)
+            setcanBeRated(true)
+          else
+            setcanBeRated(false)
+        })
+        .catch()
+  }, [loading]);
+
   const addToCartHandler = () => {
     if (userInfo == null) {
       setredirectToLogin(true);
@@ -110,8 +137,20 @@ const ProductDescScreen = () => {
   };
 
   const bookServiceHandler = () => {
-    
+
   };
+
+  const handleSaveReview = () => {
+    axios.post(`/api/${type}/rate`, { id: productDescription._id, email: userInfo.email, rating: rating, comment: review })
+      .then((res) => {
+        setratingStatus(res.data);
+        setratingStatusColor("lightgreen")
+      })
+      .catch((err) => {
+        setratingStatus("Rating cannot be zero!");
+        setratingStatusColor("pink")
+      })
+  }
 
   const addQtyHandler = () => {
     setqty(qty + 1);
@@ -183,10 +222,16 @@ const ProductDescScreen = () => {
           ) : (
             `By ${user}`
           )}
-          <Rating
-            value={productDescription.rating}
-            text={`${productDescription.numReviews} reviews`}
-          />
+          <br />
+          <StarRatings
+            rating={productDescription.rating}
+            starRatedColor="orange"
+            starDimension="20px"
+            starSpacing="0px"
+            numberOfStars={5}
+            name='rating'
+          /><br/>
+          {productDescription.numReviews} ratings<br/>
           <br />
           {productDescription.isWeighted ? (
             <b>Price: Rs {productDescription.price * weight}</b>
@@ -318,9 +363,73 @@ const ProductDescScreen = () => {
               See all Reviews{" "}
             </Button>
           </Link>
+          {canBeRated ?
+            <div>
+              <br />
+              <Button
+                style={{ fontFamily: "Rubik, sans-serif" }}
+                className="btn-block"
+                variant="success"
+                onClick={handleShow}
+              >
+                Rate Product
+              </Button>
+
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Rate Product</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Toast
+                    style={{
+                      fontSize: "20px",
+                      color: "white",
+                      fontWeight: "bold",
+                      backgroundColor: ratingStatusColor,
+                      marginTop: "10px",
+                    }}
+                    show={ratingStatus.length != 0}
+                    onClose={() => {
+                      setratingStatus("");
+                      setratingStatusColor("");
+                    }}
+                    delay={1500}
+                    autohide
+                  >
+                    {/* <Toast.Header>
+                  <strong className="mr-auto">Error:</strong>
+                </Toast.Header> */}
+                    <Toast.Body>{ratingStatus}</Toast.Body>
+                  </Toast>
+                  <StarRatings
+                    rating={rating}
+                    starRatedColor="orange"
+                    starHoverColor="orange"
+                    changeRating={(newRating, name) => { setrating(newRating); }}
+                    numberOfStars={5}
+                    name='rating'
+                  />
+                  <Form>
+                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                      <Form.Label>Write review</Form.Label>
+                      <Form.Control as="textarea" rows={3} value={review} onChange={(e) => setreview(e.target.value)} />
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={handleSaveReview}>
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
+            : ""}
         </Col>
       </Row>
-    </div>
+    </div >
   );
 
   return loading ? (

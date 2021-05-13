@@ -4,10 +4,11 @@ import { Form, Button, Col, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails } from "../actions/userActions";
-// import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
+// import { useHistory } from "react-router";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
-const ProfileScreen = ({ location, history }) => {
+const ProfileScreen = ({ history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +16,7 @@ const ProfileScreen = ({ location, history }) => {
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
+  // const history = useHistory();
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
@@ -22,70 +24,41 @@ const ProfileScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      if (!user.name) {
+      if (!user || !user.name || success) {
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, userInfo, user]);
-  //   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  //   const { success } = userUpdateProfile;
-
-  //   const orderListMy = useSelector((state) => state.orderListMy);
-  //   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
-
-  //   useEffect(() => {
-  //     if (!userInfo) {
-  //       history.push("/login");
-  //     } else {
-  //       if (!user || !user.name || success) {
-  //         dispatch({ type: USER_UPDATE_PROFILE_RESET });
-  //         dispatch(getUserDetails("profile"));
-  //         dispatch(listMyOrders());
-  //       } else {
-  //         setName(user.name);
-  //         setEmail(user.email);
-  //       }
-  //     }
-  //   }, [dispatch, history, userInfo, user, success]);
+  }, [dispatch, history, userInfo, user, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      //   dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      // history.go(0);
     }
   };
 
   return (
-    // <Container>
-    // 	<Col md={4}>
-    // 		<Card
-    // 			style={{
-    // 				border: "2px solid",
-    // 				marginLeft: "auto",
-    // 				marginRight: "auto",
-    // 				textAlign: "center",
-    // 			}}
-    // 		>
-    // 			<Card.Title>{userInfo.name}</Card.Title>
-    // 			<Card.Title>{userInfo.email}</Card.Title>
-    // 		</Card>
-    // 	</Col>
-    // </Container>
     <Container>
       <Col md={4}>
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
         {}
-        {<Message variant="success">Profile Updated</Message>}
+        {/* {<Message variant="success">Profile Updated</Message>} */}
+        {success && <Message variant="success">Profile Updated</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -138,57 +111,6 @@ const ProfileScreen = ({ location, history }) => {
           </Form>
         )}
       </Col>
-      {/* <Col md={9}>
-		      <h2>My Orders</h2>
-		      {loadingOrders ? (
-		        <Loader />
-		      ) : errorOrders ? (
-		        <Message variant="danger">{errorOrders}</Message>
-		      ) : (
-		        <Table striped bordered hover responsive className="table-sm">
-		          <thead>
-		            <tr>
-		              <th>ID</th>
-		              <th>DATE</th>
-		              <th>TOTAL</th>
-		              <th>PAID</th>
-		              <th>DELIVERED</th>
-		              <th></th>
-		            </tr>
-		          </thead>
-		          <tbody>
-		            {orders.map((order) => (
-		              <tr key={order._id}>
-		                <td>{order._id}</td>
-		                <td>{order.createdAt.substring(0, 10)}</td>
-		                <td>{order.totalPrice}</td>
-		                <td>
-		                  {order.isPaid ? (
-		                    order.paidAt.substring(0, 10)
-		                  ) : (
-		                    <i className="fas fa-times" style={{ color: "red" }}></i>
-		                  )}
-		                </td>
-		                <td>
-		                  {order.isDelivered ? (
-		                    order.deliveredAt.substring(0, 10)
-		                  ) : (
-		                    <i className="fas fa-times" style={{ color: "red" }}></i>
-		                  )}
-		                </td>
-		                <td>
-		                  <Link to={`/order/${order._id}`}>
-		                    <Button className="btn-sm" variant="light">
-		                      Details
-		                    </Button>
-		                  </Link>
-		                </td>
-		              </tr>
-		            ))}
-		          </tbody>
-		        </Table>
-		      )}
-		    </Col> */}
     </Container>
   );
 };

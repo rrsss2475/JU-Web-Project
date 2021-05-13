@@ -53,29 +53,40 @@ const getReviews = async (req, res) => {
 
 const getProductById = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)
+		.populate({ path: "category", select: "name" })
+		.populate({ path: "subCategory", select: "name" })
 	res.json(product)
 })
 
 const canBeRated = async (req, res) => {
 	const user = await User.findById(req.params.userid)
-	res.json(user.orderedProducts.find((x) => { return JSON.stringify(x.product) == JSON.stringify(req.params.id) }));
+	res.json(
+		user.orderedProducts.find((x) => {
+			return JSON.stringify(x.product) == JSON.stringify(req.params.id)
+		})
+	)
 }
 
 const postRating = async (req, res) => {
-	const rating = Number(req.body.rating);
-	if (rating == 0)
-		return res.status(400).json("Rating cannot be zero!")
-	await Product.findOneAndUpdate({ _id: req.body.id }, { $pull: { 'reviews': { email: req.body.email } } })
+	const rating = Number(req.body.rating)
+	if (rating == 0) return res.status(400).json("Rating cannot be zero!")
+	await Product.findOneAndUpdate(
+		{ _id: req.body.id },
+		{ $pull: { reviews: { email: req.body.email } } }
+	)
 	const product = await Product.findById(req.body.id)
-	product.reviews.push({ email: req.body.email, rating: req.body.rating, comment: req.body.comment });
-	product.numReviews=product.reviews.length;
-	let sumRatings=0;
-	for(let item of product.reviews)
-	{
-		sumRatings+=Number(item.rating);
+	product.reviews.push({
+		email: req.body.email,
+		rating: req.body.rating,
+		comment: req.body.comment,
+	})
+	product.numReviews = product.reviews.length
+	let sumRatings = 0
+	for (let item of product.reviews) {
+		sumRatings += Number(item.rating)
 	}
-	product.rating=sumRatings/product.numReviews;
-	await product.save();
+	product.rating = sumRatings / product.numReviews
+	await product.save()
 	res.json("Updated!")
 }
 
@@ -88,5 +99,5 @@ module.exports = {
 	getUserName: getUserName,
 	getReviews: getReviews,
 	canBeRated: canBeRated,
-	postRating: postRating
+	postRating: postRating,
 }

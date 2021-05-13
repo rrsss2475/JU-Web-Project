@@ -28,10 +28,18 @@ const createBooking = asyncHandler(async (req, res) => {
 })
 
 const getBookingById = asyncHandler(async (req, res) => {
-	const booking = await Booking.findById(req.params.id).populate(
-		"user",
-		"name email"
-	)
+	const booking = await Booking.findById(req.params.id)
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
 	if (booking) {
 		res.json(booking)
 	} else {

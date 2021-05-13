@@ -382,7 +382,7 @@ const ProductDescScreen = () => {
                 <Modal.Body>
                   <Toast
                     style={{
-                      fontSize: "20px",
+                      //fontSize: "20px",
                       color: "white",
                       fontWeight: "bold",
                       backgroundColor: ratingStatusColor,

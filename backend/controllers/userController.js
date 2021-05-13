@@ -1,7 +1,10 @@
 const { User } = require("../models/userModel");
 const Product = require("../models/productModel");
 const Order = require("../models/orderModel");
-const registerValidation = require("../validations/registerValidation");
+const {
+  registerValidate,
+  updateValidate,
+} = require("../validations/registerValidation");
 const loginValidation = require("../validations/loginValidation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -10,7 +13,7 @@ const sortByProperty = require("../utils/userUtils");
 const Booking = require("../models/bookingModel");
 
 const register = asyncHandler(async (req, res) => {
-  const { error } = registerValidation(req.body);
+  const { error } = registerValidate(req.body);
   if (error) {
     res.status(400);
     throw new Error(error.details[0].message);
@@ -94,6 +97,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
+    const { error } = updateValidate(req.body);
+    if (error) {
+      res.status(400);
+      throw new Error(error.details[0].message);
+    }
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     if (req.body.password) {

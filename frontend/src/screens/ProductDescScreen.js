@@ -81,7 +81,6 @@ const ProductDescScreen = ({ history }) => {
 	}, [loading])
 
 	useEffect(() => {
-		if (userInfo != null) console.log(productDescription._id)
 		if (productDescription._id != undefined)
 			axios
 				.get(

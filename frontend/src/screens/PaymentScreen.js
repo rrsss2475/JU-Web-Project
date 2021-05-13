@@ -6,7 +6,9 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { savePaymentMethod } from "../actions/cartActions";
 import { useHistory } from "react-router";
 
-const PaymentScreen = ({ location }) => {
+const PaymentScreen = ({ match }) => {
+  const type = match.params.type;
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
@@ -23,15 +25,25 @@ const PaymentScreen = ({ location }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
-    history.push({
-      pathname: "/order",
-    });
+    if (type == "products") {
+      history.push({
+        pathname: "/checkout/order",
+      });
+    } else {
+      history.push({
+        pathname: "/checkout/booking",
+      });
+    }
     // history.push("/placeorder");
   };
 
   return (
     <Container>
-      <CheckoutSteps step1 step2 step3 />
+      {type == "products" ? (
+        <CheckoutSteps step1 step2 step3 type={type} />
+      ) : (
+        <CheckoutSteps step1 step2 type={type} />
+      )}
       <h1
         style={{
           textAlign: "center",
@@ -57,7 +69,7 @@ const PaymentScreen = ({ location }) => {
                 onChange={(e) => setPaymentMethod(e.target.value)}
               ></Form.Check>
               <Col>
-                <i class="fab fa-cc-paypal"></i>
+                <i class="fas fa-credit-card"></i>
               </Col>
             </Row>
             <Row>

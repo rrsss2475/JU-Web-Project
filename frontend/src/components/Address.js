@@ -10,14 +10,14 @@ import {
 import { useHistory } from "react-router";
 import { saveShippingAddress } from "../actions/cartActions";
 
-const Address = ({ address, step }) => {
+const Address = ({ address, step, type }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const addressSubmit = (e) => {
     e.preventDefault();
     dispatch(saveShippingAddress(address));
-    history.push({ pathname: "/payment" });
+    history.push({ pathname: `/checkout/${type}/payment` });
     // console.log(address._id);
   };
 

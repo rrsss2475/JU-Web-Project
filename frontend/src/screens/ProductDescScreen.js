@@ -9,6 +9,7 @@ import QuantitySelector from "../components/QuantitySelector";
 import { productDescAction } from "../actions/productActions";
 import { serviceDescAction } from "../actions/serviceActions"
 import DateSelector from "../components/DateSelector";
+import { saveBookingItem } from "../actions/bookingActions"
 import StarRatings from 'react-star-ratings';
 
 const ProductDescScreen = () => {
@@ -136,9 +137,17 @@ const ProductDescScreen = () => {
     }
   };
 
-  const bookServiceHandler = () => {
+	const booking = {
+		service: productDescription,
+		totalPrice: qty * productDescription.price,
+		qty: qty,
+		date: date,
+	}
 
-  };
+	const bookServiceHandler = () => {
+		dispatch(saveBookingItem(booking))
+		history.push("/checkout/services/shipping")
+	}
 
   const handleSaveReview = () => {
     axios.post(`/api/${type}/rate`, { id: productDescription._id, email: userInfo.email, rating: rating, comment: review })

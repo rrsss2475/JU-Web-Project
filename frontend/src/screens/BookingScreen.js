@@ -1,28 +1,28 @@
 import React, { useEffect } from "react";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderDetails } from "../actions/orderActions";
+import { getBookingDetails } from "../actions/bookingActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import moment from "moment";
 import { MyVerticallyCenteredModal } from "../components/Modal";
 
-const OrderScreen = ({ match }) => {
-  const orderId = match.params.id;
+const BookingScreen = ({ match }) => {
+  const bookingId = match.params.id;
 
   const dispatch = useDispatch();
 
-  const orderDetails = useSelector((state) => state.orderDetails);
-  const { order, loading, error } = orderDetails;
+  const bookingDetails = useSelector((state) => state.bookingDetails);
+  const { booking, loading, error } = bookingDetails;
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const { token } = userInfo;
 
   useEffect(() => {
-    if (!order || order._id !== orderId) {
-      dispatch(getOrderDetails(orderId));
+    if (!booking || booking._id !== bookingId) {
+      dispatch(getBookingDetails(bookingId));
     }
-  }, [dispatch, order, orderId]);
+  }, [dispatch, booking, bookingId]);
 
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -32,7 +32,7 @@ const OrderScreen = ({ match }) => {
     <Message variant="danger">{error}</Message>
   ) : (
     <div className="container">
-      <h2>Order {orderId}</h2>
+      <h2>Booking {bookingId}</h2>
       <Row style={{ fontFamily: "Rubik, sans-serif" }}>
         <Col md={8}>
           <ListGroup variant="flush">
@@ -41,37 +41,41 @@ const OrderScreen = ({ match }) => {
               {/* <br /> */}
               <p>
                 <strong>Name: </strong>
-                {order.user.name}
+                {booking.user.name}
               </p>
               <p>
                 <strong>Email: </strong>
-                {order.user.email}
+                {booking.user.email}
               </p>
               <p>
                 <strong>Address: </strong>
-                {order.shippingAddress.name}, {order.shippingAddress.street},{" "}
-                {order.shippingAddress.city},{order.shippingAddress.state},
-                {order.shippingAddress.country},{order.shippingAddress.zip}
-              </p>
-              <p>
-                <strong>Order Status: </strong>
-                {order.status}
+                {booking.shippingAddress.name}, {booking.shippingAddress.street}
+                , {booking.shippingAddress.city},{booking.shippingAddress.state}
+                ,{booking.shippingAddress.country},{booking.shippingAddress.zip}
               </p>
 
-              {order.status !== "Delivered" && order.status !== "Cancelled" ? (
+              <p>
+                <strong>Order Status: </strong>
+                {booking.status}
+              </p>
+
+              {booking.status !== "Completed" &&
+              booking.status !== "Cancelled" ? (
                 <p>
-                  <strong>Delivery By: </strong>
-                  {moment(order.toBeDelivered).format("DD-MM-YYYY")}
+                  <strong>Chosen Date: </strong>
+                  {moment(booking.toBeCompleted).format("DD-MM-YYYY")}
                 </p>
               ) : (
                 ""
               )}
-              {order.isDelivered ? (
+
+              {booking.isCompleted ? (
                 <Message variant="success">
-                  Delivered on {moment(order.deliveredAt).format("DD-MM-YYYY")}
+                  Completed on{" "}
+                  {moment(booking.completedAt).format("DD-MM-YYYY")}
                 </Message>
               ) : (
-                <Message variant="danger">Not Delivered</Message>
+                <Message variant="danger">Not Completed</Message>
               )}
             </ListGroup.Item>
 
@@ -79,17 +83,17 @@ const OrderScreen = ({ match }) => {
               <h2>Payment Method</h2>
               <p>
                 <strong>Method: </strong>
-                {order.paymentMethod}
+                {booking.paymentMethod}
               </p>
-              {order.isPaid ? (
+              {booking.isPaid ? (
                 <Message variant="success">
-                  Paid on {moment(order.paidAt).format("DD-MM-YYYY")}
+                  Paid on {moment(booking.paidAt).format("DD-MM-YYYY")}
                 </Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}
 
-              {order.isPaid && order.status === "Cancelled" ? (
+              {booking.isPaid && booking.status === "Cancelled" ? (
                 <Message variant="warning">
                   Refund Initiated. Will reflect in 2-3 business days
                 </Message>
@@ -99,40 +103,27 @@ const OrderScreen = ({ match }) => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Items</h2>
-              {order.orderItems.length === 0 ? (
-                <Message>Order is empty</Message>
-              ) : (
-                <ListGroup variant="flush">
-                  {order.orderItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row style={{ fontFamily: "Rubik, sans-serif" }}>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          {/* <Link to={`/product/${item.product}`}> */}
-                          {item.name}
-                          {/* </Link> */}
-                        </Col>
-                        <Col md={5}>
-                          {item.weight !== null ? (
-                            <>Wt: {item.weight * 1000} gm |</>
-                          ) : (
-                            <></>
-                          )}{" "}
-                          Qty: {item.qty} | ₹{item.price}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              )}
+              <h2>Booking Item</h2>
+
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <Row style={{ fontFamily: "Rubik, sans-serif" }}>
+                    <Col md={1}>
+                      <Image
+                        src={booking.bookingItem.image}
+                        alt={booking.bookingItem.name}
+                        fluid
+                        rounded
+                      />
+                    </Col>
+                    <Col>{booking.bookingItem.name}</Col>
+                    <Col md={4}>
+                      Qty: {booking.bookingItem.qty} | ₹
+                      {booking.bookingItem.price}
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              </ListGroup>
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -152,26 +143,26 @@ const OrderScreen = ({ match }) => {
                   <Col>
                     <strong>Total</strong>
                   </Col>
-                  <Col>₹ {order.totalPrice}</Col>
+                  <Col>₹ {booking.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
             </ListGroup>
           </Card>
           <br />
-          {order.status !== "Cancelled" && order.status !== "Delivered" ? (
+          {booking.status !== "Cancelled" && booking.status !== "Completed" ? (
             <>
               <Button
                 variant="danger"
                 style={{ width: "100%" }}
                 onClick={() => setModalShow(true)}
               >
-                Cancel Order
+                Cancel Booking
               </Button>
 
               <MyVerticallyCenteredModal
                 show={modalShow}
-                type={"Order"}
-                id={orderId}
+                type={"Booking"}
+                id={bookingId}
                 token={token}
                 onHide={() => setModalShow(false)}
               />
@@ -185,4 +176,4 @@ const OrderScreen = ({ match }) => {
   );
 };
 
-export default OrderScreen;
+export default BookingScreen;

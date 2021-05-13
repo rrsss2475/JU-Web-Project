@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const sortByProperty = require("../utils/userUtils");
+const Booking = require("../models/bookingModel");
 
 const register = asyncHandler(async (req, res) => {
   const { error } = registerValidation(req.body);
@@ -236,6 +237,19 @@ const getAllOrders = asyncHandler(async (req, res) => {
   }
 });
 
+const getAllBookings = asyncHandler(async (req, res) => {
+  const bookings = await Booking.find({ user: req.user._id }).sort({
+    createdAt: "desc",
+  });
+
+  if (bookings) {
+    return res.json(bookings);
+  } else {
+    res.json(404);
+    throw new Error("Bookings not found");
+  }
+});
+
 module.exports = {
   register: register,
   login: login,
@@ -248,4 +262,5 @@ module.exports = {
   deleteFromCart: deleteFromCart,
   resetUserCart: resetUserCart,
   getAllOrders: getAllOrders,
+  getAllBookings: getAllBookings,
 };

@@ -70,7 +70,7 @@ const CartScreen = ({ history }) => {
 
   const checkoutHandler = () => {
     dispatch(saveOrderItems(userInfo));
-    history.push("/shipping");
+    history.push("/checkout/products/shipping");
   };
 
   const addQtyHandler = (item) => {

@@ -37,7 +37,7 @@ const ReviewsScreen = ({ location }) => {
 
 
       {loading ? <h4>Loading...</h4> : reviews.length == 0 ? <h4>No Customer Reviews</h4> : <div>{
-        reviews.map((review) => <p>{review.name}</p>)}</div>}
+        reviews.map((review) => <p>{review.email}</p>)}</div>}
     </div>
   );
 };

@@ -6,6 +6,9 @@ import {
 	USER_REGISTER_FAIL,
 	USER_REGISTER_REQUEST,
 	USER_REGISTER_SUCCESS,
+	USER_DETAILS_FAIL,
+	USER_DETAILS_REQUEST,
+	USER_DETAILS_SUCCESS,
 	USER_SHIPPING_ADDRESS_REQUEST,
 	USER_SHIPPING_ADDRESS_SUCCESS,
 	USER_SHIPPING_ADDRESS_FAIL,
@@ -15,6 +18,13 @@ import {
 	USER_MY_ORDERS_LIST_REQUEST,
 	USER_MY_ORDERS_LIST_SUCCESS,
 	USER_MY_ORDERS_LIST_FAIL,
+	USER_MY_BOOKINGS_LIST_REQUEST,
+	USER_MY_BOOKINGS_LIST_SUCCESS,
+	USER_MY_BOOKINGS_LIST_FAIL,
+	USER_UPDATE_PROFILE_REQUEST,
+	USER_UPDATE_PROFILE_SUCCESS,
+	USER_UPDATE_PROFILE_FAIL,
+	USER_UPDATE_PROFILE_RESET,
 } from "../constants/userConstants"
 
 export const userLoginReducer = (state = {}, action) => {
@@ -40,6 +50,34 @@ export const userRegisterReducer = (state = {}, action) => {
 			return { loading: false, userInfo: action.payload }
 		case USER_REGISTER_FAIL:
 			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
+
+export const userDetailsReducer = (state = { user: {} }, action) => {
+	switch (action.type) {
+		case USER_DETAILS_REQUEST:
+			return { ...state, loading: true }
+		case USER_DETAILS_SUCCESS:
+			return { loading: false, user: action.payload }
+		case USER_DETAILS_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
+
+export const userUpdateProfileReducer = (state = {}, action) => {
+	switch (action.type) {
+		case USER_UPDATE_PROFILE_REQUEST:
+			return { loading: true }
+		case USER_UPDATE_PROFILE_SUCCESS:
+			return { loading: false, success: true, userInfo: action.payload }
+		case USER_UPDATE_PROFILE_FAIL:
+			return { loading: false, error: action.payload }
+		case USER_UPDATE_PROFILE_RESET:
+			return {}
 		default:
 			return state
 	}
@@ -81,6 +119,19 @@ export const userOrderList = (state = { orders: [] }, action) => {
 		case USER_MY_ORDERS_LIST_SUCCESS:
 			return { loading: false, orders: action.payload }
 		case USER_MY_ORDERS_LIST_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
+
+export const userBookingList = (state = { bookings: [] }, action) => {
+	switch (action.type) {
+		case USER_MY_BOOKINGS_LIST_REQUEST:
+			return { loading: true }
+		case USER_MY_BOOKINGS_LIST_SUCCESS:
+			return { loading: false, bookings: action.payload }
+		case USER_MY_BOOKINGS_LIST_FAIL:
 			return { loading: false, error: action.payload }
 		default:
 			return state

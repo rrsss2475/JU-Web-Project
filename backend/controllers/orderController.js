@@ -2,6 +2,9 @@ const asyncHandler = require("express-async-handler")
 const Order = require("../models/orderModel")
 const { User } = require("../models/userModel")
 const moment = require("moment")
+const { assert } = require("joi")
+const Product = require("../models/productModel")
+const { Category, subCategory } = require("../models/categoryModel")
 
 const createOrder = asyncHandler(async (req, res) => {
 	const order = new Order({
@@ -30,19 +33,18 @@ const createOrder = asyncHandler(async (req, res) => {
 		res.json(savedOrder)
 		const user = await User.findById(savedOrder.user)
 		for (let item of savedOrder.orderItems) {
-			let alreadyPresent=false;
-			for(let i of user.orderedProducts)
-			{
-				console.log(JSON.stringify(i.product));
-				console.log(JSON.stringify(item.product));
-				if(JSON.stringify(i.product)==JSON.stringify(item.product))
-				{
-					alreadyPresent=true;
-					break;
+			let alreadyPresent = false
+			for (let i of user.orderedProducts) {
+				console.log(JSON.stringify(i.product))
+				console.log(JSON.stringify(item.product))
+				if (JSON.stringify(i.product) == JSON.stringify(item.product)) {
+					alreadyPresent = true
+					break
 				}
 			}
-			if(!alreadyPresent)
-			await user.orderedProducts.push({ product: item.product });
+			if (!alreadyPresent) {
+				await user.orderedProducts.push({ product: item.product })
+			}
 		}
 		await user.save()
 	} else {
@@ -52,10 +54,19 @@ const createOrder = asyncHandler(async (req, res) => {
 })
 
 const getOrderById = asyncHandler(async (req, res) => {
-	const order = await Order.findById(req.params.id).populate(
-		"user",
-		"name email"
-	)
+	const order = await Order.findById(req.params.id)
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
+
 	if (order) {
 		res.json(order)
 	} else {

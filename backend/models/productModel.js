@@ -2,13 +2,9 @@ const mongoose = require("mongoose")
 
 const reviewSchema = mongoose.Schema(
 	{
-		user: {
-			type: mongoose.Schema.Types.ObjectId,
-			required: true,
-			ref: "User",
-		},
+		email: { type: String, required: true },
 		rating: { type: String, required: true },
-		comment: { type: String, required: true },
+		comment: { type: String},
 	},
 	{
 		timestamps: true,

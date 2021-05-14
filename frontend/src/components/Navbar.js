@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Nav,
   NavDropdown,
@@ -7,7 +8,6 @@ import {
   Button,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import img from "../images/logo3.png";
@@ -16,6 +16,22 @@ const Navbar = ({}) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const [show, setShow] = useState(false);
+  const showDropdown = (e) => {
+    setShow(!show);
+  };
+  const hideDropdown = (e) => {
+    setShow(false);
+  };
+
+  const [showUser, setShowUser] = useState(false);
+  const showUserDropdown = (e) => {
+    setShowUser(!showUser);
+  };
+  const hideUserDropdown = (e) => {
+    setShowUser(false);
+  };
 
   const history = useHistory();
 
@@ -124,8 +140,39 @@ const Navbar = ({}) => {
               </NavLink>
             </li>
           </ul>
+
           {userInfo ? (
             <div style={{ display: "flex" }}>
+              <Dropdown
+                style={{
+                  fontFamily: "Rubik, sans-serif",
+                }}
+                show={show}
+                onMouseEnter={showDropdown}
+                onMouseLeave={hideDropdown}
+              >
+                <Dropdown.Toggle
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                    fontSize: "17px",
+                  }}
+                  variant="success"
+                  id="dropdown-basic"
+                >
+                  <b>Browse by, Categories</b>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item className="text-success" href="/products">
+                    Products
+                  </Dropdown.Item>
+                  <NavDropdown.Divider />
+                  <Dropdown.Item className="text-success" href="/services">
+                    Services
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              &emsp;
               <LinkContainer to="/cart">
                 <Button type="submit" variant="success">
                   <i className="fas fa-shopping-cart"></i>
@@ -141,7 +188,13 @@ const Navbar = ({}) => {
                   fontSize: "17px",
                 }}
               />
-              <Dropdown className="font-weight-bold">
+              &nbsp;
+              <Dropdown
+                show={showUser}
+                onMouseEnter={showUserDropdown}
+                onMouseLeave={hideUserDropdown}
+                className="font-weight-bold"
+              >
                 <Dropdown.Toggle
                   variant="success"
                   id="dropdown-basic"
@@ -170,6 +223,15 @@ const Navbar = ({}) => {
                     href="/myOrders"
                   >
                     <i className="fas fa-user"></i> My Orders
+                  </Dropdown.Item>
+
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    className="text-success"
+                    href="/myBookings"
+                  >
+                    <i className="fas fa-user"></i> My Bookings
                   </Dropdown.Item>
 
                   <NavDropdown.Divider />

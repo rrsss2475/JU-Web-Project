@@ -6,6 +6,10 @@ import { subcategoryListReducer } from "./reducers/subcategoryReducers"
 import {
 	productListReducer,
 	productDescReducer,
+	productDeleteReducer,
+	productCreateReducer,
+	productDetailsReducer,
+	productUpdateReducer
 } from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
 import {
@@ -13,9 +17,12 @@ import {
 	userBookingList,
 	userLoginReducer,
 	userOrderList,
+	userListReducer,
 	userRegisterReducer,
 	userShippingAddressReducer,
+	userDeleteReducer,
 	userDetailsReducer,
+	userUpdateReducer,
 	userUpdateProfileReducer,
 } from "./reducers/userReducers.js"
 import {
@@ -34,9 +41,16 @@ const reducer = combineReducers({
 	subcategoryList: subcategoryListReducer,
 	productList: productListReducer,
 	productDesc: productDescReducer,
+	productDelete: productDeleteReducer,
+	productCreate: productCreateReducer,
+	productDetails: productDetailsReducer,
+	productUpdate: productUpdateReducer,
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
+	userList: userListReducer,
 	userDetails: userDetailsReducer,
+	userDelete: userDeleteReducer,
+	userUpdate: userUpdateReducer,
 	userUpdateProfile: userUpdateProfileReducer,
 	addressList: userShippingAddressReducer,
 	cart: cartReducer,

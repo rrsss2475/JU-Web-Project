@@ -1,3 +1,4 @@
+const path = require("path")
 const color = require("colors")
 const express = require("express")
 const app = express()
@@ -26,6 +27,12 @@ app.use("/api/orders", orderRoute)
 
 const paymentRoute = require("./routes/paymentRoutes")
 app.use("/payment", paymentRoute)
+
+const uploadRoute = require("./routes/uploadRoutes")
+app.use("/api/upload", uploadRoute)
+
+const __dirName = path.resolve()
+app.use('/uploads',express.static(path.join(__dirName,'/uploads')))
 
 app.use(notFound)
 app.use(errorHandler)

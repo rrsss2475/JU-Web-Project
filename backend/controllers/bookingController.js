@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler")
 const Booking = require("../models/bookingModel")
-const {User}=require("../models/userModel")
+const { User } = require("../models/userModel")
 
 const createBooking = asyncHandler(async (req, res) => {
 	const booking = new Booking({
@@ -27,15 +27,20 @@ const createBooking = asyncHandler(async (req, res) => {
 		//console.log(user)
 		let alreadyPresent = false
 		for (let i of user.orderedProducts) {
-			console.log(JSON.stringify(i.product))
-			console.log(JSON.stringify(savedBooking.bookingItem.service))
-			if (JSON.stringify(i.product) == JSON.stringify(savedBooking.bookingItem.service)) {
+			// console.log(JSON.stringify(i.product))
+			// console.log(JSON.stringify(savedBooking.bookingItem.service))
+			if (
+				JSON.stringify(i.product) ==
+				JSON.stringify(savedBooking.bookingItem.service)
+			) {
 				alreadyPresent = true
 				break
 			}
 		}
 		if (!alreadyPresent) {
-			await user.orderedProducts.push({ product: savedBooking.bookingItem.service })
+			await user.orderedProducts.push({
+				product: savedBooking.bookingItem.service,
+			})
 		}
 		await user.save()
 	} else {

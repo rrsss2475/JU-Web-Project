@@ -35,8 +35,8 @@ const createOrder = asyncHandler(async (req, res) => {
 		for (let item of savedOrder.orderItems) {
 			let alreadyPresent = false
 			for (let i of user.orderedProducts) {
-				console.log(JSON.stringify(i.product))
-				console.log(JSON.stringify(item.product))
+				// console.log(JSON.stringify(i.product))
+				// console.log(JSON.stringify(item.product))
 				if (JSON.stringify(i.product) == JSON.stringify(item.product)) {
 					alreadyPresent = true
 					break

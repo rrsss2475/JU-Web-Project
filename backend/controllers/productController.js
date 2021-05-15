@@ -67,6 +67,7 @@ const canBeRated = async (req, res) => {
 	)
 }
 
+
 const postRating = asyncHandler(async (req, res) => {
 	const rating = Number(req.body.rating)
 	if (rating == 0) return res.status(400).json("Rating cannot be zero!")

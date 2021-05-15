@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler")
 const Booking = require("../models/bookingModel")
+const {User}=require("../models/userModel")
 
 const createBooking = asyncHandler(async (req, res) => {
 	const booking = new Booking({
@@ -21,6 +22,22 @@ const createBooking = asyncHandler(async (req, res) => {
 	const savedBooking = await booking.save()
 	if (savedBooking) {
 		res.json(savedBooking)
+		//console.log(savedBooking)
+		const user = await User.findById(savedBooking.user)
+		//console.log(user)
+		let alreadyPresent = false
+		for (let i of user.orderedProducts) {
+			console.log(JSON.stringify(i.product))
+			console.log(JSON.stringify(savedBooking.bookingItem.service))
+			if (JSON.stringify(i.product) == JSON.stringify(savedBooking.bookingItem.service)) {
+				alreadyPresent = true
+				break
+			}
+		}
+		if (!alreadyPresent) {
+			await user.orderedProducts.push({ product: savedBooking.bookingItem.service })
+		}
+		await user.save()
 	} else {
 		res.status(400)
 		throw new Error("Failed to create booking")

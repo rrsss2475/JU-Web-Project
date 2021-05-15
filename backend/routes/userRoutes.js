@@ -1,4 +1,4 @@
-const router = require("express").Router()
+const router = require("express").Router();
 const {
 	register,
 	login,
@@ -36,4 +36,4 @@ router
 	.get(auth, admin, getUserById)
 	.put(auth, admin, updateUser)
 
-module.exports = router
+module.exports = router;

@@ -66,6 +66,7 @@ export const userRegisterReducer = (state = {}, action) => {
 	}
 }
 
+
 export const userUpdateProfileReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_UPDATE_PROFILE_REQUEST:
@@ -122,6 +123,7 @@ export const userOrderList = (state = { orders: [] }, action) => {
 			return state
 	}
 }
+
 
 export const userListReducer = (state = { users: [] }, action) => {
 	switch (action.type) {

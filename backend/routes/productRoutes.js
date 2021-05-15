@@ -13,6 +13,8 @@ const {
 	deleteProduct,
 	createProduct,
 	updateProduct
+	canBeRated,
+	postRating,
 } = require("../controllers/productController")
 const { auth , admin }  = require("../middlewares/authMiddleware")
 
@@ -24,6 +26,8 @@ router.route("/admin/:id")
 .delete(auth, admin, deleteProduct)
 .put(auth, admin, updateProduct)
 .get(auth,admin, getProductAdmin)
+router.get("/canBeRated/:userid/:id", canBeRated)
+router.post("/rate", postRating)
 router.get("/:category", getSubCategories)
 router.get("/:category/:subCategory", getProducts)
 router.get("/:category/:subCategory/:id", getProductDetails)

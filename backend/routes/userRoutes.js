@@ -1,4 +1,4 @@
-const router = require("express").Router()
+const router = require("express").Router();
 const {
 	register,
 	login,
@@ -13,6 +13,7 @@ const {
 	deleteFromCart,
 	resetUserCart,
 	getAllOrders,
+  getAllBookings,
 	getUserById,
 	updateUser,
 } = require("../controllers/userController")
@@ -27,11 +28,11 @@ router.route("/:id")
 .delete(auth, admin, deleteUser)
 .get(auth, admin, getUserById)
 .put(auth,admin, updateUser)
+router.post("/cart", cart);
+router.post("/addToCart", addToCart);
+router.post("/deleteFromCart", deleteFromCart);
+router.route("/resetCart").post(auth, resetUserCart);
+router.route("/getOrders").get(auth, getAllOrders);
+router.route("/getBookings").get(auth, getAllBookings);
 
-router.post("/cart", cart)
-router.post("/addToCart", addToCart)
-router.post("/deleteFromCart", deleteFromCart)
-router.route("/resetCart").post(auth, resetUserCart)
-router.route("/getOrders").get(auth, getAllOrders)
-
-module.exports = router
+module.exports = router;

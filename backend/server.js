@@ -25,6 +25,9 @@ app.use("/api/services", serviceRoute)
 const orderRoute = require("./routes/orderRoutes")
 app.use("/api/orders", orderRoute)
 
+const bookingRoute = require("./routes/bookingRoutes")
+app.use("/api/bookings", bookingRoute)
+
 const paymentRoute = require("./routes/paymentRoutes")
 app.use("/payment", paymentRoute)
 

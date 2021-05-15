@@ -5,22 +5,31 @@ import {
   RESET_ORDER_ITEMS,
 } from '../constants/orderConstants'
 import {
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAIL,
-  USER_LOGOUT,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
-  USER_REGISTER_FAIL,
-  USER_SHIPPING_ADDRESS_REQUEST,
-  USER_SHIPPING_ADDRESS_SUCCESS,
-  USER_SHIPPING_ADDRESS_FAIL,
-  USER_ADD_SHIPPING_ADDRESS_REQUEST,
-  USER_ADD_SHIPPING_ADDRESS_SUCCESS,
-  USER_ADD_SHIPPING_ADDRESS_FAIL,
-  USER_MY_ORDERS_LIST_FAIL,
-  USER_MY_ORDERS_LIST_REQUEST,
-  USER_MY_ORDERS_LIST_SUCCESS,
+	USER_LOGIN_REQUEST,
+	USER_LOGIN_SUCCESS,
+	USER_LOGIN_FAIL,
+	USER_LOGOUT,
+	USER_REGISTER_REQUEST,
+	USER_REGISTER_SUCCESS,
+	USER_REGISTER_FAIL,
+	USER_SHIPPING_ADDRESS_REQUEST,
+	USER_SHIPPING_ADDRESS_SUCCESS,
+	USER_SHIPPING_ADDRESS_FAIL,
+	USER_ADD_SHIPPING_ADDRESS_REQUEST,
+	USER_ADD_SHIPPING_ADDRESS_SUCCESS,
+	USER_ADD_SHIPPING_ADDRESS_FAIL,
+	USER_MY_ORDERS_LIST_FAIL,
+	USER_MY_ORDERS_LIST_REQUEST,
+	USER_MY_ORDERS_LIST_SUCCESS,
+	USER_MY_BOOKINGS_LIST_SUCCESS,
+	USER_MY_BOOKINGS_LIST_REQUEST,
+	USER_MY_BOOKINGS_LIST_FAIL,
+	USER_DETAILS_FAIL,
+	USER_DETAILS_REQUEST,
+	USER_DETAILS_SUCCESS,
+	USER_UPDATE_PROFILE_REQUEST,
+	USER_UPDATE_PROFILE_SUCCESS,
+	USER_UPDATE_PROFILE_FAIL,
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
@@ -34,7 +43,8 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
-} from '../constants/userConstants'
+} from "../constants/userConstants"
+
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -72,13 +82,14 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem('userInfo')
-  localStorage.removeItem('orderDetails')
-  localStorage.removeItem('shippingAddress')
-  localStorage.removeItem('paymentMethod')
-  dispatch({ type: USER_LOGOUT })
-  dispatch({ type: ORDER_LIST_RESET })
-  dispatch({ type: CART_LIST_RESET })
+	localStorage.removeItem("userInfo")
+	localStorage.removeItem("orderDetails")
+	localStorage.removeItem("shippingAddress")
+	localStorage.removeItem("paymentMethod")
+	localStorage.removeItem("bookingItem")
+	dispatch({ type: USER_LOGOUT })
+	dispatch({ type: ORDER_LIST_RESET })
+	dispatch({ type: CART_LIST_RESET })
   dispatch({ type: USER_LIST_RESET })
 }
 
@@ -122,88 +133,122 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 }
 
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: USER_UPDATE_PROFILE_REQUEST,
+		})
+
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				"Content-type": "application/json",
+				Authorization: `${userInfo.token}`,
+			},
+		}
+
+		const { data } = await axios.put(`/api/users/profile`, user, config)
+
+		dispatch({
+			type: USER_UPDATE_PROFILE_SUCCESS,
+			payload: data,
+		})
+		dispatch({
+			type: USER_LOGIN_SUCCESS,
+			payload: data,
+		})
+		localStorage.setItem("userInfo", JSON.stringify(data))
+	} catch (errorR) {
+		dispatch({
+			type: USER_UPDATE_PROFILE_FAIL,
+			payload:
+				errorR.response && errorR.response.data.message
+					? errorR.response.data.message
+					: errorR.message,
+		})
+	}
+}
+
 export const getShippingAddress = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: USER_SHIPPING_ADDRESS_REQUEST,
-    })
+	try {
+		dispatch({
+			type: USER_SHIPPING_ADDRESS_REQUEST,
+		})
 
-    const {
-      userLogin: { userInfo },
-    } = getState()
+		const {
+			userLogin: { userInfo },
+		} = getState()
 
-    const config = {
-      headers: {
-        Authorization: userInfo.token,
-      },
-    }
+		const config = {
+			headers: {
+				Authorization: userInfo.token,
+			},
+		}
 
-    const { data } = await axios.get('/api/users/shipping', config)
+		const { data } = await axios.get("/api/users/shipping", config)
 
-    dispatch({
-      type: USER_SHIPPING_ADDRESS_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    dispatch({
-      type: USER_SHIPPING_ADDRESS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
-  }
+		dispatch({
+			type: USER_SHIPPING_ADDRESS_SUCCESS,
+			payload: data,
+		})
+	} catch (error) {
+		dispatch({
+			type: USER_SHIPPING_ADDRESS_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		})
+	}
 }
 
-export const addShippingAddress = (
-  name,
-  street,
-  city,
-  state,
-  zip,
-  country
-) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: USER_ADD_SHIPPING_ADDRESS_REQUEST,
-    })
+export const addShippingAddress =
+	(name, street, city, state, zip, country) => async (dispatch, getState) => {
+		try {
+			dispatch({
+				type: USER_ADD_SHIPPING_ADDRESS_REQUEST,
+			})
 
-    const {
-      userLogin: { userInfo },
-    } = getState()
+			const {
+				userLogin: { userInfo },
+			} = getState()
 
-    const config = {
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `${userInfo.token}`,
-      },
-    }
+			const config = {
+				headers: {
+					"Content-type": "application/json",
+					Authorization: `${userInfo.token}`,
+				},
+			}
 
-    const body = {
-      name,
-      street,
-      city,
-      state,
-      zip,
-      country,
-    }
+			const body = {
+				name,
+				street,
+				city,
+				state,
+				zip,
+				country,
+			}
 
-    const { data } = await axios.post('/api/users/shipping', body, config)
+			const { data } = await axios.post("/api/users/shipping", body, config)
 
-    dispatch({
-      type: USER_ADD_SHIPPING_ADDRESS_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    dispatch({
-      type: USER_ADD_SHIPPING_ADDRESS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
-  }
-}
+			dispatch({
+				type: USER_ADD_SHIPPING_ADDRESS_SUCCESS,
+				payload: data,
+			})
+		} catch (error) {
+			dispatch({
+				type: USER_ADD_SHIPPING_ADDRESS_FAIL,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			})
+		}
+	}
 
 export const resetUserCartandOrder = () => async (dispatch, getState) => {
   try {
@@ -367,5 +412,31 @@ export const updateUser = (user) => async (dispatch, getState) => {
 			: error.message,
 	  })
 	}
-  }
-  
+}
+
+export const getMyBookings = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: USER_MY_BOOKINGS_LIST_REQUEST })
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				Authorization: userInfo.token,
+			},
+		}
+
+		const { data } = await axios.get("/api/users/getBookings", config)
+
+		dispatch({ type: USER_MY_BOOKINGS_LIST_SUCCESS, payload: data })
+	} catch (error) {
+		dispatch({
+			type: USER_MY_BOOKINGS_LIST_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		})
+	}
+}

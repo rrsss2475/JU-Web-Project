@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getMyOrders } from "../actions/userActions";
-import { Container, Card, Row, Col, Image, CardDeck } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { Container, Card, Row, Col, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -33,51 +32,71 @@ const MyOrders = () => {
       >
         My Orders
       </h1>
-      {orders.map((order) => (
-        <>
-          <Card border="primary">
-            <Card.Header>
-              <Row>
-                <Col>
-                  <strong>Total Price : ₹ {order.totalPrice}</strong>
-                </Col>
-                {/* <Col></Col> */}
-                <Col>
-                  <Link to={`/order/${order._id}`}>
-                    <strong>Order # {order._id}</strong>
-                  </Link>
-                </Col>
-              </Row>
-            </Card.Header>
-            <Card.Body>
-              <Card.Title>
-                <h4>
-                  {order.status}
-                  &nbsp;&nbsp;
-                  {order.status === "Delivered"
-                    ? moment(order.toBeDelivered).format("DD-MM-YYYY")
-                    : ""}
-                </h4>
-              </Card.Title>
-              <Card.Text>
-                {order.orderItems.map((item) => (
-                  <Row>
-                    <Col md={1}></Col>
-                    <Col md={2}>
-                      <Image src={item.image} fluid />
-                    </Col>
-                    <Col md={1}></Col>
-                    <Col>
-                      <h5>{item.name}</h5>
-                    </Col>
-                  </Row>
-                ))}
-              </Card.Text>
-            </Card.Body>
-          </Card>
-          &nbsp;
-        </>
-      ))}
+      {orders.length === 0 ? (
+        <h4>No Orders</h4>
+      ) : (
+        orders.map((order) => (
+          <>
+            <Card border="success">
+              <Card.Header>
+                <Row>
+                  <Col>
+                    <h5>
+                      <strong>Total Price : ₹ {order.totalPrice}</strong>
+                    </h5>
+                  </Col>
+                  {/* <Col></Col> */}
+                  <Col>
+                    <Link
+                      to={`/checkout/order/${order._id}`}
+                      style={{
+                        textDecoration: "none",
+                        color: "green",
+                      }}
+                    >
+                      <h5>
+                        <strong>Order # {order._id}</strong>
+                      </h5>
+                    </Link>
+                  </Col>
+                </Row>
+              </Card.Header>
+              <Card.Body>
+                <Card.Title>
+                  <h4>
+                    <b>{order.status}</b>
+                    &nbsp;
+                    <b>
+                      {order.status === "Delivered"
+                        ? "on : " +
+                          moment(order.deliveredAt).format("DD-MM-YYYY")
+                        : ""}
+                    </b>
+                  </h4>
+                </Card.Title>
+                <Card.Text>
+                  {order.orderItems.map((item) => (
+                    <Row>
+                      <Col md={1}></Col>
+                      <Col md={2}>
+                        <Image src={item.image} fluid />
+                      </Col>
+                      <Col>
+                        <center>
+                          <h5>
+                            <b>{item.name}</b>
+                          </h5>
+                        </center>
+                      </Col>
+                    </Row>
+                  ))}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+            &nbsp;
+          </>
+        ))
+      )}
     </Container>
   );
 };

@@ -12,20 +12,24 @@ const {
 	getAllProducts,
 	deleteProduct,
 	createProduct,
-	updateProduct
+	updateProduct,
 	canBeRated,
 	postRating,
 } = require("../controllers/productController")
-const { auth , admin }  = require("../middlewares/authMiddleware")
+const { auth, admin } = require("../middlewares/authMiddleware")
 
-router.route("/").get(auth, admin, getAllProducts).post(auth, admin, createProduct)
+router
+	.route("/")
+	.get(auth, admin, getAllProducts)
+	.post(auth, admin, createProduct)
 router.get("/userName/:id", getUserName)
 router.get("/categories", getCategories)
 router.get("/categories/:id", getProductById)
-router.route("/admin/:id")
-.delete(auth, admin, deleteProduct)
-.put(auth, admin, updateProduct)
-.get(auth,admin, getProductAdmin)
+router
+	.route("/admin/:id")
+	.delete(auth, admin, deleteProduct)
+	.put(auth, admin, updateProduct)
+	.get(auth, admin, getProductAdmin)
 router.get("/canBeRated/:userid/:id", canBeRated)
 router.post("/rate", postRating)
 router.get("/:category", getSubCategories)

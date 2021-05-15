@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const router = require("express").Router()
 const {
 	register,
 	login,
@@ -13,26 +13,27 @@ const {
 	deleteFromCart,
 	resetUserCart,
 	getAllOrders,
-  getAllBookings,
+	getAllBookings,
 	getUserById,
 	updateUser,
 } = require("../controllers/userController")
-const { auth , admin }  = require("../middlewares/authMiddleware")
+const { auth, admin } = require("../middlewares/authMiddleware")
 
 router.route("/").get(auth, admin, getUsers)
 router.post("/register", register)
 router.post("/login", login)
 router.route("/profile").get(auth, getUserProfile).put(auth, updateUserProfile)
 router.route("/shipping").get(auth, getUserAddresses).post(auth, addUserAddress)
-router.route("/:id")
-.delete(auth, admin, deleteUser)
-.get(auth, admin, getUserById)
-.put(auth,admin, updateUser)
-router.post("/cart", cart);
-router.post("/addToCart", addToCart);
-router.post("/deleteFromCart", deleteFromCart);
-router.route("/resetCart").post(auth, resetUserCart);
-router.route("/getOrders").get(auth, getAllOrders);
-router.route("/getBookings").get(auth, getAllBookings);
+router.post("/cart", cart)
+router.post("/addToCart", addToCart)
+router.post("/deleteFromCart", deleteFromCart)
+router.route("/resetCart").post(auth, resetUserCart)
+router.route("/getOrders").get(auth, getAllOrders)
+router.route("/getBookings").get(auth, getAllBookings)
+router
+	.route("/:id")
+	.delete(auth, admin, deleteUser)
+	.get(auth, admin, getUserById)
+	.put(auth, admin, updateUser)
 
-module.exports = router;
+module.exports = router

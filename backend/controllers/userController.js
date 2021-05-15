@@ -1,6 +1,7 @@
 const { User } = require("../models/userModel")
 const Product = require("../models/productModel")
 const Order = require("../models/orderModel")
+const Booking = require("../models/bookingModel")
 const {
 	registerValidate,
 	updateValidate,
@@ -10,10 +11,9 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const asyncHandler = require("express-async-handler")
 const sortByProperty = require("../utils/userUtils")
-const Booking = require("../models/bookingModel")
 
 const register = asyncHandler(async (req, res) => {
-	const { error } = registerValidation(req.body)
+	const { error } = registerValidate(req.body)
 	if (error) {
 		res.status(400)
 		throw new Error(error.details[0].message)
@@ -94,55 +94,51 @@ const getUserProfile = asyncHandler(async (req, res) => {
 })
 
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
-  res.json(users);
-});
+	const users = await User.find({})
+	res.json(users)
+})
 
 const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('-password');
-  if(user)
-  res.json(user);
-  else{
-    res.status(404);
-    throw new Error("User not found");
-  }
-});
+	const user = await User.findById(req.params.id).select("-password")
+	if (user) res.json(user)
+	else {
+		res.status(404)
+		throw new Error("User not found")
+	}
+})
 
 const updateUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
+	const user = await User.findById(req.params.id)
 
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.isAdmin = req.body.isAdmin;
+	if (user) {
+		user.name = req.body.name || user.name
+		user.email = req.body.email || user.email
+		user.isAdmin = req.body.isAdmin
 
-    const updatedUser = await user.save();
+		const updatedUser = await user.save()
 
-    res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-    });
-  } else {
-    res.status(404);
-    throw new Error("User Not Found");
-  }
-});
-
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			isAdmin: updatedUser.isAdmin,
+		})
+	} else {
+		res.status(404)
+		throw new Error("User Not Found")
+	}
+})
 
 const deleteUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if(user)
-  {
-    await user.remove();
-    res.json({ message: 'User removed' })
-  }
-  else {
-    res.status(404);
-    throw new Error("User not found");
-  }
-});
+	const user = await User.findById(req.params.id)
+	if (user) {
+		await user.remove()
+		res.json({ message: "User removed" })
+	} else {
+		res.status(404)
+		throw new Error("User not found")
+	}
+})
 
 const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
@@ -309,19 +305,20 @@ const getAllBookings = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-  register: register,
-  login: login,
-  getUserProfile: getUserProfile,
-  getUsers: getUsers,
-  deleteUser: deleteUser,
-  getUserById: getUserById,
-  updateUser: updateUser,
-  updateUserProfile: updateUserProfile,
-  getUserAddresses: getUserAddresses,
-  addUserAddress: addUserAddress,
-  cart: cart,
-  addToCart: addToCart,
-  deleteFromCart: deleteFromCart,
-  resetUserCart: resetUserCart,
-  getAllOrders: getAllOrders,
-};
+	register: register,
+	login: login,
+	getUserProfile: getUserProfile,
+	getUsers: getUsers,
+	deleteUser: deleteUser,
+	getUserById: getUserById,
+	updateUser: updateUser,
+	updateUserProfile: updateUserProfile,
+	getUserAddresses: getUserAddresses,
+	addUserAddress: addUserAddress,
+	cart: cart,
+	addToCart: addToCart,
+	deleteFromCart: deleteFromCart,
+	resetUserCart: resetUserCart,
+	getAllOrders: getAllOrders,
+	getAllBookings: getAllBookings,
+}

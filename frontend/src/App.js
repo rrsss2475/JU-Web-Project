@@ -24,6 +24,10 @@ import MyOrders from "./screens/MyOrders";
 import PlaceBookingScreen from "./screens/PlaceBookingScreen";
 import BookingScreen from "./screens/BookingScreen";
 import MyBookings from "./screens/MyBookings";
+import UserListScreen from "./screens/UserListScreen"
+import UserEditScreen from './screens/UserEditScreen'
+import ProductListScreen from './screens/ProductListScreen'
+import ProductEditScreen from './screens/ProductEditScreen'
 
 function App() {
   return (
@@ -75,6 +79,11 @@ function App() {
             component={ReviewsScreen}
             exact
           />
+    			<Route path="/admin/userlist" component={UserListScreen} exact />
+					<Route path="/admin/user/:id/edit" component={UserEditScreen} exact />
+					<Route path="/admin/productlist" component={ProductListScreen} exact />
+					<Route path="/admin/product/:id/edit" component={ProductEditScreen} exact />
+
         </Switch>
       </main>
       <Footer />

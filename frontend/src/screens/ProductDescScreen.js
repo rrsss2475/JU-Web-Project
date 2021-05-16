@@ -81,7 +81,7 @@ const ProductDescScreen = ({ history }) => {
 	}, [loading])
 
 	useEffect(() => {
-		if (productDescription._id != undefined)
+		if (userInfo && productDescription._id != undefined)
 			axios
 				.get(
 					`/api/${type}/canBeRated/${userInfo._id}/${productDescription._id}`
@@ -133,14 +133,22 @@ const ProductDescScreen = ({ history }) => {
 		}
 	}
 
-	const booking = {
-		service: productDescription,
-		totalPrice: qty * productDescription.price,
-		qty: qty,
-		date: date,
+	let booking = {}
+	if (type == "services")
+	{
+		booking = {
+			service: productDescription,
+			totalPrice: qty * productDescription.price,
+			qty: qty,
+			date: date,
+		}
 	}
 
 	const bookServiceHandler = () => {
+		if (userInfo == null) {
+			setredirectToLogin(true)
+			return
+		}
 		dispatch(saveBookingItem(booking))
 		history.push("/checkout/services/shipping")
 	}
@@ -179,7 +187,7 @@ const ProductDescScreen = ({ history }) => {
 				<Redirect
 					to={{
 						pathname: "/login",
-						search: `?redirect=/categories/${catName}/${subCatName}/${productDescription._id}`,
+						search: `?redirect=/${type}/${catName}/${subCatName}/${productDescription._id}`,
 					}}
 				/>
 			) : (

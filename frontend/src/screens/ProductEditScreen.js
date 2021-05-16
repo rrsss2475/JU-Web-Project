@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import { listCategories } from "../actions/categoryActions";
 
 const ProductEditScreen = ({ history, match }) => {
   const productId = match.params.id
@@ -17,26 +18,42 @@ const ProductEditScreen = ({ history, match }) => {
   const [description, setDescription] = useState('')
   const [isWeighted, setIsWeighted] = useState(false)
   const [uploading, setUploading] = useState(false)
-  //const [redirect, setRedirect] = useState(false)
+
+  const categoryList = useSelector((state) => state.categoryList);
+  const { categories,loading:catloading } = categoryList;
+  console.log(categories)
 
   const dispatch = useDispatch()
+  //dispatch(listCategories());
+
+  const [category, setCategory] = useState()
+  //const [redirect, setRedirect] = useState(false)
+  if(categoryList.loading==false)
+  {
+    setCategory(categories[0]._id)
+  }
 
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
 
   const productUpdate = useSelector((state) => state.productUpdate)
   const { loading: loadingUpdate,
-          error: errorUpdate, 
-          success: successUpdate } = productUpdate
+    error: errorUpdate,
+    success: successUpdate } = productUpdate
 
   useEffect(() => {
-   
-    if(successUpdate)
-    {
-        dispatch({type: PRODUCT_UPDATE_RESET})
-        history.push('/admin/productlist')
+
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      history.push('/admin/productlist')
     }
-    else{
+    else {
+      console.log(categories.length)
+      if(catloading)
+      {
+        console.log("mai gandu hu")
+        dispatch(listCategories());
+      }
       if (!product.name || product._id != productId) {
         dispatch(listProductDetails(productId))
       } else {
@@ -46,7 +63,8 @@ const ProductEditScreen = ({ history, match }) => {
         setIsAvailable(product.isAvailable)
         setDescription(product.description)
         setIsWeighted(product.isWeighted)
-      }   
+
+      }
     }
   }, [dispatch, product, productId, history, successUpdate])
 
@@ -139,6 +157,15 @@ const ProductEditScreen = ({ history, match }) => {
               ></Form.File>
               {uploading && <Loader />}
             </Form.Group>
+            {categoryList.loading ? <Loader size="25px" />
+              :
+              <div>
+                <label for="cars">Category </label>
+                <select name="cars" id="cars">
+                  {categories.map(cat=><option value={cat._id}>{cat.name}</option>)}
+                </select>
+              </div>
+            }
 
             {/* <Form.Group controlId='category'>
               <Form.Label>Category</Form.Label>
@@ -169,7 +196,7 @@ const ProductEditScreen = ({ history, match }) => {
               ></Form.Check>
             </Form.Group>
 
-            
+
             <Form.Group controlId='description'>
               <Form.Label>Description</Form.Label>
               <Form.Control

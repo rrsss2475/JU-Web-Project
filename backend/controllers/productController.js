@@ -127,6 +127,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		numReviews,
 		description,
 		isWeighted,
+		category,
+		subCategory
 	} = req.body
 
 	const product = await Product.findById(req.params.id)
@@ -139,6 +141,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.numReviews = numReviews
 		product.description = description
 		product.isWeighted = isWeighted
+		product.category=category
+		product.subCategory=subCategory
 
 		const updatedProduct = await product.save()
 		res.json(updatedProduct)

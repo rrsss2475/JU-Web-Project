@@ -9,7 +9,7 @@ import {
 	productDeleteReducer,
 	productCreateReducer,
 	productDetailsReducer,
-	productUpdateReducer
+	productUpdateReducer,
 } from "./reducers/productReducers"
 import { cartReducer } from "./reducers/cartReducers"
 import {
@@ -29,11 +29,17 @@ import {
 	orderCreateReducer,
 	orderReducer,
 	orderDetailsReducer,
+	orderListReducer,
+	orderDeleteReducer,
+	orderUpdateReducer,
 } from "./reducers/orderReducers"
 import {
 	bookingReducer,
 	bookingCreateReducer,
 	bookingDetailsReducer,
+	bookingListReducer,
+	bookingDeleteReducer,
+	bookingUpdateReducer,
 } from "./reducers/bookingReducers"
 
 const reducer = combineReducers({
@@ -58,10 +64,16 @@ const reducer = combineReducers({
 	order: orderReducer,
 	orderCreate: orderCreateReducer,
 	orderDetails: orderDetailsReducer,
+	orderList: orderListReducer,
+	orderDelete: orderDeleteReducer,
+	orderUpdate: orderUpdateReducer,
 	myOrders: userOrderList,
 	booking: bookingReducer,
 	bookingCreate: bookingCreateReducer,
 	bookingDetails: bookingDetailsReducer,
+	bookingList: bookingListReducer,
+	bookingDelete: bookingDeleteReducer,
+	bookingUpdate: bookingUpdateReducer,
 	myBookings: userBookingList,
 })
 

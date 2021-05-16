@@ -56,7 +56,7 @@ const BookingScreen = ({ match }) => {
 							</p>
 
 							<p>
-								<strong>Order Status: </strong>
+								<strong>Booking Status: </strong>
 								{booking.status}
 							</p>
 

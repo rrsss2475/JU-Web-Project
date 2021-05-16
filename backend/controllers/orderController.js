@@ -35,8 +35,6 @@ const createOrder = asyncHandler(async (req, res) => {
 		for (let item of savedOrder.orderItems) {
 			let alreadyPresent = false
 			for (let i of user.orderedProducts) {
-				// console.log(JSON.stringify(i.product))
-				// console.log(JSON.stringify(item.product))
 				if (JSON.stringify(i.product) == JSON.stringify(item.product)) {
 					alreadyPresent = true
 					break
@@ -75,6 +73,60 @@ const getOrderById = asyncHandler(async (req, res) => {
 	}
 })
 
+const getAllOrders = asyncHandler(async (req, res) => {
+	let allOrders = []
+
+	let orders = await Order.find({
+		status: { $nin: ["Cancelled", "Delivered"] },
+	})
+		.sort({ toBeDelivered: "asc" })
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
+
+	allOrders = [...allOrders, ...orders]
+
+	orders = await Order.find({ status: "Delivered" })
+		.sort({ deliveredAt: "desc" })
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
+	allOrders = [...allOrders, ...orders]
+
+	orders = await Order.find({ status: "Cancelled" })
+		.sort({ createdAt: "desc" })
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "orderItems.product",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
+
+	allOrders = [...allOrders, ...orders]
+	res.json(allOrders)
+})
+
 const updateOrderToPaid = asyncHandler(async (req, res) => {
 	const order = await Order.findById(req.params.id)
 
@@ -103,6 +155,9 @@ const updateStatusOfOrder = asyncHandler(async (req, res) => {
 		if (req.body.status == "Delivered") {
 			order.isDelivered = true
 			order.deliveredAt = Date.now()
+			order.isPaid = true
+			order.paidAt = Date.now()
+			order.paymentMethod = "COD"
 			order.status = req.body.status
 			const updatedOrder = await order.save()
 			res.json(updatedOrder)
@@ -117,9 +172,22 @@ const updateStatusOfOrder = asyncHandler(async (req, res) => {
 	}
 })
 
+const deleteOrder = asyncHandler(async (req, res) => {
+	const order = await Order.findById(req.params.id)
+	if (order) {
+		await order.remove()
+		res.json({ message: "Order Deleted" })
+	} else {
+		res.status(404)
+		throw new Error("Order Not Found")
+	}
+})
+
 module.exports = {
 	createOrder: createOrder,
 	getOrderById: getOrderById,
+	getAllOrders: getAllOrders,
 	updateOrderToPaid: updateOrderToPaid,
 	updateStatusOfOrder: updateStatusOfOrder,
+	deleteOrder: deleteOrder,
 }

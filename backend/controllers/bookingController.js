@@ -70,6 +70,60 @@ const getBookingById = asyncHandler(async (req, res) => {
 	}
 })
 
+const getAllBookings = asyncHandler(async (req, res) => {
+	let allBookings = []
+
+	let bookings = await Booking.find({
+		status: { $nin: ["Cancelled", "Completed"] },
+	})
+		.sort({ toBeCompleted: "asc" })
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
+
+	allBookings = [...allBookings, ...bookings]
+
+	bookings = await Booking.find({ status: "Completed" })
+		.sort({ deliveredAt: "desc" })
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
+	allBookings = [...allBookings, ...bookings]
+
+	bookings = await Booking.find({ status: "Cancelled" })
+		.sort({ createdAt: "desc" })
+		.populate({ path: "user", select: "name email" })
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "category", select: "name" },
+		})
+		.populate({
+			path: "bookingItem.service",
+			select: "name category subCategory",
+			populate: { path: "subCategory", select: "name" },
+		})
+
+	allBookings = [...allBookings, ...bookings]
+	res.json(allBookings)
+})
+
 const updateBookingToPaid = asyncHandler(async (req, res) => {
 	const booking = await Booking.findById(req.params.id)
 
@@ -98,6 +152,9 @@ const updateStatusOfBooking = asyncHandler(async (req, res) => {
 		if (req.body.status == "Completed") {
 			booking.isCompleted = true
 			booking.completedAt = Date.now()
+			booking.isPaid = true
+			booking.paidAt = Date.now()
+			booking.paymentMethod = "COD"
 			booking.status = req.body.status
 			const updatedBooking = await booking.save()
 			res.json(updatedBooking)
@@ -112,9 +169,22 @@ const updateStatusOfBooking = asyncHandler(async (req, res) => {
 	}
 })
 
+const deleteBooking = asyncHandler(async (req, res) => {
+	const booking = await Booking.findById(req.params.id)
+	if (booking) {
+		await booking.remove()
+		res.json({ message: "Booking Deleted" })
+	} else {
+		res.status(404)
+		throw new Error("Booking Not Found")
+	}
+})
+
 module.exports = {
 	createBooking: createBooking,
 	getBookingById: getBookingById,
+	getAllBookings: getAllBookings,
 	updateBookingToPaid: updateBookingToPaid,
 	updateStatusOfBooking: updateStatusOfBooking,
+	deleteBooking: deleteBooking,
 }

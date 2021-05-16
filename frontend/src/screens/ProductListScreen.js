@@ -12,6 +12,7 @@ import {
 } from "../actions/productActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import { DeleteModal } from "../components/Modal";
+import { Link } from "react-router-dom";
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -117,7 +118,14 @@ const ProductListScreen = ({ history, match }) => {
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
-                  <td>{product._id}</td>
+                  <td>
+                    <Link
+                      to={`/products/${product.category.name}/${product.subCategory.name}/${product._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      {product._id}
+                    </Link>
+                  </td>
                   <td>{product.name}</td>
 
                   <td>

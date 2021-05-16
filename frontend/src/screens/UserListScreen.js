@@ -41,7 +41,10 @@ const UserListScreen = ({ history }) => {
             fontFamily: "Rubik, sans-serif",
           }}
         >
-          <h1>Users</h1>
+          <h1>
+            <center>Users</center>
+          </h1>
+          <br />
           <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>

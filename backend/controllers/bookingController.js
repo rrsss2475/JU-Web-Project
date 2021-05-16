@@ -10,7 +10,7 @@ const createBooking = asyncHandler(async (req, res) => {
     paymentMethod: req.body.paymentMethod,
     totalPrice: req.body.totalPrice,
     toBeCompleted: req.body.toBeCompleted,
-    status: "Inititated",
+    status: "Initiated",
   });
 
   if (req.body.isPaid) {

@@ -13,7 +13,7 @@ const createOrder = asyncHandler(async (req, res) => {
     shippingAddress: req.body.shippingAddress,
     paymentMethod: req.body.paymentMethod,
     totalPrice: req.body.totalPrice,
-    status: "Inititated",
+    status: "Initiated",
   });
 
   if (req.body.isPaid) {

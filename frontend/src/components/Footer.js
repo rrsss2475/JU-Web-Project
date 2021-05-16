@@ -70,7 +70,7 @@ function Footer() {
                 <i class="far fa-envelope"></i>
               </span>
               <a href="#" style={{ fontFamily: "Rubik, sans-serif" }}>
-                justintime@gmail.com
+                helpdeskjustintime@gmail.com
               </a>
             </li>
             <li>

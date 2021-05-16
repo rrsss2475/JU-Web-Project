@@ -1,17 +1,15 @@
 import React from "react"
 import { Spinner } from "react-bootstrap"
 
-const Loader = ({size}) => {
-	let style={
+const Loader = ({ size }) => {
+	let style = {
 		width: "100px",
 		height: "100px",
 		margin: "auto",
 		display: "block",
-	};
-	if(size)
-	{
-		console.log(size);
-		style={
+	}
+	if (size) {
+		style = {
 			width: size,
 			height: size,
 			margin: "auto",
@@ -19,12 +17,7 @@ const Loader = ({size}) => {
 		}
 	}
 	return (
-		<Spinner
-			animation="border"
-			variant="success"
-			role="status"
-			style={style}
-		>
+		<Spinner animation="border" variant="success" role="status" style={style}>
 			<span className="sr-only">Loading...</span>
 		</Spinner>
 	)

@@ -62,7 +62,7 @@ function Footer() {
                 <i class="fas fa-map-marker-alt"></i>
               </span>
               <p style={{ fontFamily: "Rubik, sans-serif" }}>
-                833 Mayflower Ave, GD-700106, Street No. 3A, Rajarhat.
+                Jadavpur University SL Campus, LB-Block, Salt Lake, Kolkata
               </p>
             </li>
             <li>

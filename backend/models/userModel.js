@@ -40,6 +40,14 @@ const cartSchema = mongoose.Schema({
 	qty: { type: Number, required: true },
 })
 
+const orderedProductsSchema = mongoose.Schema({
+	product: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: "Product",
+	},
+})
+
 const userSchema = mongoose.Schema(
 	{
 		name: {
@@ -61,6 +69,7 @@ const userSchema = mongoose.Schema(
 			default: false,
 		},
 		cart: [cartSchema],
+		orderedProducts: [orderedProductsSchema],
 	},
 	{
 		timestamps: true,

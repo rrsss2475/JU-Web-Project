@@ -1,8 +1,37 @@
 import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import Creator from "../components/Creator";
 
 const AboutusScreen = () => {
+  const people = [
+    { name: "Rajarshi" },
+    { name: "Reshab" },
+    { name: "Sayandeep" },
+    { name: "Sourav" },
+    { name: "Swapnil" },
+  ];
+
   return (
-    <div class="container">
+    <Container>
+      <h1
+        style={{
+          textAlign: "center",
+          marginTop: "100px",
+          marginBottom: "50px",
+        }}
+      >
+        OUR CREATORS
+      </h1>
+
+      <Row>
+        {people.map((people) => (
+          <Col>
+            <Creator person={people} />
+            &nbsp;
+          </Col>
+        ))}
+      </Row>
+
       <h1
         style={{
           textAlign: "left",
@@ -35,7 +64,7 @@ const AboutusScreen = () => {
         About Us page examples to help you learn the lesson behind: How Shopify
         About Us pages really increase eCommerce conversion rates.
       </p>
-    </div>
+    </Container>
   );
 };
 

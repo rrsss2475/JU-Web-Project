@@ -53,7 +53,119 @@ const getReviews = async (req, res) => {
 
 const getProductById = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)
+		.populate({ path: "category", select: "name" })
+		.populate({ path: "subCategory", select: "name" })
 	res.json(product)
+})
+
+const canBeRated = async (req, res) => {
+	const user = await User.findById(req.params.userid)
+	res.json(
+		user.orderedProducts.find((x) => {
+			return JSON.stringify(x.product) == JSON.stringify(req.params.id)
+		})
+	)
+}
+
+
+const postRating = asyncHandler(async (req, res) => {
+	const rating = Number(req.body.rating)
+	if (rating == 0) return res.status(400).json("Rating cannot be zero!")
+	await Product.findOneAndUpdate(
+		{ _id: req.body.id },
+		{ $pull: { reviews: { email: req.body.email } } }
+	)
+	const product = await Product.findById(req.body.id)
+	product.reviews.push({
+		email: req.body.email,
+		rating: req.body.rating,
+		comment: req.body.comment,
+	})
+	product.numReviews = product.reviews.length
+	let sumRatings = 0
+	for (let item of product.reviews) {
+		sumRatings += Number(item.rating)
+	}
+	product.rating = sumRatings / product.numReviews
+	await product.save()
+	res.json("Updated!")
+})
+
+const getAllProducts = asyncHandler(async (req, res) => {
+	const products = await Product.find({})
+		.populate({ path: "category", select: "name" })
+		.populate({ path: "subCategory", select: "name" })
+	res.json(products)
+})
+
+const createProduct = asyncHandler(async (req, res) => {
+	const categories = await Category.find({ isService: false })
+
+	const product = new Product({
+		name: "Sample name",
+		price: 0,
+		user: req.user._id,
+		image: "/images/sample.jpg",
+		category: categories[0]._id,
+		subCategory: categories[0].subCategory[0]._id,
+		isAvailable: true,
+		numReviews: 0,
+		description: "Sample description",
+		isWeighted: false,
+	})
+
+	const createdProduct = await product.save()
+	res.status(201).json(createdProduct)
+})
+
+const updateProduct = asyncHandler(async (req, res) => {
+	const {
+		name,
+		price,
+		image,
+		isAvailable,
+		numReviews,
+		description,
+		isWeighted,
+	} = req.body
+
+	const product = await Product.findById(req.params.id)
+
+	if (product) {
+		product.name = name
+		product.price = price
+		product.image = image
+		product.isAvailable = isAvailable
+		product.numReviews = numReviews
+		product.description = description
+		product.isWeighted = isWeighted
+
+		const updatedProduct = await product.save()
+		res.json(updatedProduct)
+	} else {
+		res.status(404)
+		throw new Error("Product not found")
+	}
+})
+
+const deleteProduct = asyncHandler(async (req, res) => {
+	const product = await Product.findById(req.params.id)
+	if (product) {
+		await product.remove()
+		res.json({ message: "Product removed" })
+	} else {
+		res.status(404)
+		throw new Error("Product not found")
+	}
+})
+
+const getProductAdmin = asyncHandler(async (req, res) => {
+	const product = await Product.findById(req.params.id)
+	if (product) res.json(product)
+	else {
+		res.status(404)
+		throw new Error("User not found")
+	}
 })
 
 module.exports = {
@@ -62,6 +174,13 @@ module.exports = {
 	getProducts: getProducts,
 	getProductDetails: getProductDetails,
 	getProductById: getProductById,
+	getAllProducts: getAllProducts,
+	getProductAdmin: getProductAdmin,
+	deleteProduct: deleteProduct,
+	createProduct: createProduct,
+	updateProduct: updateProduct,
 	getUserName: getUserName,
 	getReviews: getReviews,
+	canBeRated: canBeRated,
+	postRating: postRating,
 }

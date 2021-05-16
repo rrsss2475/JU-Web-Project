@@ -2,7 +2,7 @@ import React from "react"
 import { Card, CardImg } from "react-bootstrap"
 import { Link, Switch, Route } from "react-router-dom"
 import img from "../images/baby.jpg"
-import Rating from "./Rating"
+import StarRatings from "react-star-ratings"
 
 const Category = ({ product, type, catName, subCatName }) => {
 	let body = (
@@ -29,7 +29,14 @@ const Category = ({ product, type, catName, subCatName }) => {
 					<Card.Title as="div">
 						<strong>{product.name}</strong>
 						<br />
-						<Rating value={product.rating} />
+						<StarRatings
+							rating={product.rating}
+							starRatedColor="orange"
+							starDimension="20px"
+							starSpacing="0px"
+							numberOfStars={5}
+							name='rating'
+						/>
 					</Card.Title>
 				</Link>
 

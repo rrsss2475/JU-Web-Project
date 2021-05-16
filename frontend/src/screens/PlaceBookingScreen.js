@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import CheckoutSteps from "../components/CheckoutSteps";
 import StripeCheckout from "react-stripe-checkout";
 import { resetUserCartandOrder } from "../actions/userActions";
-import { createOrder } from "../actions/orderActions";
+import { createBooking, resetUserBooking } from "../actions/bookingActions";
 import axios from "axios";
 
 const PlaceBookingScreen = ({ history }) => {
@@ -19,6 +19,9 @@ const PlaceBookingScreen = ({ history }) => {
   const { bookingItem } = bookingState;
 
   const { userInfo } = useSelector((state) => state.userLogin);
+
+  const bookingCreate = useSelector((state) => state.bookingCreate);
+  const { booking, success } = bookingCreate;
 
   async function makePayment(token) {
     const body = {
@@ -33,21 +36,57 @@ const PlaceBookingScreen = ({ history }) => {
     const { data, status } = await axios.post("/payment", body, headers);
 
     if (data.paid && status === 200) {
-      dispatch();
+      dispatch(
+        createBooking({
+          bookingItem: {
+            name: bookingItem.service.name,
+            image: bookingItem.service.image,
+            qty: bookingItem.qty,
+            price: bookingItem.service.price,
+            service: bookingItem.service._id,
+          },
+          shippingAddress: shippingAddress,
+          paymentMethod: paymentMethod,
+          totalPrice: bookingItem.totalPrice,
+          isPaid: true,
+          paidAt: new Date(),
+          paymentResult: {
+            id: data.id,
+            status: data.status,
+            update_time: new Date(),
+            email_address: data.billing_details.name,
+          },
+          toBeCompleted: bookingItem.date,
+        })
+      );
     }
   }
 
-  //   useEffect(() => {
-  //     if (success) {
-  //       //   const orderId = order._id;
-  //       dispatch(resetUserCartandOrder());
-  //       history.push(`/checkout/booking/${orderId}`);
-  //     }
-  //     // eslint-disable-next-line
-  //   }, [history, success]);
+  useEffect(() => {
+    if (success) {
+      const bookingId = booking._id;
+      dispatch(resetUserBooking());
+      history.push(`/checkout/booking/${bookingId}`);
+    }
+    // eslint-disable-next-line
+  }, [history, success]);
 
   const placeBookingHandler = () => {
-    dispatch();
+    dispatch(
+      createBooking({
+        bookingItem: {
+          name: bookingItem.service.name,
+          image: bookingItem.service.image,
+          qty: bookingItem.qty,
+          price: bookingItem.service.price,
+          service: bookingItem.service._id,
+        },
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        totalPrice: bookingItem.totalPrice,
+        toBeCompleted: bookingItem.date,
+      })
+    );
   };
 
   return loading ? (

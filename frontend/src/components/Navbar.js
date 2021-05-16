@@ -159,13 +159,17 @@ const Navbar = ({}) => {
                   variant="success"
                   id="dropdown-basic"
                 >
-                  <b>CATEGORIES</b>
+                  <b>Browse by, Categories</b>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/products">Products</Dropdown.Item>
+                  <Dropdown.Item className="text-success" href="/products">
+                    Products
+                  </Dropdown.Item>
                   <NavDropdown.Divider />
-                  <Dropdown.Item href="/services">Services</Dropdown.Item>
+                  <Dropdown.Item className="text-success" href="/services">
+                    Services
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               &emsp;
@@ -223,6 +227,15 @@ const Navbar = ({}) => {
 
                   <NavDropdown.Divider />
                   <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    className="text-success"
+                    href="/myBookings"
+                  >
+                    <i className="fas fa-user"></i> My Bookings
+                  </Dropdown.Item>
+
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
                     className="text-success"
                     onClick={logoutHandler}
                     style={{ fontFamily: "Rubik, sans-serif" }}
@@ -249,6 +262,19 @@ const Navbar = ({}) => {
                 </button>
               </form>
             </>
+          )}
+          {userInfo && userInfo.isAdmin && (
+            <NavDropdown title='Admin' id='adminmenu'>
+              <LinkContainer to='/admin/userlist'>
+                <NavDropdown.Item>Users</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/admin/productlist'>
+                <NavDropdown.Item>Products</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/admin/orderlist'>
+                <NavDropdown.Item>Orders</NavDropdown.Item>
+              </LinkContainer>
+            </NavDropdown>
           )}
         </div>
       </Nav>

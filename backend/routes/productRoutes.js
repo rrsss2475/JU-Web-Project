@@ -3,6 +3,7 @@ const router = express.Router()
 const {
 	getCategories,
 	getSubCategories,
+	getSubCategories1,
 	getProducts,
 	getProductDetails,
 	getProductAdmin,
@@ -32,6 +33,7 @@ router
 	.get(auth, admin, getProductAdmin)
 router.get("/canBeRated/:userid/:id", canBeRated)
 router.post("/rate", postRating)
+router.get("/byid/:category", getSubCategories1)
 router.get("/:category", getSubCategories)
 router.get("/:category/:subCategory", getProducts)
 router.get("/:category/:subCategory/:id", getProductDetails)

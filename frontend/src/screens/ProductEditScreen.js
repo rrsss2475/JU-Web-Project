@@ -8,6 +8,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import { listCategories } from "../actions/categoryActions";
+import { listSubCategories } from "../actions/subcategoryActions1"
 
 const ProductEditScreen = ({ history, match }) => {
   const productId = match.params.id
@@ -18,20 +19,16 @@ const ProductEditScreen = ({ history, match }) => {
   const [description, setDescription] = useState('')
   const [isWeighted, setIsWeighted] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [category, setCategory] = useState(null)
+  const [subCategory, setSubCategory] = useState(null)
 
   const categoryList = useSelector((state) => state.categoryList);
-  const { categories,loading:catloading } = categoryList;
-  console.log(categories)
+  const { categories } = categoryList;
+
+  const subcategoryList = useSelector((state) => state.subcategoryList)
+  const { subcategories } = subcategoryList;
 
   const dispatch = useDispatch()
-  //dispatch(listCategories());
-
-  const [category, setCategory] = useState()
-  //const [redirect, setRedirect] = useState(false)
-  if(categoryList.loading==false)
-  {
-    setCategory(categories[0]._id)
-  }
 
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
@@ -42,18 +39,26 @@ const ProductEditScreen = ({ history, match }) => {
     success: successUpdate } = productUpdate
 
   useEffect(() => {
+    dispatch(listCategories());
+  }, [dispatch])
+
+  useEffect(() => {
+    if (category != null)
+      dispatch(listSubCategories(category))
+  }, [dispatch, category])
+
+  useEffect(()=>{
+    if(subcategoryList.loading==false)
+    setSubCategory(subcategories[0]._id)
+  },[subcategoryList.loading])
+
+  useEffect(() => {
 
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET })
       history.push('/admin/productlist')
     }
     else {
-      console.log(categories.length)
-      if(catloading)
-      {
-        console.log("mai gandu hu")
-        dispatch(listCategories());
-      }
       if (!product.name || product._id != productId) {
         dispatch(listProductDetails(productId))
       } else {
@@ -63,7 +68,8 @@ const ProductEditScreen = ({ history, match }) => {
         setIsAvailable(product.isAvailable)
         setDescription(product.description)
         setIsWeighted(product.isWeighted)
-
+        setCategory(product.category)
+        setSubCategory(product.subCategory)
       }
     }
   }, [dispatch, product, productId, history, successUpdate])
@@ -101,7 +107,9 @@ const ProductEditScreen = ({ history, match }) => {
         image,
         isAvailable,
         description,
-        isWeighted
+        isWeighted,
+        category,
+        subCategory
       })
     )
   }
@@ -160,32 +168,26 @@ const ProductEditScreen = ({ history, match }) => {
             {categoryList.loading ? <Loader size="25px" />
               :
               <div>
-                <label for="cars">Category </label>
-                <select name="cars" id="cars">
-                  {categories.map(cat=><option value={cat._id}>{cat.name}</option>)}
+                <label >Category</label>
+                <br />
+                <select value={category} onChange={(e) => { setCategory(e.target.value); }}>
+                  {categories.map(cat => <option value={cat._id}>{cat.name}</option>)}
                 </select>
+                <br />
               </div>
             }
-
-            {/* <Form.Group controlId='category'>
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter Category'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-
-            <Form.Group controlId='subCategory'>
-              <Form.Label>SubCategory</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter Sub Category'
-                value={subCategory}
-                onChange={(e) => setSubCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group> */}
+            <br />
+            {subcategoryList.loading ? <Loader size="25px" />
+              :
+              <div>
+                <label >Subcategory</label>
+                <br />
+                <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)}>
+                  {subcategories.map(subcat => <option value={subcat._id}>{subcat.name}</option>)}
+                </select>
+                <br />
+              </div>
+            }
 
             <Form.Group controlId='isavailable'>
               <Form.Check

@@ -21,6 +21,17 @@ const getSubCategories = asyncHandler(async (req, res) => {
 	res.json(subCategoryList)
 })
 
+const getSubCategories1 = asyncHandler(async (req, res) => {
+	const categoryid = req.params.category
+	const category = await Category.findById(categoryid)
+	const subCategoryList = []
+	for (const subcategory of category.subCategory) {
+		const subCategoryFound = await subCategory.findById(subcategory._id)
+		subCategoryList.push(subCategoryFound)
+	}
+	res.json(subCategoryList)
+})
+
 const getProducts = asyncHandler(async (req, res) => {
 	const subcategoryname = req.params.subCategory
 	const subcategory = await subCategory.findOne({ name: subcategoryname })
@@ -175,6 +186,7 @@ const getProductAdmin = asyncHandler(async (req, res) => {
 module.exports = {
 	getCategories: getCategories,
 	getSubCategories: getSubCategories,
+	getSubCategories1:getSubCategories1,
 	getProducts: getProducts,
 	getProductDetails: getProductDetails,
 	getProductById: getProductById,

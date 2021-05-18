@@ -29,6 +29,7 @@ import {
 	USER_UPDATE_FAIL,
 	USER_UPDATE_SUCCESS,
 	USER_UPDATE_REQUEST,
+	USER_UPDATE_RESET,
 	USER_MY_BOOKINGS_LIST_REQUEST,
 	USER_MY_BOOKINGS_LIST_SUCCESS,
 	USER_MY_BOOKINGS_LIST_FAIL,
@@ -189,7 +190,7 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
 			return { loading: false, success: true }
 		case USER_UPDATE_FAIL:
 			return { loading: false, error: action.payload }
-		case USER_DETAILS_RESET:
+		case USER_UPDATE_RESET:
 			return { user: {} }
 		default:
 			return state

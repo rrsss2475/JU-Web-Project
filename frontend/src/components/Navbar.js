@@ -61,7 +61,7 @@ const Navbar = ({}) => {
           letterSpacing: "3px",
           border: "1px solid #000000",
           // padding: "10px",
-          background: "rgb(0, 168, 0)",
+          // background: "rgb(0, 168, 0)",
           // fontFamily: "Kaushan Script",
           fontFamily: "Rubik, sans-serif",
           textShadow: "1px 1px 10px blue, 1px 1px 10px white",
@@ -70,13 +70,10 @@ const Navbar = ({}) => {
         <p>GET FLAT 10% OFF ON ALL ORDERS AND BOOKINGS</p>
       </div>
 
-      <Nav
-        // id="nav1"
-        class="navbar navbar-expand-lg navbar-light bg-transparent"
-      >
+      <Nav id="nav1" class="navbar navbar-expand-lg navbar-light">
         <NavLink
           id="nav-brand"
-          class="navbar-brand text-white font-weight-bold"
+          class="navbar-brand text-white  ont-weight-bold"
           to="/"
         >
           <img
@@ -254,6 +251,36 @@ const Navbar = ({}) => {
             </div>
           ) : (
             <>
+              <Dropdown
+                style={{
+                  fontFamily: "Rubik, sans-serif",
+                }}
+                show={show}
+                onMouseEnter={showDropdown}
+                onMouseLeave={hideDropdown}
+              >
+                <Dropdown.Toggle
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                    fontSize: "17px",
+                  }}
+                  variant="success"
+                  id="dropdown-basic"
+                >
+                  <b>Browse by, Categories</b>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item className="text-success" href="/products">
+                    Products
+                  </Dropdown.Item>
+                  <NavDropdown.Divider />
+                  <Dropdown.Item className="text-success" href="/services">
+                    Services
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              &nbsp;
               <LinkContainer to="/cart">
                 <Button type="submit" variant="success">
                   <i className="fas fa-shopping-cart"></i>
@@ -346,7 +373,7 @@ const Navbar = ({}) => {
         </div>
       </Nav>
       <hr
-        style={{ borderWidth: "2px", borderColor: "green", marginTop: "0px" }}
+        style={{ borderWidth: "3px", borderColor: "green", marginTop: "0px" }}
       />
     </>
   );

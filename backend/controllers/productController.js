@@ -69,6 +69,36 @@ const getProductById = asyncHandler(async (req, res) => {
 	res.json(product)
 })
 
+const isEqual = (str, map) => {
+	const strWords=str.split();
+	for(word of strWords)
+	{
+		if(map[word.toLowerCase()]===1)
+		return true;
+	}
+	return false;
+}
+
+const getProductByQuery = async (req, res) => {
+	try {
+		const product = await Product.find({})
+			.populate({ path: "category", select: "name" })
+			.populate({ path: "subCategory", select: "name" })
+		const query = req.params.query;
+		const queryWords = query.split(" ");
+		var map = {};
+		for (word of queryWords) {
+			map[word.toLowerCase()] = 1;
+		}
+		const result = product.filter((x) => {
+			return isEqual(x.name, map) || isEqual(x.category.name, map) || isEqual(x.subCategory.name, map);
+		})
+		res.json(result);
+	} catch (err) {
+		res.status(400).send(err);
+	}
+}
+
 const canBeRated = async (req, res) => {
 	const user = await User.findById(req.params.userid)
 	res.json(
@@ -152,8 +182,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.numReviews = numReviews
 		product.description = description
 		product.isWeighted = isWeighted
-		product.category=category
-		product.subCategory=subCategory
+		product.category = category
+		product.subCategory = subCategory
 
 		const updatedProduct = await product.save()
 		res.json(updatedProduct)
@@ -186,7 +216,7 @@ const getProductAdmin = asyncHandler(async (req, res) => {
 module.exports = {
 	getCategories: getCategories,
 	getSubCategories: getSubCategories,
-	getSubCategories1:getSubCategories1,
+	getSubCategories1: getSubCategories1,
 	getProducts: getProducts,
 	getProductDetails: getProductDetails,
 	getProductById: getProductById,
@@ -199,4 +229,5 @@ module.exports = {
 	getReviews: getReviews,
 	canBeRated: canBeRated,
 	postRating: postRating,
+	getProductByQuery: getProductByQuery
 }

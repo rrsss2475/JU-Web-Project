@@ -8,11 +8,12 @@ import {
   Button,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import img from "../images/logo3.png";
 
-const Navbar = ({}) => {
+const Navbar = ({ }) => {
+  const [query, setquery] = useState("");
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -34,6 +35,7 @@ const Navbar = ({}) => {
   };
 
   const history = useHistory();
+  const location=useLocation();
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -180,6 +182,8 @@ const Navbar = ({}) => {
               </LinkContainer>
               &nbsp;
               <FormControl
+                value={query}
+                onChange={(e) => { setquery(e.target.value) }}
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
@@ -188,6 +192,24 @@ const Navbar = ({}) => {
                   fontSize: "17px",
                 }}
               />
+              {query.length == 0 ?
+                <NavLink
+                  className="nav-link text-uppercase font-weight-bold text-success"
+                  to={location.pathname}
+                  exact
+                >
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </NavLink>
+                :
+                <NavLink
+                  className="nav-link text-uppercase font-weight-bold text-success"
+                  to={`/search/${query}`}
+                  exact
+                >
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </NavLink>
+              }
+
               &nbsp;
               <Dropdown
                 show={showUser}

@@ -16,6 +16,7 @@ const {
 	updateProduct,
 	canBeRated,
 	postRating,
+	getProductByQuery
 } = require("../controllers/productController")
 const { auth, admin } = require("../middlewares/authMiddleware")
 
@@ -23,6 +24,7 @@ router
 	.route("/")
 	.get(auth, admin, getAllProducts)
 	.post(auth, admin, createProduct)
+router.get("/search/:query",getProductByQuery)
 router.get("/userName/:id", getUserName)
 router.get("/categories", getCategories)
 router.get("/categories/:id", getProductById)

@@ -70,18 +70,17 @@ const getProductById = asyncHandler(async (req, res) => {
 })
 
 const isEqual = (str, map) => {
-	const strWords=str.split();
-	for(word of strWords)
-	{
-		if(map[word.toLowerCase()]===1)
-		return true;
+	const strWords = str.split(" ");
+	for (word of strWords) {
+		if (map[word.toLowerCase()] === 1)
+			return true;
 	}
 	return false;
 }
 
 const getProductByQuery = async (req, res) => {
 	try {
-		const product = await Product.find({})
+		const products = await Product.find({})
 			.populate({ path: "category", select: "name" })
 			.populate({ path: "subCategory", select: "name" })
 		const query = req.params.query;
@@ -90,7 +89,9 @@ const getProductByQuery = async (req, res) => {
 		for (word of queryWords) {
 			map[word.toLowerCase()] = 1;
 		}
-		const result = product.filter((x) => {
+		if (queryWords.length == 1 && map["all"] == 1)
+			return res.json(products)
+		const result = products.filter((x) => {
 			return isEqual(x.name, map) || isEqual(x.category.name, map) || isEqual(x.subCategory.name, map);
 		})
 		res.json(result);

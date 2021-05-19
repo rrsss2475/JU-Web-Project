@@ -1,9 +1,38 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Col, Container, Nav, NavLink, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import moment from "moment";
+
+const ReadMore = ({ children }) => {
+  const word = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+
+  // console.log(isReadMore);
+  // console.log(word);
+  // console.log(word.length);
+
+  return (
+    <p className="word">
+      {isReadMore ? word.slice(0, 50) : word}
+      <span onClick={toggleReadMore} className="read-or-hide">
+        {isReadMore ? (
+          <a style={{ textDecoration: "none" }} href="javascript:void(0);">
+            &emsp;<i class="fas fa-caret-down"></i> Read more
+          </a>
+        ) : (
+          <a style={{ textDecoration: "none" }} href="javascript:void(0);">
+            &emsp;<i class="fas fa-caret-up"></i> Read less
+          </a>
+        )}
+      </span>
+    </p>
+  );
+};
 
 const ReviewsScreen = ({ location }) => {
   const { productDescription } = location.state;
@@ -33,6 +62,9 @@ const ReviewsScreen = ({ location }) => {
         });
     }
   }, []);
+
+  // console.log(reviews);
+
   return (
     <Container style={{ fontFamily: "Rubik, sans-serif" }}>
       <h2>Reviews for {productDescription.name}</h2>
@@ -57,7 +89,13 @@ const ReviewsScreen = ({ location }) => {
                   />
                 </Card.Subtitle>
                 <Card.Text>
-                  <h5>{review.comment}</h5>
+                  {/* <ReadMore>{review.comment}</ReadMore> */}
+
+                  {review.comment.length < 20 ? (
+                    <p>{review.comment}</p>
+                  ) : (
+                    <ReadMore>{review.comment}</ReadMore>
+                  )}
                 </Card.Text>
                 <Card.Footer>
                   <Row>

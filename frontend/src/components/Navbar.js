@@ -293,6 +293,9 @@ const Navbar = ({ }) => {
               <LinkContainer to='/admin/productlist'>
                 <NavDropdown.Item>Products</NavDropdown.Item>
               </LinkContainer>
+              <LinkContainer to='/admin/servicelist'>
+                <NavDropdown.Item>Services</NavDropdown.Item>
+              </LinkContainer>
               <LinkContainer to='/admin/orderlist'>
                 <NavDropdown.Item>Orders</NavDropdown.Item>
               </LinkContainer>

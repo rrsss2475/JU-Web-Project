@@ -5,11 +5,11 @@ import {
 	SUBCATEGORY_LIST_FAIL,
 } from "../constants/subcategoryConstants"
 
-export const listSubCategories = (catName) => async (dispatch) => {
+export const listSubCategories = (catId) => async (dispatch) => {
 	try {
 		dispatch({ type: SUBCATEGORY_LIST_REQUEST })
 		const { data } = await axios.get(
-			`http://localhost:5000/api/products/byid/${catName}`
+			`http://localhost:5000/api/products/byid/${catId}`
 		)
 		dispatch({ type: SUBCATEGORY_LIST_SUCCESS, payload: data })
 	} catch (error) {

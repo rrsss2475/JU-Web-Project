@@ -1,50 +1,75 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { Form, Button, Container } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { listProductDetails, updateProduct } from "../actions/productActions";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
+import { Link, Redirect } from 'react-router-dom'
+import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { listProductDetails, updateProduct } from '../actions/productActions'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import { listCategories } from "../actions/categoryActions";
+import { listSubCategories } from "../actions/subcategoryActions1"
 
 const ProductEditScreen = ({ history, match }) => {
-  const productId = match.params.id;
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
-  const [isAvailable, setIsAvailable] = useState(false);
-  const [description, setDescription] = useState("");
-  const [isWeighted, setIsWeighted] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  //const [redirect, setRedirect] = useState(false)
+  const productId = match.params.id
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState(0)
+  const [image, setImage] = useState('')
+  const [isAvailable, setIsAvailable] = useState(false)
+  const [description, setDescription] = useState('')
+  const [isWeighted, setIsWeighted] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [category, setCategory] = useState(null)
+  const [subCategory, setSubCategory] = useState(null)
+
+  const categoryList = useSelector((state) => state.categoryList);
+  const { categories } = categoryList;
+
+  const subcategoryList = useSelector((state) => state.subcategoryList)
+  const { subcategories } = subcategoryList;
 
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
-  const productUpdate = useSelector((state) => state.productUpdate);
-  const {
-    loading: loadingUpdate,
+  const productUpdate = useSelector((state) => state.productUpdate)
+  const { loading: loadingUpdate,
     error: errorUpdate,
-    success: successUpdate,
-  } = productUpdate;
+    success: successUpdate } = productUpdate
 
   useEffect(() => {
+    dispatch(listCategories());
+  }, [dispatch])
+
+  useEffect(() => {
+    if (category != null)
+      dispatch(listSubCategories(category))
+  }, [dispatch, category])
+
+  useEffect(()=>{
+    if(subcategoryList.loading==false)
+    setSubCategory(subcategories[0]._id)
+  },[subcategoryList.loading])
+
+  useEffect(() => {
+
     if (successUpdate) {
-      dispatch({ type: PRODUCT_UPDATE_RESET });
-      history.push("/admin/productlist");
-    } else {
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      history.push('/admin/productlist')
+    }
+    else {
       if (!product.name || product._id != productId) {
         dispatch(listProductDetails(productId));
       } else {
-        setName(product.name);
-        setPrice(product.price);
-        setImage(product.image);
-        setIsAvailable(product.isAvailable);
-        setDescription(product.description);
-        setIsWeighted(product.isWeighted);
+        setName(product.name)
+        setPrice(product.price)
+        setImage(product.image)
+        setIsAvailable(product.isAvailable)
+        setDescription(product.description)
+        setIsWeighted(product.isWeighted)
+        setCategory(product.category)
+        setSubCategory(product.subCategory)
       }
     }
   }, [dispatch, product, productId, history, successUpdate]);
@@ -83,6 +108,8 @@ const ProductEditScreen = ({ history, match }) => {
         isAvailable,
         description,
         isWeighted,
+        category,
+        subCategory
       })
     );
   };
@@ -142,8 +169,31 @@ const ProductEditScreen = ({ history, match }) => {
               ></Form.File>
               {uploading && <Loader />}
             </Form.Group>
+            {categoryList.loading ? <Loader size="25px" />
+              :
+              <div>
+                <label >Category</label>
+                <br />
+                <select value={category} onChange={(e) => { setCategory(e.target.value); }}>
+                  {categories.map(cat => <option value={cat._id}>{cat.name}</option>)}
+                </select>
+                <br />
+              </div>
+            }
+            <br />
+            {subcategoryList.loading ? <Loader size="25px" />
+              :
+              <div>
+                <label >Subcategory</label>
+                <br />
+                <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)}>
+                  {subcategories.map(subcat => <option value={subcat._id}>{subcat.name}</option>)}
+                </select>
+                <br />
+              </div>
+            }
 
-            <Form.Group controlId="isavailable">
+            <Form.Group controlId='isavailable'>
               <Form.Check
                 type="checkbox"
                 label="Is Available"
@@ -152,7 +202,8 @@ const ProductEditScreen = ({ history, match }) => {
               ></Form.Check>
             </Form.Group>
 
-            <Form.Group controlId="description">
+
+            <Form.Group controlId='description'>
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"

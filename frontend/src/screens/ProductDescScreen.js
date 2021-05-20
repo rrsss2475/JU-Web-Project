@@ -83,18 +83,18 @@ const ProductDescScreen = ({ history }) => {
     }
   }, [loading]);
 
-  useEffect(() => {
-    if (productDescription._id != undefined)
-      axios
-        .get(
-          `/api/${type}/canBeRated/${userInfo._id}/${productDescription._id}`
-        )
-        .then((res) => {
-          if (res.data.product != undefined) setcanBeRated(true);
-          else setcanBeRated(false);
-        })
-        .catch();
-  }, [loading]);
+	useEffect(() => {
+		if (userInfo && productDescription._id != undefined)
+			axios
+				.get(
+					`/api/${type}/canBeRated/${userInfo._id}/${productDescription._id}`
+				)
+				.then((res) => {
+					if (res.data.product != undefined) setcanBeRated(true)
+					else setcanBeRated(false)
+				})
+				.catch()
+	}, [loading])
 
   const addToCartHandler = () => {
     if (userInfo == null) {
@@ -136,17 +136,25 @@ const ProductDescScreen = ({ history }) => {
     }
   };
 
-  const booking = {
-    service: productDescription,
-    totalPrice: qty * productDescription.price,
-    qty: qty,
-    date: date,
-  };
+	let booking = {}
+	if (type == "services")
+	{
+		booking = {
+			service: productDescription,
+			totalPrice: qty * productDescription.price,
+			qty: qty,
+			date: date,
+		}
+	}
 
-  const bookServiceHandler = () => {
-    dispatch(saveBookingItem(booking));
-    history.push("/checkout/services/shipping");
-  };
+	const bookServiceHandler = () => {
+		if (userInfo == null) {
+			setredirectToLogin(true)
+			return
+		}
+		dispatch(saveBookingItem(booking))
+		history.push("/checkout/services/shipping")
+	}
 
   const handleSaveReview = () => {
     axios
@@ -176,18 +184,18 @@ const ProductDescScreen = ({ history }) => {
     setdate(date1);
   };
 
-  let body = (
-    <div className="container" style={{ marginTop: "50px" }}>
-      {redirectToLogin ? (
-        <Redirect
-          to={{
-            pathname: "/login",
-            search: `?redirect=/categories/${catName}/${subCatName}/${productDescription._id}`,
-          }}
-        />
-      ) : (
-        <div></div>
-      )}
+	let body = (
+		<div className="container" style={{ marginTop: "50px" }}>
+			{redirectToLogin ? (
+				<Redirect
+					to={{
+						pathname: "/login",
+						search: `?redirect=/${type}/${catName}/${subCatName}/${productDescription._id}`,
+					}}
+				/>
+			) : (
+				<div></div>
+			)}
 
       <Link
         style={{ fontFamily: "Rubik, sans-serif" }}

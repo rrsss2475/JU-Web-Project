@@ -28,6 +28,9 @@ import UserListScreen from "./screens/UserListScreen"
 import UserEditScreen from "./screens/UserEditScreen"
 import ProductListScreen from "./screens/ProductListScreen"
 import ProductEditScreen from "./screens/ProductEditScreen"
+import SearchScreen from "./screens/SearchScreen"
+import ServiceListScreen from "./screens/ServiceListScreen"
+import ServiceEditScreen from "./screens/ServiceEditScreen"
 import OrderListScreen from "./screens/OrderListScreen"
 import BookingListScreen from "./screens/BookingListScreen"
 
@@ -45,6 +48,7 @@ function App() {
 					<Route path="/profile" component={UserProfile} exact />
 					<Route path="/admin/userlist" component={UserListScreen} exact />
 					<Route path="/admin/user/:id/edit" component={UserEditScreen} exact />
+					<Route path="/search/:query" component={SearchScreen} exact />
 					<Route
 						path="/admin/productlist"
 						component={ProductListScreen}
@@ -55,7 +59,17 @@ function App() {
 						component={ProductEditScreen}
 						exact
 					/>
-					<Route path="/admin/orderList" component={OrderListScreen} exact />
+					<Route
+						path="/admin/servicelist"
+						component={ServiceListScreen}
+						exact
+					/>
+					<Route
+						path="/admin/service/:id/edit"
+						component={ServiceEditScreen}
+						exact
+					/>
+  				<Route path="/admin/orderList" component={OrderListScreen} exact />
 					<Route path="/myOrders" component={MyOrders} exact />
 					<Route
 						path="/admin/bookingList"

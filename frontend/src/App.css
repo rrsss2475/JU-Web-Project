@@ -1,12 +1,14 @@
-/* Home-page-products-services */
-
 /* MARQUE-START */
 
 .marquee {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fefefe;
+  /* background: #fefefe; */
+  /* background-color: #00db21;
+  background-image: url("https://www.transparenttextures.com/patterns/buried.png"); */
+  background-color: #00db21;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds.png");
   color: #333;
   border: 1px solid #4a4a4a;
 }
@@ -64,6 +66,11 @@ h2 {
 
 /* MARQUE-END */
 
+/*  */
+.carousel {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 168, 0, 0.19);
+}
+/*  */
 .pic:hover {
   transform: scale(1.07);
   z-index: 2;
@@ -156,7 +163,10 @@ li {
 }
 
 footer {
-  background-color: black;
+  /* background-color: black; */
+  background-color: #000000;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
   color: #fff;
   margin-top: 60px;
   padding-top: 40px;
@@ -243,10 +253,15 @@ footer {
 .copy-right {
   padding: 5px 0;
   text-align: center;
-  background-color: rgb(94, 83, 83);
+  /* background-color: rgb(94, 83, 83); */
+  background-color: #008f00;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 .copy-right p {
   margin-top: 10 px;
+  color: #000000;
+  font-weight: 500;
 }
 
 /* FOOTER-NAVBAR RESPONSIVE */
@@ -493,4 +508,8 @@ body {
   .login-page .box.slide-active .form {
     right: auto;
   }
+}
+
+.modal-backdrop {
+  opacity: 0.5 !important;
 }

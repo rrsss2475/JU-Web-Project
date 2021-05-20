@@ -37,7 +37,14 @@ const MyOrders = () => {
       ) : (
         orders.map((order) => (
           <>
-            <Card border="success">
+            {/* <Card border="success"> */}
+            <Card
+              className="my-3 rounded"
+              style={{
+                boxShadow:
+                  "0 4px 8px 0 rgba(0, 168, 0, 0.3), 0 6px 20px 0 rgba(0, 168, 0, 0.69)",
+              }}
+            >
               <Card.Header>
                 <Row>
                   <Col>

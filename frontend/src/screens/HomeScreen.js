@@ -1,18 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import img1 from "../components/home-image/p2.jpg";
-import img2 from "../components/home-image/services2.jpg";
 import ImageSlider from "../components/ImageSlider";
 
 const HomeScreen = () => {
-  var obj = ["products","services"];
+  var obj = ["products", "services"];
   return (
     <>
       <ImageSlider />
       <div class="wrapper">
         <div class="pic">
           <Link to={`/${obj[0]}`}>
-            <img class="image" src={img1} alt="products" />
+            <img
+              class="image"
+              src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/p2.jpg?alt=media&token=85b20ea9-a50b-4134-ac17-2236e3e38cad"
+              alt="products"
+            />
           </Link>
           <div class="middle">
             <Link
@@ -29,7 +31,11 @@ const HomeScreen = () => {
         </div>
         <div class="pic">
           <Link to={`/${obj[1]}`}>
-            <img class="image" src={img2} alt="services" />
+            <img
+              class="image"
+              src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/services2.jpg?alt=media&token=e2327c36-894f-476c-917b-cddcfe3aad07"
+              alt="services"
+            />
           </Link>
           <div class="middle">
             <Link

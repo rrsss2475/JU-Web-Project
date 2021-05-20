@@ -6,6 +6,7 @@ import {
   Dropdown,
   FormControl,
   Button,
+  ProgressBar,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
@@ -34,6 +35,14 @@ const Navbar = ({ }) => {
     setShowUser(false);
   };
 
+  const [showAdmin, setShowAdmin] = useState(false);
+  const showAdminDropdown = (e) => {
+    setShowAdmin(!showAdmin);
+  };
+  const hideAdminDropdown = (e) => {
+    setShowAdmin(false);
+  };
+
   const history = useHistory();
   const location=useLocation();
 
@@ -55,7 +64,7 @@ const Navbar = ({ }) => {
           letterSpacing: "3px",
           border: "1px solid #000000",
           // padding: "10px",
-          background: "rgb(0, 168, 0)",
+          // background: "rgb(0, 168, 0)",
           // fontFamily: "Kaushan Script",
           fontFamily: "Rubik, sans-serif",
           textShadow: "1px 1px 10px blue, 1px 1px 10px white",
@@ -64,13 +73,10 @@ const Navbar = ({ }) => {
         <p>GET FLAT 10% OFF ON ALL ORDERS AND BOOKINGS</p>
       </div>
 
-      <Nav
-        // id="nav1"
-        class="navbar navbar-expand-lg navbar-light bg-transparent"
-      >
+      <Nav id="nav1" class="navbar navbar-expand-lg navbar-light">
         <NavLink
           id="nav-brand"
-          class="navbar-brand text-white font-weight-bold"
+          class="navbar-brand text-white  ont-weight-bold"
           to="/"
         >
           <img
@@ -142,7 +148,6 @@ const Navbar = ({ }) => {
               </NavLink>
             </li>
           </ul>
-
           {userInfo ? (
             <div style={{ display: "flex" }}>
               <Dropdown
@@ -269,6 +274,36 @@ const Navbar = ({ }) => {
             </div>
           ) : (
             <>
+              <Dropdown
+                style={{
+                  fontFamily: "Rubik, sans-serif",
+                }}
+                show={show}
+                onMouseEnter={showDropdown}
+                onMouseLeave={hideDropdown}
+              >
+                <Dropdown.Toggle
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                    fontSize: "17px",
+                  }}
+                  variant="success"
+                  id="dropdown-basic"
+                >
+                  <b>Browse by, Categories</b>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item className="text-success" href="/products">
+                    Products
+                  </Dropdown.Item>
+                  <NavDropdown.Divider />
+                  <Dropdown.Item className="text-success" href="/services">
+                    Services
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              &nbsp;
               <LinkContainer to="/cart">
                 <Button type="submit" variant="success">
                   <i className="fas fa-shopping-cart"></i>
@@ -285,26 +320,87 @@ const Navbar = ({ }) => {
               </form>
             </>
           )}
+          &nbsp;
           {userInfo && userInfo.isAdmin && (
-            <NavDropdown title='Admin' id='adminmenu'>
-              <LinkContainer to='/admin/userlist'>
+            <div style={{ display: "flex" }}>
+              <Dropdown
+                show={showAdmin}
+                onMouseEnter={showAdminDropdown}
+                onMouseLeave={hideAdminDropdown}
+                className="font-weight-bold"
+              >
+                <Dropdown.Toggle
+                  variant="outline-info"
+                  id="dropdown-basic"
+                  className="font-weight-bold"
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                    fontSize: "16px",
+                    marginTop: "-1px",
+                  }}
+                >
+                  Manage
+                </Dropdown.Toggle>
+                {/* <NavDropdown title="Manage" id="adminmenu"> */}
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    href="/admin/userlist"
+                  >
+                    Users
+                  </Dropdown.Item>
+
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    href="/admin/productlist"
+                  >
+                    Products
+                  </Dropdown.Item>
+
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    href="/admin/orderlist"
+                  >
+                    Orders
+                  </Dropdown.Item>
+
+                  <NavDropdown.Divider />
+                  <Dropdown.Item
+                    style={{ fontFamily: "Rubik, sans-serif" }}
+                    href="/admin/bookinglist"
+                  >
+                    Bookings
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+                {/* <LinkContainer to="/admin/userlist">
                 <NavDropdown.Item>Users</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='/admin/productlist'>
+              <NavDropdown.Divider />
+              <LinkContainer to="/admin/productlist">
                 <NavDropdown.Item>Products</NavDropdown.Item>
               </LinkContainer>
+              <NavDropdown.Divider />
               <LinkContainer to='/admin/servicelist'>
                 <NavDropdown.Item>Services</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='/admin/orderlist'>
+              <NavDropdown.Divider />
+              <LinkContainer to="/admin/orderlist">
                 <NavDropdown.Item>Orders</NavDropdown.Item>
               </LinkContainer>
-            </NavDropdown>
+              <NavDropdown.Divider />
+              <LinkContainer to="/admin/bookinglist">
+                <NavDropdown.Item>Bookings</NavDropdown.Item>
+              </LinkContainer> */}
+                {/* </NavDropdown> */}
+              </Dropdown>
+            </div>
           )}
         </div>
       </Nav>
       <hr
-        style={{ borderWidth: "2px", borderColor: "green", marginTop: "0px" }}
+        style={{ borderWidth: "3px", borderColor: "green", marginTop: "0px" }}
       />
     </>
   );

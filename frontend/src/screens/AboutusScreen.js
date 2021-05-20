@@ -15,25 +15,6 @@ const AboutusScreen = () => {
     <Container>
       <h1
         style={{
-          textAlign: "center",
-          marginTop: "100px",
-          marginBottom: "50px",
-        }}
-      >
-        OUR CREATORS
-      </h1>
-
-      <Row>
-        {people.map((people) => (
-          <Col>
-            <Creator person={people} />
-            &nbsp;
-          </Col>
-        ))}
-      </Row>
-
-      <h1
-        style={{
           textAlign: "left",
           marginTop: "100px",
         }}
@@ -64,6 +45,25 @@ const AboutusScreen = () => {
         About Us page examples to help you learn the lesson behind: How Shopify
         About Us pages really increase eCommerce conversion rates.
       </p>
+
+      <h1
+        style={{
+          textAlign: "center",
+          marginTop: "100px",
+          marginBottom: "50px",
+        }}
+      >
+        OUR CREATORS
+      </h1>
+
+      <Row>
+        {people.map((people) => (
+          <Col>
+            <Creator person={people} />
+            <br />
+          </Col>
+        ))}
+      </Row>
     </Container>
   );
 };

@@ -1,28 +1,29 @@
-import axios from 'axios';
-import React,{useState,useEffect} from 'react'
-import { useParams } from 'react-router-dom'
-import {Row, Col} from "react-bootstrap"
-import Loader from '../components/Loader';
-import Product from "../components/Product"
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Row, Col, Container } from "react-bootstrap";
+import Loader from "../components/Loader";
+import Product from "../components/Product";
 
 const SearchScreen = () => {
-   const {query}=useParams();
-   const [loading,setloading]=useState(true)
-   const [products,setproducts]=useState([])
+  const { query } = useParams();
+  const [loading, setloading] = useState(true);
+  const [products, setproducts] = useState([]);
 
-   useEffect(()=>{
-     setloading(true)
-      axios.get(`/api/products/search/${query}`)
-      .then((res)=>{
-          setproducts(res.data);
-          setloading(false);
-        })
-      .catch()
-   },[query])
+  useEffect(() => {
+    setloading(true);
+    axios
+      .get(`/api/products/search/${query}`)
+      .then((res) => {
+        setproducts(res.data);
+        setloading(false);
+      })
+      .catch();
+  }, [query]);
 
-   let body;
+  let body;
 
-   if (!loading) {
+  if (!loading) {
     body = (
       <Row>
         {products.map((product) => (
@@ -39,11 +40,35 @@ const SearchScreen = () => {
     );
   }
 
-    return (
-        <div className="container" style={{ marginTop: "50px" }}>
-            {loading?<Loader />:products.length==0?<h1>No Results Found</h1>:body}
-        </div>
-    )
-}
+  return (
+    <Container style={{ marginTop: "50px" }}>
+      <h3>
+        {products.length > 1 ? (
+          <>
+            {products.length} search results for{" "}
+            <span style={{ color: "green" }}>"{query}"</span>
+          </>
+        ) : (
+          <>
+            {products.length} search result for "{query}"
+          </>
+        )}
+      </h3>
+      <hr
+        style={{
+          borderColor: "rgb(0,168,0,0.3)",
+          borderWidth: "2px",
+        }}
+      />
+      {loading ? (
+        <Loader />
+      ) : products.length == 0 ? (
+        <h1>No Results Found</h1>
+      ) : (
+        body
+      )}
+    </Container>
+  );
+};
 
-export default SearchScreen
+export default SearchScreen;

@@ -29,9 +29,16 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 
   const savedOrder = await order.save();
+
   if (savedOrder) {
     res.json(savedOrder);
     const user = await User.findById(savedOrder.user);
+    for (let a of user.address) {
+      if (savedOrder.shippingAddress._id.equals(a._id)) {
+        a.lastUsed = moment().format();
+        break;
+      }
+    }
     for (let item of savedOrder.orderItems) {
       let alreadyPresent = false;
       for (let i of user.orderedProducts) {

@@ -132,12 +132,10 @@ const PlaceBookingScreen = ({ history }) => {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row style={{ fontFamily: "Rubik, sans-serif" }}>
-                    <Col md={1}>
+                    <Col md={2} xs={5}>
                       <Image
                         src={bookingItem.service.image}
                         alt={bookingItem.service.name}
-                        fluid
-                        rounded
                       />
                     </Col>
                     <Col>{bookingItem.service.name}</Col>

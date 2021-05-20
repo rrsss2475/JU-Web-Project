@@ -24,6 +24,12 @@ const createBooking = asyncHandler(async (req, res) => {
     res.json(savedBooking);
     //console.log(savedBooking)
     const user = await User.findById(savedBooking.user);
+    for (let a of user.address) {
+      if (savedBooking.shippingAddress._id.equals(a._id)) {
+        a.lastUsed = moment().format();
+        break;
+      }
+    }
     //console.log(user)
     let alreadyPresent = false;
     for (let i of user.orderedProducts) {

@@ -13,9 +13,8 @@ const Creator = ({ person }) => {
       >
         <Card.Img
           variant="top"
-          // src="holder.js/100px180"
-          src="https://www.pngitem.com/pimgs/m/504-5040528_empty-profile-picture-png-transparent-png.png"
-          style={{ borderRadius: "50%", background: "white" }}
+          src="https://scontent.fdel1-3.fna.fbcdn.net/v/t1.6435-9/165277385_3808293815892352_5703735070284205032_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=80QNcib1rhYAX_XZptO&_nc_ht=scontent.fdel1-3.fna&oh=9bf6e9e16fc31a1a34dcdc8a428d9a95&oe=60CA6FB7"
+          // style={{ borderRadius: "50%", background: "white" }}
         />
         <Card.Body style={{ background: "white" }}>
           <Card.Title>

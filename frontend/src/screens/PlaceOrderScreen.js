@@ -122,12 +122,12 @@ const PlaceOrderScreen = ({ history }) => {
                   {orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row style={{ fontFamily: "Rubik, sans-serif" }}>
-                        <Col md={1}>
+                        <Col md={2} xs={5}>
                           <Image
                             src={item.image}
                             alt={item.name}
-                            fluid
-                            rounded
+                            // fluid
+                            // rounded
                           />
                         </Col>
                         <Col>
@@ -135,7 +135,12 @@ const PlaceOrderScreen = ({ history }) => {
                           {item.name}
                           {/* </Link> */}
                         </Col>
-                        <Col md={4}>
+                        <Col md={5}>
+                          {item.weight !== null ? (
+                            <>Wt: {item.weight * 1000} gm |</>
+                          ) : (
+                            <></>
+                          )}{" "}
                           Qty: {item.qty} | ₹{item.price}
                         </Col>
                       </Row>

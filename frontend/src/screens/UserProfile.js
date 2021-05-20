@@ -48,6 +48,11 @@ const ProfileScreen = () => {
       history.push("/login");
     } else {
       if (!user || !user.name || success) {
+        if (success) {
+          setUpdate("Profile Updated Successfully");
+          setPassword("");
+          setConfirmPassword("");
+        }
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
       } else {
@@ -65,11 +70,11 @@ const ProfileScreen = () => {
       setConfirmPassword("");
     } else {
       dispatch(updateUserProfile({ name, email, password }));
-      if (!errorUpdate) {
-        setUpdate("Profile Updated Successfully");
-        setPassword("");
-        setConfirmPassword("");
-      }
+      // if (success) {
+      //   setUpdate("Profile Updated Successfully");
+      //   setPassword("");
+      //   setConfirmPassword("");
+      // }
     }
   };
   return (

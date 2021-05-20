@@ -4,12 +4,7 @@ import { Table, Button, Row, Col, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import {
-  listAllProducts,
-  deleteProduct,
-  listProducts,
-  createProduct,
-} from "../actions/productActions";
+import { listAllProducts, createProduct } from "../actions/productActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import { DeleteModal } from "../components/Modal";
 import { Link } from "react-router-dom";
@@ -61,11 +56,6 @@ const ProductListScreen = ({ history, match }) => {
     createdProduct,
   ]);
 
-  // const deleteHandler = (id) => {
-  //   if (window.confirm('Are you sure')) {
-  //     dispatch(deleteProduct(id))
-  //   }
-  // }
   const createProductHandler = () => {
     dispatch(createProduct());
   };
@@ -90,7 +80,7 @@ const ProductListScreen = ({ history, match }) => {
             }}
             onClick={createProductHandler}
           >
-            <i className="fas fa-plus"></i> CREATE PRODUCTS
+            <i className="fas fa-plus"></i> CREATE PRODUCT
           </Button>
         </Col>
       </Row>

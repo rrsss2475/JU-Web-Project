@@ -4,9 +4,6 @@
   height: 50px;
   overflow: hidden;
   position: relative;
-  /* background: #fefefe; */
-  /* background-color: #00db21;
-  background-image: url("https://www.transparenttextures.com/patterns/buried.png"); */
   background-color: #00db21;
   background-image: url("https://www.transparenttextures.com/patterns/diagmonds.png");
   color: #333;
@@ -14,7 +11,8 @@
 }
 
 h1,
-h2 {
+h2,
+h3 {
   font-family: "Rubik", sans-serif;
 }
 
@@ -66,11 +64,44 @@ h2 {
 
 /* MARQUE-END */
 
-/*  */
+/* NAVBAR */
+
+.nav-links {
+  display: flex;
+  /* background-color: blue; */
+  width: 100%;
+  font-size: 16px;
+  font-family: "Rubik", sans-serif;
+}
+
+.nav-right-content {
+  display: flex;
+  /* background-color: yellow; */
+  /* max-width: 100%; */
+  width: 100%;
+}
+
+#cart-button {
+  height: max-content;
+}
+
+#form-button {
+  height: 100%;
+  padding: 0 !important;
+}
+
+#form-button-para {
+  padding: 0 !important;
+}
+
+/* NAVBAR-END */
+
+/* CAROUSEL */
 .carousel {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 168, 0, 0.19);
 }
-/*  */
+/* CAROUSEL-END */
+
 .pic:hover {
   transform: scale(1.07);
   z-index: 2;
@@ -169,22 +200,24 @@ footer {
   /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
   color: #fff;
   margin-top: 60px;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .footer_info {
-  width: 90%;
+  /* width: 90%;
   margin: 0 auto;
   display: flex;
-  padding: 30px 0;
+  padding: 30px 0; */
+  display: flex;
+  max-width: 100%;
 }
 
 .footer_info .footer_width {
-  padding: 0 15px;
+  padding: 0px 15px;
 }
 
 .footer_info h3 {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .about,
@@ -196,40 +229,25 @@ footer {
   width: 20%;
 }
 
-.social-link {
-  margin-top: 30px;
-}
-
-.social-link ul {
-  display: flex;
-}
-
-.social-link ul li a {
-  display: inline-block;
-  margin-right: 20px;
-  width: 35px;
-  height: 35px;
-  padding-top: 4px;
-  background-color: transparent;
-  border: 1px solid #fff;
-  text-align: center;
-  color: #fff;
-}
-
-.social-link ul li a:hover {
-  background-color: #fff;
-  color: black;
-}
-
-.link ul li a {
+.footer_quick_links p a {
   text-decoration: none;
   color: #fff;
   display: block;
-  margin-bottom: 15px;
-  font-size: 18px;
+  font-family: "Rubik", sans-serif;
 }
 
-.link ul li a:hover {
+.footer_quick_links p a:hover {
+  color: orange;
+}
+
+.footer_links p a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  font-family: "Rubik", sans-serif;
+}
+
+p a:hover {
   color: orange;
 }
 
@@ -251,15 +269,13 @@ footer {
 }
 
 .copy-right {
-  padding: 5px 0;
+  padding: 1px 0;
   text-align: center;
-  /* background-color: rgb(94, 83, 83); */
   background-color: #008f00;
   background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
   /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 .copy-right p {
-  margin-top: 10 px;
   color: #000000;
   font-weight: 500;
 }
@@ -272,10 +288,6 @@ footer {
     width: 35%;
   }
 
-  #nav-brand {
-    font-size: 28px;
-  }
-
   .link {
     width: 30%;
   }
@@ -286,17 +298,111 @@ footer {
 }
 
 @media screen and (max-width: 767px) {
-  #nav-brand {
-    font-size: 24px;
+  .marquee {
+    height: 30px;
   }
+
+  h2 {
+    font-size: 19px !important;
+  }
+
+  .marquee p {
+    font-size: 14px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    line-height: 30px;
+    text-align: center;
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -moz-animation: scroll-left 2s linear infinite;
+    -webkit-animation: scroll-left 2s linear infinite;
+    animation: scroll-left 15s linear infinite;
+  }
+
+  .logo {
+    width: 100px;
+    height: 45px;
+  }
+
+  .navbar-toggler-icon {
+    font-size: 12px;
+  }
+
+  .nav-links {
+    font-size: 11px;
+  }
+
+  .nav-right-content {
+    font-size: 10px;
+  }
+
+  #dropdown-basic,
+  #dropdown-basic-menu {
+    font-size: 11px !important;
+  }
+
+  #cart-button {
+    font-size: 10px;
+    height: 100%;
+    width: 20%;
+  }
+
+  #form-button {
+    height: 100%;
+  }
+
+  #form-button-para {
+    font-size: 10px;
+    width: max-content;
+  }
+
+  #form-search {
+    width: 50%;
+    font-size: 10px !important;
+  }
+
+  /* .navbar-nav,
+  .mr-auto,
+  .mt-lg-0 {
+    font-size: 12px;
+    background-color: yellow;
+  } */
+
+  /* .nav-item {
+    font-size: 12px;
+  } */
+
   .about,
   .contact {
     width: 100%;
-    margin-bottom: 30px;
+    font-size: 14px;
   }
 
   .footer_info {
     flex-direction: column;
+  }
+
+  .footer_quick_links {
+    display: flex;
+    width: max-content;
+    font-size: 14px;
+  }
+
+  .footer_info h3 {
+    font-size: 16px;
+    width: max-content;
+    font-weight: 900;
+  }
+
+  .copy-right {
+    padding: 1px;
+  }
+
+  .copy-right p {
+    font-size: 13px;
   }
 
   .text {

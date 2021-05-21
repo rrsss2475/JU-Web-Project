@@ -9,4 +9,16 @@ const registerValidate = (data) => {
 	return schema.validate(data)
 }
 
-module.exports = registerValidate
+const updateValidate = (data) => {
+	const schema = joi.object({
+		name: joi.string().min(3),
+		email: joi.string().email(),
+		password: joi.string().optional().allow("").min(6),
+	})
+	return schema.validate(data)
+}
+
+module.exports = {
+	registerValidate: registerValidate,
+	updateValidate: updateValidate,
+}

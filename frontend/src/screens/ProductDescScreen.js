@@ -1,115 +1,481 @@
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Col, Row, Form, Button, Toast } from 'react-bootstrap'
-import Loader from '../components/Loader'
-import Message from '../components/Message'
-import Rating from '../components/Rating'
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Link, useParams, Redirect, useHistory } from "react-router-dom";
+import { Col, Row, Form, Button, Toast, Modal } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import QuantitySelector from "../components/QuantitySelector";
+import { productDescAction } from "../actions/productActions";
+import { serviceDescAction } from "../actions/serviceActions";
+import DateSelector from "../components/DateSelector";
+import { saveBookingItem } from "../actions/bookingActions";
+import StarRatings from "react-star-ratings";
 
-const ProductDescScreen = ({ location }) => {
-  const { product } = location.state
-  const [qty, setqty] = useState(1)
-  const [user, setuser] = useState('')
-  const [loading, setloading] = useState(true)
-  const [error, seterror] = useState(false)
-  const { catName, subCatName } = useParams()
+const ProductDescScreen = ({ history }) => {
+  const [qty, setqty] = useState(1);
+  const [user, setuser] = useState("");
+  const [userloading, setuserloading] = useState(true);
+  const [usererror, setusererror] = useState(false);
+  const { type, catName, subCatName, id } = useParams();
+  const [redirectToLogin, setredirectToLogin] = useState(false);
+  const [addToCartSuccess, setaddToCartSuccess] = useState("");
+  const [addToCartErr, setaddToCartErr] = useState("");
+  const [weight, setWeight] = useState(0);
+  const [date, setdate] = useState(
+    new Date().setDate(new Date().getDate() + 1)
+  );
+  const [canBeRated, setcanBeRated] = useState(false);
+  const [rating, setrating] = useState(0);
+  const [review, setreview] = useState("");
+  const [ratingStatus, setratingStatus] = useState("");
+  const [ratingStatusColor, setratingStatusColor] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    setrating(0);
+    setreview("");
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const productDesc = useSelector((state) => state.productDesc);
+  const { loading, error, productDescription } = productDesc;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (type == "products")
+      dispatch(productDescAction(catName, subCatName, id));
+    else dispatch(serviceDescAction(catName, subCatName, id));
+  }, [dispatch]);
 
   useEffect(() => {
+    if (loading == false) {
+      if (type == "products") {
+        axios
+          .get(
+            `http://localhost:5000/api/products/userName/${productDescription.user}`
+          )
+          .then((res) => {
+            setuser(res.data.name);
+            setuserloading(false);
+          })
+          .catch((err) => {
+            setusererror(err);
+          });
+      } else {
+        axios
+          .get(
+            `http://localhost:5000/api/services/userName/${productDescription.user}`
+          )
+          .then((res) => {
+            setuser(res.data.name);
+            setuserloading(false);
+          })
+          .catch((err) => {
+            setusererror(err);
+          });
+      }
+      if (productDescription.isWeighted)
+        setWeight(productDescription.weights[0]);
+    }
+  }, [loading]);
+
+	useEffect(() => {
+		if (userInfo && productDescription._id != undefined)
+			axios
+				.get(
+					`/api/${type}/canBeRated/${userInfo._id}/${productDescription._id}`
+				)
+				.then((res) => {
+					if (res.data.product != undefined) setcanBeRated(true)
+					else setcanBeRated(false)
+				})
+				.catch()
+	}, [loading])
+
+  const addToCartHandler = () => {
+    if (userInfo == null) {
+      setredirectToLogin(true);
+      return;
+    } else {
+      if (productDescription.isWeighted) {
+        axios
+          .post("http://localhost:5000/api/users/addToCart", {
+            userid: userInfo._id,
+            productid: productDescription._id,
+            qty: qty,
+            weight: weight,
+          })
+          .then((res) => {
+            setqty(1);
+            setaddToCartSuccess(res);
+          })
+          .catch((err) => {
+            setqty(1);
+            setaddToCartErr(err);
+          });
+      } else {
+        axios
+          .post("http://localhost:5000/api/users/addToCart", {
+            userid: userInfo._id,
+            productid: productDescription._id,
+            qty: qty,
+          })
+          .then((res) => {
+            setqty(1);
+            setaddToCartSuccess(res);
+          })
+          .catch((err) => {
+            setqty(1);
+            setaddToCartErr(err);
+          });
+      }
+    }
+  };
+
+	let booking = {}
+	if (type == "services")
+	{
+		booking = {
+			service: productDescription,
+			totalPrice: qty * productDescription.price,
+			qty: qty,
+			date: date,
+		}
+	}
+
+	const bookServiceHandler = () => {
+		if (userInfo == null) {
+			setredirectToLogin(true)
+			return
+		}
+		dispatch(saveBookingItem(booking))
+		history.push("/checkout/services/shipping")
+	}
+
+  const handleSaveReview = () => {
     axios
-      .get(`http://localhost:5000/api/products/userName/${product.user}`)
+      .post(`/api/${type}/rate`, {
+        id: productDescription._id,
+        email: userInfo.email,
+        rating: rating,
+        comment: review,
+      })
       .then((res) => {
-        setuser(res.data.name);
-        setloading(false);
+        setratingStatus(res.data);
+        setratingStatusColor("lightgreen");
       })
-      .catch((error) => {
-        seterror(error)
-      })
-  }, [])
+      .catch((err) => {
+        setratingStatus("Rating cannot be zero!");
+        setratingStatusColor("pink");
+      });
+  };
 
-  const addToCartHandler = () => { }
+  const addQtyHandler = () => {
+    setqty(qty + 1);
+  };
+  const subQtyHandler = () => {
+    setqty(qty - 1);
+  };
+  const setDateHandler = (date1) => {
+    setdate(date1);
+  };
 
-  return (
-    <div className='container' style={{ paddingTop: '75px' }}>
-      <Link className='btn btn-dark my-3 mx-2' to={`/`}>
-        Back to Home
-      </Link>
-      <Link className='btn btn-dark my-3 mx-2' to={`/categories`}>
-        Back to Categories
-      </Link>
-      <Link className='btn btn-dark my-3 mx-2' to={`/categories/${catName}`}>
-        Back to {catName}
-      </Link>
+	let body = (
+		<div className="container" style={{ marginTop: "50px" }}>
+			{redirectToLogin ? (
+				<Redirect
+					to={{
+						pathname: "/login",
+						search: `?redirect=/${type}/${catName}/${subCatName}/${productDescription._id}`,
+					}}
+				/>
+			) : (
+				<div></div>
+			)}
+
       <Link
-        className='btn btn-dark my-3 mx-2'
-        to={`/categories/${catName}/${subCatName}`}
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/`}
       >
-        Back to {subCatName}
+        <strong>Back to Home</strong>
       </Link>
-      <Row>
+      <strong style={{ color: "green" }}>&gt;</strong>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/${type}`}
+      >
+        <strong>Back to Categories</strong>
+      </Link>
+      <strong style={{ color: "green" }}>&gt;</strong>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-success my-3 mx-2"
+        to={`/${type}/${catName}`}
+      >
+        <strong>Back to {catName}</strong>
+      </Link>
+      <strong style={{ color: "green" }}>&gt;</strong>
+      <Link
+        style={{ fontFamily: "Rubik, sans-serif" }}
+        className="btn btn-warning my-3 mx-2"
+        to={`/${type}/${catName}/${subCatName}`}
+      >
+        <strong>Back to {subCatName}</strong>
+      </Link>
+      <Row style={{ marginTop: "50px" }}>
         <Col sm={12} md={8} lg={6} xl={6}>
           <img
-            src={product.image}
-            style={{ height: '100%', width: '100%', maxHeight: '500px' }}
+            src={productDescription.image}
+            style={{ height: "100%", width: "100%", maxHeight: "500px" }}
           />
         </Col>
         <Col sm={12} md={8} lg={5} xl={4}>
-          <h1>{product.name}</h1>
-          {loading ? <Loader size="25" /> : error ? <Message variant="danger">{error}</Message> : `By ${user}`}
-          <Rating
-            value={product.rating}
-            text={`${product.numReviews} reviews`}
-          />
-          <br />
-          <b>Price: Rs {product.price}</b>
-          <br />
-          {product.isAvailable ? (
-            <div style={{ color: 'green', fontWeight: 'bold' }}>In Stock</div>
+          <h1>{productDescription.name}</h1>
+          {userloading ? (
+            <Loader size="25px" />
+          ) : usererror ? (
+            <Message variant="danger">{usererror}</Message>
           ) : (
-            <div style={{ color: 'red', fontWeight: 'bold' }}>Out Of Stock</div>
+            `By ${user}`
           )}
           <br />
-          {product.isAvailable ? (
+          <StarRatings
+            rating={productDescription.rating}
+            starRatedColor="orange"
+            starDimension="20px"
+            starSpacing="0px"
+            numberOfStars={5}
+            name="rating"
+          />
+          <br />
+          {productDescription.numReviews} ratings
+          <br />
+          <br />
+          {productDescription.isWeighted ? (
+            <b>Price: Rs {productDescription.price * weight}</b>
+          ) : (
+            <b>Price: Rs {productDescription.price}</b>
+          )}
+          <br />
+          {type == "products" ? (
+            productDescription.isAvailable ? (
+              <div style={{ color: "green", fontWeight: "bold" }}>In Stock</div>
+            ) : (
+              <div style={{ color: "red", fontWeight: "bold" }}>
+                Out Of Stock
+              </div>
+            )
+          ) : productDescription.isAvailable ? (
+            <div style={{ color: "green", fontWeight: "bold" }}>Available</div>
+          ) : (
+            <div style={{ color: "red", fontWeight: "bold" }}>
+              Not Available
+            </div>
+          )}
+          <br />
+          {type == "services" ? (
+            <DateSelector date={date} setDateHandler={setDateHandler} />
+          ) : (
+            <div></div>
+          )}
+          {productDescription.isWeighted ? (
             <div>
-              Qty
-              <Form.Control
-                as='select'
-                value={qty}
-                onChange={(e) => setqty(e.target.value)}
+              <select
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                style={{ fontSize: "20px", border: "solid black" }}
               >
-                {[...Array(4).keys()].map((x) => (
-                  <option key={x + 1} value={x + 1}>
-                    {x + 1}
-                  </option>
-                ))}
-              </Form.Control>
-              <Button
-                onClick={addToCartHandler}
-                className='btn-block'
-                type='button'
+                {productDescription.weights.map((wt) => {
+                  return <option value={wt}>{wt * 1000}</option>;
+                })}
+              </select>
+              &nbsp;grams
+            </div>
+          ) : (
+            <div></div>
+          )}
+          <br />
+          {productDescription.isAvailable ? (
+            <div>
+              <QuantitySelector
+                qty={qty}
+                addQtyHandler={addQtyHandler}
+                subQtyHandler={subQtyHandler}
+                limit={10}
+              />
+              <br />
+              {type == "products" ? (
+                <Button
+                  variant="warning"
+                  // style={{ paddingLeft: "130px", paddingRight: "130px" }}
+                  style={{ width: "100%" }}
+                  onClick={addToCartHandler}
+                >
+                  <strong>Add To Cart</strong>
+                </Button>
+              ) : (
+                <Button
+                  variant="warning"
+                  // style={{ paddingLeft: "130px", paddingRight: "130px" }}
+                  style={{ width: "100%" }}
+                  onClick={bookServiceHandler}
+                >
+                  <strong>Book Service</strong>
+                </Button>
+              )}
+              <Toast
+                style={{
+                  color: "red",
+                  backgroundColor: "pink",
+                  marginTop: "10px",
+                }}
+                show={addToCartErr.length != 0}
+                onClose={() => {
+                  setaddToCartErr("");
+                }}
+                delay={3000}
+                autohide
               >
-                Add To Cart
-              </Button>
+                {/* <Toast.Header>
+                  <strong className="mr-auto">Error:</strong>
+                </Toast.Header> */}
+                <Toast.Body>Purchase Limit Exceeded!</Toast.Body>
+              </Toast>
+
+              <Toast
+                style={{
+                  color: "green",
+                  backgroundColor: "lightgreen",
+                  marginTop: "10px",
+                }}
+                show={addToCartSuccess.length != 0}
+                onClose={() => {
+                  setaddToCartSuccess("");
+                }}
+                delay={3000}
+                autohide
+              >
+                {/* <Toast.Header>
+                  <strong className="mr-auto">Success:</strong>
+                </Toast.Header> */}
+                <Toast.Body>Added to cart successfully!</Toast.Body>
+              </Toast>
             </div>
           ) : (
             <h1></h1>
           )}
           <br />
-          <h3>About this item:</h3>
-          <p>{product.description}</p>
+          <h3 style={{ fontFamily: "Rubik, sans-serif" }}>About this item:</h3>
+          <p style={{ fontFamily: "Rubik, sans-serif" }}>
+            {productDescription.description}
+          </p>
           <Link
             to={{
-              pathname: `/categories/${catName}/${subCatName}/${product._id}/reviews`,
-              state: { product: product },
+              pathname: `/${type}/${catName}/${subCatName}/${productDescription._id}/reviews`,
+              state: { productDescription: productDescription },
             }}
           >
-            <Button className='btn-block' variant='secondary'>
-              See all Reviews{' '}
+            <Button
+              style={{ fontFamily: "Rubik, sans-serif" }}
+              className="btn-block"
+              variant="secondary"
+            >
+              See all Reviews{" "}
             </Button>
           </Link>
+          {canBeRated ? (
+            <div>
+              <br />
+              <Button
+                style={{ fontFamily: "Rubik, sans-serif" }}
+                className="btn-block"
+                variant="success"
+                onClick={handleShow}
+              >
+                Rate {type == "products" ? "Product" : "Service"}
+              </Button>
+
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>
+                    Rate {type == "products" ? "Product" : "Service"}
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Toast
+                    style={{
+                      //fontSize: "20px",
+                      color: "white",
+                      fontWeight: "bold",
+                      backgroundColor: ratingStatusColor,
+                      marginTop: "10px",
+                    }}
+                    show={ratingStatus.length != 0}
+                    onClose={() => {
+                      setratingStatus("");
+                      setratingStatusColor("");
+                    }}
+                    delay={1500}
+                    autohide
+                  >
+                    {/* <Toast.Header>
+                  <strong className="mr-auto">Error:</strong>
+                </Toast.Header> */}
+                    <Toast.Body>{ratingStatus}</Toast.Body>
+                  </Toast>
+                  <StarRatings
+                    rating={rating}
+                    starRatedColor="orange"
+                    starHoverColor="orange"
+                    changeRating={(newRating, name) => {
+                      setrating(newRating);
+                    }}
+                    numberOfStars={5}
+                    name="rating"
+                  />
+                  <Form>
+                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                      <Form.Label>Write review</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={review}
+                        onChange={(e) => setreview(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={handleSaveReview}>
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
     </div>
-  )
-}
+  );
 
-export default ProductDescScreen
+  return loading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant="danger">{error}</Message>
+  ) : (
+    body
+  );
+};
+
+export default ProductDescScreen;

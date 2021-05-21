@@ -45,7 +45,14 @@ const UserListScreen = ({ history }) => {
             <center>Users</center>
           </h1>
           <br />
-          <Table striped bordered hover responsive className="table-sm">
+          <Table
+            id="table-list"
+            striped
+            bordered
+            hover
+            responsive
+            className="table-sm"
+          >
             <thead>
               <tr>
                 <th>ID</th>
@@ -86,6 +93,7 @@ const UserListScreen = ({ history }) => {
                         setModalShow(true);
                         setUserId(user._id);
                       }}
+                      id="table-list-button"
                     >
                       <i className="fas fa-trash"></i>
                     </Button>

@@ -85,10 +85,12 @@ const MyOrders = () => {
                 <Card.Text>
                   {order.orderItems.map((item) => (
                     <Row>
-                      <Col md={4} xs={4}>
-                        <Image src={item.image} fluid />
+                      <Col md={4} xs={5}>
+                        <center>
+                          <Image src={item.image} fluid />
+                        </center>
                       </Col>
-                      <Col md={4} xs={8}>
+                      <Col md={4} xs={7}>
                         <center>
                           <h5>
                             <b>{item.name}</b>

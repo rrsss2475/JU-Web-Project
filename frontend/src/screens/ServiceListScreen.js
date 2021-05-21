@@ -4,12 +4,12 @@ import { Table, Button, Row, Col, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listAllProducts, createProduct } from "../actions/productActions";
+import { listAllProducts, createProduct } from "../actions/serviceActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import { DeleteModal } from "../components/Modal";
 import { Link } from "react-router-dom";
 
-const ProductListScreen = ({ history, match }) => {
+const ServiceListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
   const [modalShow, setModalShow] = React.useState(false);
   const [productid, setProductId] = React.useState();
@@ -43,7 +43,7 @@ const ProductListScreen = ({ history, match }) => {
     }
 
     if (successCreate) {
-      history.push(`/admin/product/${createdProduct._id}/edit`);
+      history.push(`/admin/service/${createdProduct._id}/edit`);
     } else {
       dispatch(listAllProducts());
     }
@@ -68,7 +68,7 @@ const ProductListScreen = ({ history, match }) => {
     >
       <Row className="align-items-center">
         <Col>
-          <h1>Products</h1>
+          <h1>Services</h1>
         </Col>
         <Col align-text="right">
           <Button
@@ -80,7 +80,7 @@ const ProductListScreen = ({ history, match }) => {
             }}
             onClick={createProductHandler}
           >
-            <i className="fas fa-plus"></i> CREATE PRODUCT
+            <i className="fas fa-plus"></i> CREATE SERVICE
           </Button>
         </Col>
       </Row>
@@ -110,7 +110,7 @@ const ProductListScreen = ({ history, match }) => {
                 <tr key={product._id}>
                   <td>
                     <Link
-                      to={`/products/${product.category.name}/${product.subCategory.name}/${product._id}`}
+                      to={`/services/${product.category.name}/${product.subCategory.name}/${product._id}`}
                       style={{ textDecoration: "none" }}
                     >
                       {product._id}
@@ -120,12 +120,12 @@ const ProductListScreen = ({ history, match }) => {
 
                   <td>
                     <i className="fas fa-ruppee"></i>
-                    {product.price}/{(str = product.isWeighted ? "kg" : "unit")}
+                    {product.price}
                   </td>
                   <td>{product.category.name}</td>
                   <td>{product.subCategory.name}</td>
                   <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                    <LinkContainer to={`/admin/service/${product._id}/edit`}>
                       <Button variant="light" className="btn-sm">
                         <i className="fas fa-edit"></i>
                       </Button>
@@ -133,6 +133,7 @@ const ProductListScreen = ({ history, match }) => {
                     <Button
                       variant="danger"
                       className="btn-sm"
+                      //   onClick={() => deleteHandler(product._id)}
                       onClick={() => {
                         setModalShow(true);
                         setProductId(product._id);
@@ -146,7 +147,7 @@ const ProductListScreen = ({ history, match }) => {
             </tbody>
             <DeleteModal
               show={modalShow}
-              type={"Product"}
+              type={"Service"}
               id={productid}
               onHide={() => setModalShow(false)}
             />
@@ -157,4 +158,4 @@ const ProductListScreen = ({ history, match }) => {
   );
 };
 
-export default ProductListScreen;
+export default ServiceListScreen;

@@ -3,6 +3,7 @@ const router = express.Router()
 const {
 	getCategories,
 	getSubCategories,
+	getSubCategories1,
 	getProducts,
 	getProductDetails,
 	getProductAdmin,
@@ -15,6 +16,7 @@ const {
 	updateProduct,
 	canBeRated,
 	postRating,
+	getProductByQuery
 } = require("../controllers/productController")
 const { auth, admin } = require("../middlewares/authMiddleware")
 
@@ -22,6 +24,7 @@ router
 	.route("/")
 	.get(auth, admin, getAllProducts)
 	.post(auth, admin, createProduct)
+router.get("/search/:query",getProductByQuery)
 router.get("/userName/:id", getUserName)
 router.get("/categories", getCategories)
 router.get("/categories/:id", getProductById)
@@ -32,6 +35,7 @@ router
 	.get(auth, admin, getProductAdmin)
 router.get("/canBeRated/:userid/:id", canBeRated)
 router.post("/rate", postRating)
+router.get("/byid/:category", getSubCategories1)
 router.get("/:category", getSubCategories)
 router.get("/:category/:subCategory", getProducts)
 router.get("/:category/:subCategory/:id", getProductDetails)

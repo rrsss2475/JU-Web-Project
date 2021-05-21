@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Toast } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Toast,
+  Col,
+  Row,
+  Image,
+} from "react-bootstrap";
 import emailjs from "emailjs-com";
 
 const ContactusScreen = () => {
@@ -28,8 +36,8 @@ const ContactusScreen = () => {
 
   return (
     <Container style={{ fontFamily: "Rubik, sans-serif", marginTop: "100px" }}>
-      <div class="row">
-        <div class="col-lg-5">
+      <Row>
+        <Col md={8} xs={12}>
           <h2 style={{ fontWeight: "700", fontFamily: "Rubik, sans-serif" }}>
             LIVE SUPPORT
           </h2>
@@ -49,19 +57,19 @@ const ContactusScreen = () => {
             Ipsum, you need to be sure there isn't anything embarrassing hidden
             in the middle of text.
           </p>
-        </div>
+        </Col>
 
-        <div class="col-lg-2">
-          <img
+        <Col md={4} xs={12}>
+          <Image
             src="https://raw.githubusercontent.com/SouravSaha1999/Mobile-o-Mania/master/ls.jpg"
-            class="img-responsive"
-            alt=""
+            // class="img-responsive"
+            fluid
           />
-        </div>
-      </div>
+        </Col>
+      </Row>
 
-      <div class="row">
-        <div class="col-lg-8">
+      <Row>
+        <Col md={8} xs={12}>
           <h2
             style={{
               marginBottom: "20px",
@@ -133,11 +141,12 @@ const ContactusScreen = () => {
               <Toast.Body>Thank you for contacting us.</Toast.Body>
             </Toast>
           </Form>
-        </div>
+        </Col>
 
-        <div
+        <Col
+          md={4}
+          xs={12}
           style={{ fontFamily: "Rubik, sans-serif", marginTop: "70px" }}
-          class="col-lg-4"
         >
           <h2
             style={{
@@ -153,8 +162,8 @@ const ContactusScreen = () => {
           <p>Phone: +91-6666699999</p>
           <p>Email: helpdeskjustintime@gmail.com</p>
           <p>Follow on: Facebook, Instagram</p>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </Container>
   );
 };

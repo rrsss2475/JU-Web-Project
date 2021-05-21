@@ -56,7 +56,7 @@ const BookingScreen = ({ match }) => {
 							</p>
 
 							<p>
-								<strong>Order Status: </strong>
+								<strong>Booking Status: </strong>
 								{booking.status}
 							</p>
 
@@ -109,7 +109,7 @@ const BookingScreen = ({ match }) => {
 							<ListGroup variant="flush">
 								<ListGroup.Item>
 									<Row style={{ fontFamily: "Rubik, sans-serif" }}>
-										<Col md={1}>
+										<Col md={2} xs={5}>
 											<Image
 												src={booking.bookingItem.image}
 												alt={booking.bookingItem.name}

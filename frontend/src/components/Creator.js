@@ -13,9 +13,9 @@ const Creator = ({ person }) => {
       >
         <Card.Img
           variant="top"
-          // src="holder.js/100px180"
-          src="https://www.pngitem.com/pimgs/m/504-5040528_empty-profile-picture-png-transparent-png.png"
-          style={{ borderRadius: "50%", background: "white" }}
+          src={person.img}
+          style={{ height: "160px" }}
+          // style={{ borderRadius: "50%", background: "white" }}
         />
         <Card.Body style={{ background: "white" }}>
           <Card.Title>

@@ -21,6 +21,17 @@ const getSubCategories = asyncHandler(async (req, res) => {
 	res.json(subCategoryList)
 })
 
+const getSubCategories1 = asyncHandler(async (req, res) => {
+	const categoryid = req.params.category
+	const category = await Category.findById(categoryid)
+	const subCategoryList = []
+	for (const subcategory of category.subCategory) {
+		const subCategoryFound = await subCategory.findById(subcategory._id)
+		subCategoryList.push(subCategoryFound)
+	}
+	res.json(subCategoryList)
+})
+
 const getProducts = asyncHandler(async (req, res) => {
 	const subcategoryname = req.params.subCategory
 	const subcategory = await subCategory.findOne({ name: subcategoryname })
@@ -57,6 +68,37 @@ const getProductById = asyncHandler(async (req, res) => {
 		.populate({ path: "subCategory", select: "name" })
 	res.json(product)
 })
+
+const isEqual = (str, map) => {
+	const strWords = str.split(" ");
+	for (word of strWords) {
+		if (map[word.toLowerCase()] === 1)
+			return true;
+	}
+	return false;
+}
+
+const getProductByQuery = async (req, res) => {
+	try {
+		const products = await Product.find({})
+			.populate({ path: "category", select: "name" })
+			.populate({ path: "subCategory", select: "name" })
+		const query = req.params.query;
+		const queryWords = query.split(" ");
+		var map = {};
+		for (word of queryWords) {
+			map[word.toLowerCase()] = 1;
+		}
+		if (queryWords.length == 1 && map["all"] == 1)
+			return res.json(products)
+		const result = products.filter((x) => {
+			return isEqual(x.name, map) || isEqual(x.category.name, map) || isEqual(x.subCategory.name, map);
+		})
+		res.json(result);
+	} catch (err) {
+		res.status(400).send(err);
+	}
+}
 
 const canBeRated = async (req, res) => {
 	const user = await User.findById(req.params.userid)
@@ -127,6 +169,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		numReviews,
 		description,
 		isWeighted,
+		category,
+		subCategory
 	} = req.body
 
 	const product = await Product.findById(req.params.id)
@@ -139,6 +183,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.numReviews = numReviews
 		product.description = description
 		product.isWeighted = isWeighted
+		product.category = category
+		product.subCategory = subCategory
 
 		const updatedProduct = await product.save()
 		res.json(updatedProduct)
@@ -171,6 +217,7 @@ const getProductAdmin = asyncHandler(async (req, res) => {
 module.exports = {
 	getCategories: getCategories,
 	getSubCategories: getSubCategories,
+	getSubCategories1: getSubCategories1,
 	getProducts: getProducts,
 	getProductDetails: getProductDetails,
 	getProductById: getProductById,
@@ -183,4 +230,5 @@ module.exports = {
 	getReviews: getReviews,
 	canBeRated: canBeRated,
 	postRating: postRating,
+	getProductByQuery: getProductByQuery
 }

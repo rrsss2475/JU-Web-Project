@@ -45,7 +45,7 @@ const SearchScreen = () => {
 			<p style={{ color: "#70757a" }}>
 				{products.length > 1 ? (
 					<>
-						{products.length} search result for{" "}
+						{products.length} search results for{" "}
 						<span style={{ color: "green" }}>
 							<strong>"{query}"</strong>
 						</span>

@@ -112,6 +112,7 @@ const OrderListScreen = ({ history, match }) => {
 											setUserSelect(event.target.value)
 										}}
 									>
+										<option value="">NULL</option>
 										{[...userSet].map((user) => (
 											<option value={user}>{user}</option>
 										))}
@@ -129,11 +130,12 @@ const OrderListScreen = ({ history, match }) => {
 										as="select"
 										custom
 										onChange={(event) => {
-											setUserSelect(event.target.value)
+											setZipSelect(event.target.value)
 										}}
 									>
+										<option value="">NULL</option>
 										{[...zipSet].map((zip) => (
-											<option value={zip}>{zip}</option>
+											<option value={zip.toString()}>{zip.toString()}</option>
 										))}
 									</Form.Control>
 								</Form.Group>
@@ -152,6 +154,7 @@ const OrderListScreen = ({ history, match }) => {
 											setSearchStatus(event.target.value)
 										}}
 									>
+										<option value="">NULL</option>
 										<option value="Initiated">Initiated</option>
 										<option value="Shipped">Shipped</option>
 										<option value="Delivered">Delivered</option>
@@ -179,28 +182,24 @@ const OrderListScreen = ({ history, match }) => {
 							<tbody>
 								{orders
 									.filter((order) => {
-										if (searchStatus === "" && userSelect === "") {
+										if (
+											searchStatus === "" &&
+											userSelect === "" &&
+											zipSelect === ""
+										) {
 											return order
-										} else if (searchStatus === "" && userSelect !== "") {
-											if (order.user && order.user.name === userSelect) {
-												return order
-											}
-										} else if (searchStatus !== "" && userSelect === "") {
+										} else {
 											if (
-												order.status
+												((order.user && order.user.name === userSelect) ||
+													userSelect === "") &&
+												(order.status
 													.toLowerCase()
-													.includes(searchStatus.toLowerCase())
+													.includes(searchStatus.toLowerCase()) ||
+													searchStatus === "") &&
+												(order.shippingAddress.zip.toString() === zipSelect ||
+													zipSelect === "")
 											) {
-												return order
-											}
-										} else if (searchStatus !== "" && userSelect !== "") {
-											if (
-												order.status
-													.toLowerCase()
-													.includes(searchStatus.toLowerCase()) &&
-												order.user &&
-												order.user.name === userSelect
-											) {
+												console.log(zipSelect, order.zip)
 												return order
 											}
 										}

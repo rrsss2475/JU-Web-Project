@@ -81,6 +81,25 @@ h3 {
   width: 100%;
 }
 
+.nav-right-content-logout {
+  display: flex;
+  /* background-color: yellow; */
+  /* max-width: 100%; */
+  width: 100%;
+}
+
+.nav-right-content-first {
+  /* background-color: blue; */
+  width: 100%;
+  display: flex;
+}
+
+.nav-right-content-second {
+  /* background-color: red; */
+  width: 60%;
+  display: flex;
+}
+
 #cart-button {
   height: max-content;
 }
@@ -302,7 +321,17 @@ p a:hover {
     height: 30px;
   }
 
-  h2 {
+  h1 {
+    font-size: 24px !important;
+  }
+
+  h5 {
+    font-size: 17px !important;
+  }
+
+  h2,
+  h3,
+  h4 {
     font-size: 19px !important;
   }
 
@@ -337,6 +366,11 @@ p a:hover {
 
   .nav-right-content {
     font-size: 10px;
+    flex-direction: column;
+  }
+
+  .nav-right-content-logout {
+    font-size: 10px;
   }
 
   #dropdown-basic,
@@ -363,17 +397,6 @@ p a:hover {
     width: 50%;
     font-size: 10px !important;
   }
-
-  /* .navbar-nav,
-  .mr-auto,
-  .mt-lg-0 {
-    font-size: 12px;
-    background-color: yellow;
-  } */
-
-  /* .nav-item {
-    font-size: 12px;
-  } */
 
   .about,
   .contact {
@@ -412,6 +435,19 @@ p a:hover {
   footer {
     margin-top: 30px;
   }
+
+  #checkout-steps {
+    font-size: 15px !important;
+  }
+  #payment-label {
+    font-size: 15px !important;
+  }
+  #place-order-screen {
+    font-size: 14px;
+  }
+  /* #my-orders {
+    width: 20%;
+  } */
 }
 
 /* Sliding Loginn - Register */

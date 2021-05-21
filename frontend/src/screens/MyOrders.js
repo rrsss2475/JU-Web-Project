@@ -37,23 +37,24 @@ const MyOrders = () => {
       ) : (
         orders.map((order) => (
           <>
-            {/* <Card border="success"> */}
             <Card
               className="my-3 rounded"
               style={{
                 boxShadow:
                   "0 4px 8px 0 rgba(0, 168, 0, 0.3), 0 6px 20px 0 rgba(0, 168, 0, 0.69)",
+                // width: "max-content",
               }}
+              id="my-orders"
             >
               <Card.Header>
                 <Row>
-                  <Col>
+                  <Col md={4} xs={12}>
                     <h5>
                       <strong>Total Price : ₹ {order.totalPrice}</strong>
                     </h5>
                   </Col>
-                  {/* <Col></Col> */}
-                  <Col>
+                  {/* <Col md={3}></Col> */}
+                  <Col md={8} xs={12}>
                     <Link
                       to={`/checkout/order/${order._id}`}
                       style={{
@@ -84,11 +85,10 @@ const MyOrders = () => {
                 <Card.Text>
                   {order.orderItems.map((item) => (
                     <Row>
-                      <Col md={1}></Col>
-                      <Col md={2}>
+                      <Col md={4} xs={4}>
                         <Image src={item.image} fluid />
                       </Col>
-                      <Col>
+                      <Col md={4} xs={8}>
                         <center>
                           <h5>
                             <b>{item.name}</b>

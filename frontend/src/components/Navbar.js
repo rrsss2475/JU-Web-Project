@@ -129,134 +129,144 @@ const Navbar = ({}) => {
           {userInfo ? (
             /* USER */
             <div className="nav-right-content">
-              <Dropdown
-                style={{
-                  fontFamily: "Rubik, sans-serif",
-                }}
-                show={show}
-                onMouseEnter={showDropdown}
-                onMouseLeave={hideDropdown}
-              >
-                <Dropdown.Toggle
+              <div className="nav-right-content-first">
+                <Dropdown
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                  }}
+                  show={show}
+                  onMouseEnter={showDropdown}
+                  onMouseLeave={hideDropdown}
+                >
+                  <Dropdown.Toggle
+                    style={{
+                      fontFamily: "Rubik, sans-serif",
+                      fontSize: "17px",
+                    }}
+                    variant="success"
+                    id="dropdown-basic"
+                  >
+                    <b>Categories</b>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item className="text-success" href="/products">
+                      Products
+                    </Dropdown.Item>
+                    <NavDropdown.Divider />
+                    <Dropdown.Item className="text-success" href="/services">
+                      Services
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                &emsp;
+                <LinkContainer to="/cart">
+                  <Button type="submit" variant="success" id="cart-button">
+                    <i className="fas fa-shopping-cart"></i>
+                  </Button>
+                </LinkContainer>
+                &emsp;
+                <FormControl
+                  value={query}
+                  onChange={(e) => {
+                    setquery(e.target.value);
+                  }}
+                  type="text"
+                  placeholder="Search"
+                  className="mr-sm-2"
                   style={{
                     fontFamily: "Rubik, sans-serif",
                     fontSize: "17px",
+                    maxWidth: "100%",
                   }}
-                  variant="success"
-                  id="dropdown-basic"
-                >
-                  <b>Categories</b>
-                </Dropdown.Toggle>
+                  id="form-search"
+                />
+                {query.length == 0 ? (
+                  <NavLink
+                    className="nav-link text-uppercase font-weight-bold text-success"
+                    to={location.pathname}
+                    exact
+                  >
+                    <i
+                      style={{ marginLeft: "-50px" }}
+                      class="fa fa-search"
+                      aria-hidden="true"
+                    ></i>
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    className="nav-link text-uppercase font-weight-bold text-success"
+                    to={`/search/${query}`}
+                    exact
+                  >
+                    <i
+                      style={{ marginLeft: "-50px" }}
+                      class="fa fa-search"
+                      aria-hidden="true"
+                    ></i>
+                  </NavLink>
+                )}
+              </div>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item className="text-success" href="/products">
-                    Products
-                  </Dropdown.Item>
-                  <NavDropdown.Divider />
-                  <Dropdown.Item className="text-success" href="/services">
-                    Services
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              &emsp;
-              <LinkContainer to="/cart">
-                <Button type="submit" variant="success" id="cart-button">
-                  <i className="fas fa-shopping-cart"></i>
-                </Button>
-              </LinkContainer>
-              &emsp;
-              <FormControl
-                value={query}
-                onChange={(e) => {
-                  setquery(e.target.value);
-                }}
-                type="text"
-                placeholder="Search"
-                className="mr-sm-2"
-                // size="sm"
-                style={{
-                  fontFamily: "Rubik, sans-serif",
-                  fontSize: "17px",
-                  maxWidth: "100%",
-                }}
-                id="form-search"
-              />
-              {query.length == 0 ? (
-                <NavLink
-                  className="nav-link text-uppercase font-weight-bold text-success"
-                  to={location.pathname}
-                  exact
-                >
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </NavLink>
-              ) : (
-                <NavLink
-                  className="nav-link text-uppercase font-weight-bold text-success"
-                  to={`/search/${query}`}
-                  exact
-                >
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </NavLink>
-              )}
-              <Dropdown
-                show={showUser}
-                onMouseEnter={showUserDropdown}
-                onMouseLeave={hideUserDropdown}
-                className="font-weight-bold"
-              >
-                <Dropdown.Toggle
-                  variant="success"
-                  id="dropdown-basic"
+              <div className="nav-right-content-second">
+                <Dropdown
+                  show={showUser}
+                  onMouseEnter={showUserDropdown}
+                  onMouseLeave={hideUserDropdown}
                   className="font-weight-bold"
-                  style={{
-                    fontFamily: "Rubik, sans-serif",
-                    fontSize: "16px",
-                  }}
                 >
-                  Hello, {userInfo.name.split(" ")[0]}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    style={{ fontFamily: "Rubik, sans-serif" }}
-                    className="text-success"
-                    href="/profile"
+                  <Dropdown.Toggle
+                    variant="success"
+                    id="dropdown-basic"
+                    className="font-weight-bold"
+                    style={{
+                      fontFamily: "Rubik, sans-serif",
+                      fontSize: "16px",
+                    }}
                   >
-                    <i className="fas fa-user"></i> Profile
-                  </Dropdown.Item>
+                    Hello, {userInfo.name.split(" ")[0]}
+                  </Dropdown.Toggle>
 
-                  <NavDropdown.Divider />
-                  <Dropdown.Item
-                    style={{ fontFamily: "Rubik, sans-serif" }}
-                    className="text-success"
-                    href="/myOrders"
-                  >
-                    <i className="fas fa-user"></i> My Orders
-                  </Dropdown.Item>
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                      className="text-success"
+                      href="/profile"
+                    >
+                      <i className="fas fa-user"></i> Profile
+                    </Dropdown.Item>
 
-                  <NavDropdown.Divider />
-                  <Dropdown.Item
-                    style={{ fontFamily: "Rubik, sans-serif" }}
-                    className="text-success"
-                    href="/myBookings"
-                  >
-                    <i className="fas fa-user"></i> My Bookings
-                  </Dropdown.Item>
+                    <NavDropdown.Divider />
+                    <Dropdown.Item
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                      className="text-success"
+                      href="/myOrders"
+                    >
+                      <i className="fas fa-user"></i> My Orders
+                    </Dropdown.Item>
 
-                  <NavDropdown.Divider />
-                  <Dropdown.Item
-                    className="text-success"
-                    onClick={logoutHandler}
-                    style={{ fontFamily: "Rubik, sans-serif" }}
-                  >
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              &emsp;
-              {userInfo && userInfo.isAdmin && (
-                /* ADMIN */
-                <div className="nav-right-content">
+                    <NavDropdown.Divider />
+                    <Dropdown.Item
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                      className="text-success"
+                      href="/myBookings"
+                    >
+                      <i className="fas fa-user"></i> My Bookings
+                    </Dropdown.Item>
+
+                    <NavDropdown.Divider />
+                    <Dropdown.Item
+                      className="text-success"
+                      onClick={logoutHandler}
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                    >
+                      <i class="fas fa-sign-out-alt"></i> Logout
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                &emsp;
+                {userInfo && userInfo.isAdmin && (
+                  /* ADMIN */
                   <Dropdown
                     show={showAdmin}
                     onMouseEnter={showAdminDropdown}
@@ -316,15 +326,15 @@ const Navbar = ({}) => {
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-                </div>
-                /* ADMIN-END */
-              )}
+                  /* ADMIN-END */
+                )}
+              </div>
             </div>
           ) : (
             /* NAV-RIGHT-CONTENT-END USER & ADMIN */
 
             /* COMMON ELEMENTS */
-            <div className="nav-right-content">
+            <div className="nav-right-content-logout">
               <Dropdown
                 style={{
                   fontFamily: "Rubik, sans-serif",
@@ -366,7 +376,7 @@ const Navbar = ({}) => {
                 style={{
                   fontFamily: "Rubik, sans-serif",
                   fontSize: "17px",
-                  maxWidth: "50%",
+                  maxWidth: "42%",
                 }}
                 id="form-search"
               />
@@ -376,7 +386,11 @@ const Navbar = ({}) => {
                   to={location.pathname}
                   exact
                 >
-                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <i
+                    style={{ marginLeft: "-40px" }}
+                    class="fa fa-search"
+                    aria-hidden="true"
+                  ></i>
                 </NavLink>
               ) : (
                 <NavLink
@@ -384,7 +398,11 @@ const Navbar = ({}) => {
                   to={`/search/${query}`}
                   exact
                 >
-                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <i
+                    style={{ marginLeft: "-40px" }}
+                    class="fa fa-search"
+                    aria-hidden="true"
+                  ></i>
                 </NavLink>
               )}
               <LinkContainer to="/cart">

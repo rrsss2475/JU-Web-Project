@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav } from "react-bootstrap";
+import { Nav, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 const CatalogSteps = ({
@@ -16,8 +16,10 @@ const CatalogSteps = ({
     <Nav
       className="justify-content-left mb-4"
       style={{ fontSize: "20px", fontFamily: "Rubik, sans-serif" }}
-      id="checkout-steps"
+      id="catalog-steps"
     >
+      {/* <Row> */}
+      {/* <Col xs={12} md={12}> */}
       <Nav.Item className="font-weight-bold">
         {step1 && currStep === "step1" ? (
           <LinkContainer to="/">
@@ -31,7 +33,9 @@ const CatalogSteps = ({
           ""
         )}
       </Nav.Item>
+      {/* </Col> */}
 
+      {/* <Col> */}
       <Nav.Item className="font-weight-bold">
         {step2 && currStep === "step2" ? (
           <LinkContainer to={`/${type}`}>
@@ -45,7 +49,9 @@ const CatalogSteps = ({
           ""
         )}
       </Nav.Item>
+      {/* </Col> */}
 
+      {/* <Col> */}
       <Nav.Item className="font-weight-bold">
         {step3 && currStep === "step3" ? (
           <LinkContainer to={`/${type}/${catName}`}>
@@ -59,7 +65,9 @@ const CatalogSteps = ({
           ""
         )}
       </Nav.Item>
+      {/* </Col> */}
 
+      {/* <Col> */}
       <Nav.Item className="font-weight-bold">
         {step4 && currStep === "step4" ? (
           <LinkContainer to={`/${type}/${catName}/${subCat}`}>
@@ -73,6 +81,8 @@ const CatalogSteps = ({
           ""
         )}
       </Nav.Item>
+      {/* </Col> */}
+      {/* </Row> */}
     </Nav>
   );
 };

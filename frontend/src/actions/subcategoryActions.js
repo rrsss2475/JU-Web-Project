@@ -8,9 +8,7 @@ import {
 export const listSubCategories = (catName) => async (dispatch) => {
 	try {
 		dispatch({ type: SUBCATEGORY_LIST_REQUEST })
-		const { data } = await axios.get(
-			`http://localhost:5000/api/products/${catName}`
-		)
+		const { data } = await axios.get(`/api/products/${catName}`)
 		dispatch({ type: SUBCATEGORY_LIST_SUCCESS, payload: data })
 	} catch (error) {
 		dispatch({

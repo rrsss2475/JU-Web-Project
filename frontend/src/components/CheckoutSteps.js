@@ -1,9 +1,9 @@
 import React from "react";
-import { Container, Nav } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 const CheckoutSteps = ({ step1, step2, step3, step4, type }) => {
-  return type == "products" ? (
+  return type === "products" ? (
     <Nav
       className="justify-content-center mb-4"
       style={{ fontSize: "20px", fontFamily: "Rubik, sans-serif" }}

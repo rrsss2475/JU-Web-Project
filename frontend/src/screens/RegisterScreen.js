@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
@@ -49,7 +49,7 @@ const RegisterScreen = ({ location, history }) => {
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, userInfo } = userRegister;
+  const { error } = userRegister;
 
   // const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -100,10 +100,11 @@ const RegisterScreen = ({ location, history }) => {
         </Form.Group>
 
         <Form.Group controlId="exampleForm.ControlSelect1">
-          <Form.Control 
-          as="select" 
-          value={isBusiness}
-          onChange={(e) => setisBusiness(e.target.value)} >
+          <Form.Control
+            as="select"
+            value={isBusiness}
+            onChange={(e) => setisBusiness(e.target.value)}
+          >
             <option value="false">Business Account-NO</option>
             <option value="true">Business Account-YES</option>
           </Form.Control>
@@ -113,7 +114,7 @@ const RegisterScreen = ({ location, history }) => {
           Submit
         </Button>
         <p>
-          <a href="#" class="login-btn">
+          <a href="javascript.void(0)" class="login-btn">
             Already have an account?
           </a>
         </p>

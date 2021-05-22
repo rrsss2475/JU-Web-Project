@@ -131,7 +131,7 @@ const ContactusScreen = () => {
                 backgroundColor: "lightgreen",
                 marginTop: "10px",
               }}
-              show={contactSuccess.length != 0}
+              show={contactSuccess.length !== 0}
               onClose={() => {
                 setContactSuccess("");
               }}

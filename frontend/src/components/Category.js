@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, CardImg, Button } from "react-bootstrap";
-import { Link, Switch, Route } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import img from "../images/placeholder.png";
 
 const Category = ({ category, type, variant, catName }) => {
@@ -33,7 +33,7 @@ const Category = ({ category, type, variant, catName }) => {
     </Card>
   );
 
-  if (variant == "subcategory") {
+  if (variant === "subcategory") {
     body = (
       // <Card className="my-3 p-3 rounded" style={{ border: "3px ridge green" }}>
       <Card

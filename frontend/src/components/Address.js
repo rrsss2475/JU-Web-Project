@@ -1,12 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  Card,
-  FormControl,
-  Button,
-  InputGroup,
-  Container,
-} from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { saveShippingAddress } from "../actions/cartActions";
 
@@ -21,7 +15,7 @@ const Address = ({ address, step, type }) => {
     // console.log(address._id);
   };
 
-  var btn = <h1></h1>;
+  var btn = <></>;
 
   if (step) {
     btn = (

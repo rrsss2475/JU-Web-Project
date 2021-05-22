@@ -51,7 +51,7 @@ const ReviewsScreen = ({ location }) => {
     if (type === "products") {
       axios
         .get(
-          `http://localhost:5000/api/products/${catName}/${subCatName}/${id}/reviews`
+          `/api/products/${catName}/${subCatName}/${id}/reviews`
         )
         .then((res) => {
           setreviews(res.data);
@@ -60,7 +60,7 @@ const ReviewsScreen = ({ location }) => {
     } else {
       axios
         .get(
-          `http://localhost:5000/api/services/${catName}/${subCatName}/${id}/reviews`
+          `/api/services/${catName}/${subCatName}/${id}/reviews`
         )
         .then((res) => {
           setreviews(res.data);

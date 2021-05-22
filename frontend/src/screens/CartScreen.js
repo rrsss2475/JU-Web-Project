@@ -34,7 +34,7 @@ const CartScreen = ({ history }) => {
       var total = 0;
       for (var i = 0; i < cartItems.length; i++) {
         const item = await axios.get(
-          `http://localhost:5000/api/products/categories/${cartItems[i].product}`
+          `/api/products/categories/${cartItems[i].product}`
         );
         //setcartArr(prevState => [...prevState, item.data]);
         cartArr1.push({
@@ -59,7 +59,7 @@ const CartScreen = ({ history }) => {
           useEffect(() => {
               (async function fun() {
                   for (let i = 0; i < cart.length; i++) {
-                      const item = await axios.get(`http://localhost:5000/api/products/categories/${cart[i].product}`)
+                      const item = await axios.get(`/api/products/categories/${cart[i].product}`)
                       console.log(item.data);
                       setcartArr(prevState=>[...prevState,item.data]);
                   }
@@ -77,7 +77,7 @@ const CartScreen = ({ history }) => {
     //console.log(cartArr.length)
     if (!item.isWeighted)
       axios
-        .post("http://localhost:5000/api/users/addToCart", {
+        .post("/api/users/addToCart", {
           userid: userInfo._id,
           productid: item._id,
           qty: 1,
@@ -104,7 +104,7 @@ const CartScreen = ({ history }) => {
         .catch();
     else
       axios
-        .post("http://localhost:5000/api/users/addToCart", {
+        .post("/api/users/addToCart", {
           userid: userInfo._id,
           productid: item._id,
           weight: item.weight,
@@ -138,7 +138,7 @@ const CartScreen = ({ history }) => {
   const subQtyHandler = (item) => {
     if (!item.isWeighted)
       axios
-        .post("http://localhost:5000/api/users/addToCart", {
+        .post("/api/users/addToCart", {
           userid: userInfo._id,
           productid: item._id,
           qty: -1,
@@ -165,7 +165,7 @@ const CartScreen = ({ history }) => {
         .catch();
     else
       axios
-        .post("http://localhost:5000/api/users/addToCart", {
+        .post("/api/users/addToCart", {
           userid: userInfo._id,
           productid: item._id,
           weight: item.weight,
@@ -188,6 +188,7 @@ const CartScreen = ({ history }) => {
               ? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
               : cartArr1[i].price * cartArr1[i].qty;
 
+
             total += cartArr1[i].qty;
           }
           setcartArr(cartArr1);
@@ -200,7 +201,7 @@ const CartScreen = ({ history }) => {
   const deleteHandler = (item) => {
     if (!item.isWeighted)
       axios
-        .post("http://localhost:5000/api/users/deleteFromCart", {
+        .post("/api/users/deleteFromCart", {
           userid: userInfo._id,
           productid: item._id,
         })
@@ -224,7 +225,7 @@ const CartScreen = ({ history }) => {
         .catch();
     else
       axios
-        .post("http://localhost:5000/api/users/deleteFromCart", {
+        .post("/api/users/deleteFromCart", {
           userid: userInfo._id,
           productid: item._id,
           weight: item.weight,
@@ -252,6 +253,7 @@ const CartScreen = ({ history }) => {
         })
         .catch();
   };
+
 
   let body = (
     <div

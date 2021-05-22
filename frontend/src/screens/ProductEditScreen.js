@@ -255,9 +255,87 @@ const ProductEditScreen = ({ history, match }) => {
             </Form.Group>
 
             {isWeighted ? (
-              <ListGroup horizontal>
+              <Container>
+                <Row>
+                  {weights.map((weight) => (
+                    <>
+                      <Col
+                        md={1}
+                        xs={3}
+                        style={{
+                          marginRight: "10px",
+                          border: "solid",
+                          borderRadius: "10px",
+                          fontSize: "12px",
+                          paddingLeft: "8px",
+                        }}
+                        id="list-group-weight"
+                      >
+                        <p>
+                          <b>{weight * 1000}gms</b>
+                        </p>
+                        <Button
+                          onClick={() => handleDeleteWeight(weight)}
+                          style={{
+                            color: "black",
+                            background: "transparent",
+                            border: "white",
+                            position: "absolute",
+                            top: "-7px",
+                            right: "-4px",
+                          }}
+                          id="list-group-weight"
+                        >
+                          <i class="fas fa-times"></i>
+                        </Button>
+                      </Col>
+                    </>
+                  ))}
+                  <Button
+                    onClick={handleShow}
+                    style={{
+                      color: "black",
+                      background: "white",
+                      border: "white",
+                    }}
+                  >
+                    <i
+                      //   id="list-group-weight"
+                      class="fa fa-plus-circle fa-2x"
+                      aria-hidden="true"
+                    ></i>
+                  </Button>
+                  <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Add Weight(in gms)</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <input
+                        type="text"
+                        value={inpWt}
+                        onChange={(e) => setInpWt(e.target.value)}
+                      ></input>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        Close
+                      </Button>
+                      <Button variant="primary" onClick={handleAddWeight}>
+                        Add
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </Row>
+              </Container>
+            ) : (
+              <></>
+            )}
+
+            {/* {isWeighted ? (
+              <ListGroup id="list-group-weight" horizontal>
                 {weights.map((weight) => (
                   <ListGroup.Item
+                    id="list-group-weight"
                     style={{
                       marginRight: "10px",
                       border: "solid",
@@ -313,7 +391,7 @@ const ProductEditScreen = ({ history, match }) => {
               </ListGroup>
             ) : (
               <></>
-            )}
+            )} */}
             <br />
 
             <Button type="submit" variant="warning">

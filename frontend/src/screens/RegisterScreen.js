@@ -51,14 +51,6 @@ const RegisterScreen = ({ location, history }) => {
   const userRegister = useSelector((state) => state.userRegister);
   const { error } = userRegister;
 
-  // const redirect = location.search ? location.search.split("=")[1] : "/";
-
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     history.push(redirect);
-  //   }
-  // }, [history, userInfo, redirect]);
-
   const regHandler = (e) => {
     e.preventDefault();
     dispatch(register(name, email, password));
@@ -97,17 +89,6 @@ const RegisterScreen = ({ location, history }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </Form.Group>
-
-        <Form.Group controlId="exampleForm.ControlSelect1">
-          <Form.Control
-            as="select"
-            value={isBusiness}
-            onChange={(e) => setisBusiness(e.target.value)}
-          >
-            <option value="false">Business Account-NO</option>
-            <option value="true">Business Account-YES</option>
-          </Form.Control>
         </Form.Group>
 
         <Button className="submit-btn" variant="success" type="submit">

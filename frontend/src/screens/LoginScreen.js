@@ -63,6 +63,15 @@ const LoginScreen = ({ location, history }) => {
     dispatch(login(email, password));
   };
 
+  function myFunction() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+
   return (
     <div class="login-page">
       <div class="box">
@@ -103,11 +112,16 @@ const LoginScreen = ({ location, history }) => {
                   className="form-control"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  id="myInput"
                 />
               </Form.Group>
 
               <Form.Group className="form-group" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Remember Me" />
+                <Form.Check
+                  onClick={myFunction}
+                  type="checkbox"
+                  label="Show Password"
+                />
               </Form.Group>
               <Button className="submit-btn" variant="success" type="submit">
                 Submit

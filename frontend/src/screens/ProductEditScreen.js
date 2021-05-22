@@ -7,6 +7,8 @@ import {
 	Dropdown,
 	DropdownButton,
 	Container,
+	ListGroup,
+	Modal
 } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { listProductDetails, updateProduct } from "../actions/productActions"
@@ -24,9 +26,15 @@ const ProductEditScreen = ({ history, match }) => {
 	const [isAvailable, setIsAvailable] = useState(false)
 	const [description, setDescription] = useState("")
 	const [isWeighted, setIsWeighted] = useState(false)
+	const [weights, setWeights] = useState([])
 	const [uploading, setUploading] = useState(false)
 	const [category, setCategory] = useState(null)
 	const [subCategory, setSubCategory] = useState(null)
+
+	const [inpWt, setInpWt] = useState("");
+	const [show, setShow] = useState(false);
+	const handleClose = () => setShow(false);
+	const handleShow = () => {setShow(true);setInpWt("");}
 
 	const categoryList = useSelector((state) => state.categoryList)
 	const { categories } = categoryList
@@ -72,6 +80,9 @@ const ProductEditScreen = ({ history, match }) => {
 				setIsAvailable(product.isAvailable)
 				setDescription(product.description)
 				setIsWeighted(product.isWeighted)
+				if (product.isWeighted) {
+					setWeights(product.weights)
+				}
 				setCategory(product.category)
 				setSubCategory(product.subCategory)
 			}
@@ -112,10 +123,36 @@ const ProductEditScreen = ({ history, match }) => {
 				isAvailable,
 				description,
 				isWeighted,
+				weights,
 				category,
 				subCategory,
 			})
 		)
+	}
+
+	const handleDeleteWeight = (weight) => {
+		const weights1 = weights.filter((wt) => { return wt != weight });
+		setWeights(weights1)
+	}
+
+	const handleAddWeight = () => {
+		const convertedWeight=Number(inpWt)/1000;
+		const weights1=[];
+		var i=0;
+		for(i=0;i<weights.length;i++)
+		{
+			if(convertedWeight<weights[i])
+			break;
+			weights1.push(weights[i]);
+		}
+		weights1.push(convertedWeight);
+		for(;i<weights.length;i++)
+		{
+			weights1.push(weights[i]);
+		}
+		//weights1.push(Number(inpWt)/1000)
+		setWeights(weights1)
+		setShow(false)
 	}
 
 	return (
@@ -238,6 +275,57 @@ const ProductEditScreen = ({ history, match }) => {
 								onChange={(e) => setIsWeighted(e.target.checked)}
 							></Form.Check>
 						</Form.Group>
+
+						{isWeighted ?
+							<ListGroup horizontal>
+								{weights.map((weight) =>
+									<ListGroup.Item style={{ marginRight: "10px", border: "solid", width: "130px" }}>
+										{weight * 1000}gms
+										<Button
+											onClick={() => handleDeleteWeight(weight)}
+											style={{
+												color: "black",
+												background: "white",
+												border: "white",
+												position: "absolute",
+												top: "0",
+												right: "0"
+											}}
+										>
+											<i class="fas fa-times"></i>
+										</Button>
+									</ListGroup.Item>
+								)}
+								<Button
+									onClick={handleShow}
+									style={{
+										color: "black",
+										background: "white",
+										border: "white",
+									}}
+								>
+									<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+								</Button>
+								<Modal show={show} onHide={handleClose}>
+									<Modal.Header closeButton>
+										<Modal.Title>Add Weight(in gms)</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										<input type="text" value={inpWt} onChange={(e) => setInpWt(e.target.value)}></input>
+									</Modal.Body>
+									<Modal.Footer>
+										<Button variant="secondary" onClick={handleClose}>
+											Close
+							  			</Button>
+										<Button variant="primary" onClick={handleAddWeight}>
+											Add
+							  			</Button>
+									</Modal.Footer>
+								</Modal>
+							</ListGroup>
+							: <></>
+						}
+						<br />
 
 						<Button type="submit" variant="warning">
 							<b>Update</b>

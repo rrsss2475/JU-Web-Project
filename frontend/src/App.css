@@ -444,6 +444,10 @@ p a:hover {
   #checkout-steps {
     font-size: 15px !important;
   }
+
+  #catalog-steps {
+    font-size: 10px !important;
+  }
   #payment-label {
     font-size: 15px !important;
   }

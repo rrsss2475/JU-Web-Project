@@ -8,6 +8,7 @@ import StripeCheckout from "react-stripe-checkout"
 import { resetUserCartandOrder } from "../actions/userActions"
 import { createOrder } from "../actions/orderActions"
 import axios from "axios"
+import dotenv from "dotenv"
 
 const PlaceOrderScreen = ({ history }) => {
 	const dispatch = useDispatch()
@@ -176,7 +177,7 @@ const PlaceOrderScreen = ({ history }) => {
 							</Button>
 						) : (
 							<StripeCheckout
-								stripeKey="pk_test_51In4ZVSGLfLBZvSuj7DmeGH97gK74A9C5pdJMf5HLaRQfsrdszwT76UucTnHReckb3juORKpWqnQcYM047VFrbcI00poAQ5P3m"
+								stripeKey={process.env.REACT_APP_STRIPE_PUBLISH_KEY}
 								token={makePayment}
 								name="Card Details"
 								amount={totalPrice * 100}

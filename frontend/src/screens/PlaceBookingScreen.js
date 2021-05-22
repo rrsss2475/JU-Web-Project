@@ -7,6 +7,7 @@ import CheckoutSteps from "../components/CheckoutSteps"
 import StripeCheckout from "react-stripe-checkout"
 import { createBooking, resetUserBooking } from "../actions/bookingActions"
 import axios from "axios"
+import dotenv from "dotenv"
 
 const PlaceBookingScreen = ({ history }) => {
 	const dispatch = useDispatch()
@@ -175,7 +176,7 @@ const PlaceBookingScreen = ({ history }) => {
 							</Button>
 						) : (
 							<StripeCheckout
-								stripeKey="pk_test_51In4ZVSGLfLBZvSuj7DmeGH97gK74A9C5pdJMf5HLaRQfsrdszwT76UucTnHReckb3juORKpWqnQcYM047VFrbcI00poAQ5P3m"
+								stripeKey={process.env.REACT_APP_STRIPE_PUBLISH_KEY}
 								token={makePayment}
 								name="Card Details"
 								amount={bookingItem.totalPrice * 100}

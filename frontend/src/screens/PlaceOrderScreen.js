@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import CheckoutSteps from "../components/CheckoutSteps";
-import StripeCheckout from "react-stripe-checkout";
-import { resetUserCartandOrder } from "../actions/userActions";
-import { createOrder } from "../actions/orderActions";
-import axios from "axios";
+import React, { useEffect } from "react"
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap"
+import { useSelector, useDispatch } from "react-redux"
+import Message from "../components/Message"
+import Loader from "../components/Loader"
+import CheckoutSteps from "../components/CheckoutSteps"
+import StripeCheckout from "react-stripe-checkout"
+import { resetUserCartandOrder } from "../actions/userActions"
+import { createOrder } from "../actions/orderActions"
+import axios from "axios"
 
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -86,9 +86,8 @@ const PlaceOrderScreen = ({ history }) => {
       <Row style={{ fontFamily: "Rubik, sans-serif" }}>
         <Col md={8}>
           <ListGroup variant="flush">
-            <ListGroup.Item>
+            <ListGroup.Item id="place-order-screen">
               <h2>Your Details</h2>
-              {/* <br /> */}
               <p>
                 <strong>Name: </strong>
                 {userInfo.name}
@@ -105,7 +104,7 @@ const PlaceOrderScreen = ({ history }) => {
               </p>
             </ListGroup.Item>
 
-            <ListGroup.Item>
+            <ListGroup.Item id="place-order-screen">
               <h2>Payment Method</h2>
               <p>
                 <strong>Method: </strong>
@@ -113,7 +112,7 @@ const PlaceOrderScreen = ({ history }) => {
               </p>
             </ListGroup.Item>
 
-            <ListGroup.Item>
+            <ListGroup.Item id="place-order-screen">
               <h2>Order Items</h2>
               {orderItems.length === 0 ? (
                 <Message>Order is empty</Message>
@@ -122,26 +121,25 @@ const PlaceOrderScreen = ({ history }) => {
                   {orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row style={{ fontFamily: "Rubik, sans-serif" }}>
-                        <Col md={2} xs={5}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            // fluid
-                            // rounded
-                          />
+                        <Col md={2} xs={4}>
+                          <Image src={item.image} alt={item.name} fluid />
                         </Col>
                         <Col>
-                          {/* <Link to={`/product/${item.product}`}> */}
-                          {item.name}
-                          {/* </Link> */}
-                        </Col>
-                        <Col md={5}>
-                          {item.weight !== null ? (
-                            <>Wt: {item.weight * 1000} gm |</>
-                          ) : (
-                            <></>
-                          )}{" "}
-                          Qty: {item.qty} | ₹{item.price}
+                          <Col>
+                            <Row>
+                              <Col md={4} xs={10}>
+                                {item.name}
+                              </Col>
+                              <Col md={8} xs={12}>
+                                {item.weight !== null ? (
+                                  <>Wt: {item.weight * 1000} gm |</>
+                                ) : (
+                                  <></>
+                                )}{" "}
+                                Qty: {item.qty} | ₹{item.price}
+                              </Col>
+                            </Row>
+                          </Col>
                         </Col>
                       </Row>
                     </ListGroup.Item>

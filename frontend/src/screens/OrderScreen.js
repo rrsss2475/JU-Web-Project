@@ -37,7 +37,7 @@ const OrderScreen = ({ match }) => {
       <Row style={{ fontFamily: "Rubik, sans-serif" }}>
         <Col md={8}>
           <ListGroup variant="flush">
-            <ListGroup.Item>
+            <ListGroup.Item id="place-order-screen">
               <h2>Your Details</h2>
               {/* <br /> */}
               <p>
@@ -76,7 +76,7 @@ const OrderScreen = ({ match }) => {
               )}
             </ListGroup.Item>
 
-            <ListGroup.Item>
+            <ListGroup.Item id="place-order-screen">
               <h2>Payment Method</h2>
               <p>
                 <strong>Method: </strong>
@@ -106,35 +106,33 @@ const OrderScreen = ({ match }) => {
               ) : (
                 <ListGroup variant="flush">
                   {order.orderItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
+                    <ListGroup.Item key={index} id="place-order-screen">
                       <Row style={{ fontFamily: "Rubik, sans-serif" }}>
                         <Col md={2} xs={5}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            // style={{ height: "150%", width: "150%" }}
-                            fluid
-                            rounded
-                          />
+                          <Image src={item.image} alt={item.name} fluid />
                         </Col>
                         <Col>
-                          <Link
-                            to={`/products/${item.product.category.name}/${item.product.subCategory.name}/${item.product._id}`}
-                            style={{
-                              textDecoration: "none",
-                              color: "black",
-                            }}
-                          >
-                            {item.name}
-                          </Link>
-                        </Col>
-                        <Col md={5}>
-                          {item.weight !== null ? (
-                            <>Wt: {item.weight * 1000} gm |</>
-                          ) : (
-                            <></>
-                          )}{" "}
-                          Qty: {item.qty} | ₹{item.price}
+                          <Row>
+                            <Col md={4} xs={10}>
+                              <Link
+                                to={`/products/${item.product.category.name}/${item.product.subCategory.name}/${item.product._id}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "black",
+                                }}
+                              >
+                                {item.name}
+                              </Link>
+                            </Col>
+                            <Col md={8} xs={12}>
+                              {item.weight !== null ? (
+                                <>Wt: {item.weight * 1000} gm |</>
+                              ) : (
+                                <></>
+                              )}{" "}
+                              Qty: {item.qty} | ₹{item.price}
+                            </Col>
+                          </Row>
                         </Col>
                       </Row>
                     </ListGroup.Item>

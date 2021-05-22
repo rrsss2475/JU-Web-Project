@@ -121,7 +121,7 @@ const ContactusScreen = () => {
                 required
               />
             </Form.Group>
-            <Button variant="warning" type="submit" style={{ width: "20%" }}>
+            <Button variant="warning" type="submit" style={{ width: "100%" }}>
               <b>Submit</b>
             </Button>
 

@@ -37,7 +37,7 @@ const BookingScreen = ({ match }) => {
 			<Row style={{ fontFamily: "Rubik, sans-serif" }}>
 				<Col md={8}>
 					<ListGroup variant="flush">
-						<ListGroup.Item>
+						<ListGroup.Item id="place-order-screen">
 							<h2>Your Details</h2>
 							{/* <br /> */}
 							<p>
@@ -80,7 +80,7 @@ const BookingScreen = ({ match }) => {
 							)}
 						</ListGroup.Item>
 
-						<ListGroup.Item>
+						<ListGroup.Item id="place-order-screen">
 							<h2>Payment Method</h2>
 							<p>
 								<strong>Method: </strong>
@@ -107,7 +107,7 @@ const BookingScreen = ({ match }) => {
 							<h2>Booking Item</h2>
 
 							<ListGroup variant="flush">
-								<ListGroup.Item>
+								<ListGroup.Item id="place-order-screen">
 									<Row style={{ fontFamily: "Rubik, sans-serif" }}>
 										<Col md={2} xs={5}>
 											<Image

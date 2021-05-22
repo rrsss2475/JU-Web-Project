@@ -7,6 +7,7 @@ import Loader from "../components/Loader"
 import Message from "../components/Message"
 import { listSubCategories } from "../actions/subcategoryActions"
 import { listservSubCategories } from "../actions/servsubcategoryActions"
+import CatalogSteps from "../components/CatalogSteps"
 
 const SubCategoriesScreen = () => {
 	const { type, catName } = useParams()
@@ -44,21 +45,14 @@ const SubCategoriesScreen = () => {
 
 	return (
 		<div className="container" style={{ marginTop: "50px" }}>
-			<Link
-				style={{ fontFamily: "Rubik, sans-serif" }}
-				className="btn btn-success my-3 mx-2"
-				to={`/`}
-			>
-				<strong>Back to Home</strong>
-			</Link>
-			<strong style={{ color: "green" }}>&gt;</strong>
-			<Link
-				style={{ fontFamily: "Rubik, sans-serif" }}
-				className="btn btn-warning my-3 mx-2"
-				to={`/${type}`}
-			>
-				<strong>Back to Categories</strong>
-			</Link>
+			<CatalogSteps
+				step1
+				step2
+				step3
+				type={type}
+				catName={catName}
+				currStep={"step3"}
+			/>
 			<h1>{catName}</h1>
 			{loading ? (
 				<Loader />

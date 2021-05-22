@@ -68,7 +68,20 @@ const BookingListScreen = ({ history, match }) => {
   };
 
   const [searchStatus, setSearchStatus] = React.useState("");
+  const [userSelect, setUserSelect] = React.useState("");
+  const [zipSelect, setZipSelect] = React.useState("");
 
+  const userSet = new Set();
+  bookings.map((booking) => {
+    if (booking.user) {
+      userSet.add(booking.user.name);
+    }
+  });
+
+  const zipSet = new Set();
+  bookings.map((booking) => {
+    zipSet.add(booking.shippingAddress.zip);
+  });
   return (
     <Container
       style={{
@@ -92,15 +105,56 @@ const BookingListScreen = ({ history, match }) => {
       ) : (
         <>
           <Row>
-            <Col></Col>
-            <Col></Col>
-            <Col></Col>
-            <Col></Col>
-            <Col>
+            <Col md={6}></Col>
+            <Col md={2} xs={12}>
               <Form>
-                <Form.Group controlId="exampleForm.SelectCustom">
-                  <Form.Label>
-                    <b>Filter By Status : </b>
+                <Form.Group controlId="">
+                  <Form.Label id="filter-label">
+                    <b>Filter By User :&nbsp;</b>
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    custom
+                    onChange={(event) => {
+                      setUserSelect(event.target.value);
+                    }}
+                    id="form-search"
+                  >
+                    <option value="">NULL</option>
+                    {[...userSet].map((user) => (
+                      <option value={user}>{user}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col md={2} xs={12}>
+              <Form>
+                <Form.Group controlId="">
+                  <Form.Label id="filter-label">
+                    <b>Filter By Zip :&nbsp;</b>
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    custom
+                    onChange={(event) => {
+                      setZipSelect(event.target.value);
+                    }}
+                    id="form-search"
+                  >
+                    <option value="">NULL</option>
+                    {[...zipSet].map((zip) => (
+                      <option value={zip.toString()}>{zip.toString()}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col md={2} xs={12}>
+              <Form>
+                <Form.Group controlId="">
+                  <Form.Label id="filter-label">
+                    <b>Filter By Status :&nbsp;</b>
                   </Form.Label>
                   <Form.Control
                     as="select"
@@ -108,9 +162,12 @@ const BookingListScreen = ({ history, match }) => {
                     onChange={(event) => {
                       setSearchStatus(event.target.value);
                     }}
+                    id="form-search"
                   >
+                    <option value="">NULL</option>
                     <option value="Initiated">Initiated</option>
-                    <option value="Completed">Completed</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
                     <option value="Cancelled">Cancelled</option>
                   </Form.Control>
                 </Form.Group>
@@ -119,7 +176,14 @@ const BookingListScreen = ({ history, match }) => {
           </Row>
           &nbsp;
           <Row>
-            <Table striped bordered hover responsive className="table-sm">
+            <Table
+              id="table-list"
+              striped
+              bordered
+              hover
+              responsive
+              className="table-sm"
+            >
               <thead>
                 <tr>
                   <th>ID</th>
@@ -127,6 +191,7 @@ const BookingListScreen = ({ history, match }) => {
                   <th>TOTAL PRICE</th>
                   <th>PAYMENT METHOD</th>
                   <th>DELIVERY DATE</th>
+                  <th>ZIPCODE</th>
                   <th>STATUS</th>
                   <th></th>
                 </tr>
@@ -134,14 +199,25 @@ const BookingListScreen = ({ history, match }) => {
               <tbody>
                 {bookings
                   .filter((booking) => {
-                    if (searchStatus == "") {
-                      return booking;
-                    } else if (
-                      booking.status
-                        .toLowerCase()
-                        .includes(searchStatus.toLowerCase())
+                    if (
+                      searchStatus == "" &&
+                      userSelect === "" &&
+                      zipSelect === ""
                     ) {
                       return booking;
+                    } else {
+                      if (
+                        ((booking.user && booking.user.name === userSelect) ||
+                          userSelect === "") &&
+                        (booking.status
+                          .toLowerCase()
+                          .includes(searchStatus.toLowerCase()) ||
+                          searchStatus === "") &&
+                        (booking.shippingAddress.zip.toString() === zipSelect ||
+                          zipSelect === "")
+                      ) {
+                        return booking;
+                      }
                     }
                   })
                   .map((booking) => (
@@ -160,17 +236,19 @@ const BookingListScreen = ({ history, match }) => {
                       <td>₹{booking.totalPrice}</td>
                       <td>{booking.paymentMethod}</td>
                       <td>
-                        {booking.status == "Initiated"
+                        {booking.status === "Initiated"
                           ? moment(booking.toBeCompleted).format("DD-MM-YYYY")
-                          : booking.status == "Completed"
+                          : booking.status === "Completed"
                           ? moment(booking.completedAt).format("DD-MM-YYYY")
                           : ""}
                       </td>
+                      <td>{booking.shippingAddress.zip}</td>
                       <td>
                         <select
                           class="browser-default custom-select"
                           value={booking.status}
                           onChange={(e) => updateHandler(booking._id, e)}
+                          id="select-search"
                         >
                           <option value="Initiated">Initiated</option>
                           <option value="Completed">Completed</option>

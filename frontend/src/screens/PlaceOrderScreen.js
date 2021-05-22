@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import CheckoutSteps from "../components/CheckoutSteps";
-import StripeCheckout from "react-stripe-checkout";
-import { resetUserCartandOrder } from "../actions/userActions";
-import { createOrder } from "../actions/orderActions";
-import axios from "axios";
+import React, { useEffect } from "react"
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap"
+import { useSelector, useDispatch } from "react-redux"
+import Message from "../components/Message"
+import Loader from "../components/Loader"
+import CheckoutSteps from "../components/CheckoutSteps"
+import StripeCheckout from "react-stripe-checkout"
+import { resetUserCartandOrder } from "../actions/userActions"
+import { createOrder } from "../actions/orderActions"
+import axios from "axios"
 
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();

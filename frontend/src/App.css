@@ -1,34 +1,142 @@
-/* Navbar styling */
+/* MARQUE-START */
 
-#nav1
-{  
-  opacity: 0.7;     
+.marquee {
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+  background-color: #00db21;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds.png");
+  color: #333;
+  border: 1px solid #4a4a4a;
 }
 
-#nav-brand{
-  font-size: 30px;
-  font-family: 'Reggae One', cursive;
+h1,
+h2,
+h3 {
+  font-family: "Rubik", sans-serif;
 }
 
-/* Home-page-products-services */
+.marquee p {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  line-height: 50px;
+  text-align: center;
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  -moz-animation: scroll-left 2s linear infinite;
+  -webkit-animation: scroll-left 2s linear infinite;
+  animation: scroll-left 25s linear infinite;
+}
+
+@-moz-keyframes scroll-left {
+  0% {
+    -moz-transform: translateX(100%);
+  }
+  100% {
+    -moz-transform: translateX(-100%);
+  }
+}
+
+@-webkit-keyframes scroll-left {
+  0% {
+    -webkit-transform: translateX(100%);
+  }
+  100% {
+    -webkit-transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  100% {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}
+
+/* MARQUE-END */
+
+/* NAVBAR */
+
+.nav-links {
+  display: flex;
+  /* background-color: blue; */
+  width: 100%;
+  font-size: 16px;
+  font-family: "Rubik", sans-serif;
+}
+
+.nav-right-content {
+  display: flex;
+  /* background-color: yellow; */
+  /* max-width: 100%; */
+  width: 100%;
+}
+
+.nav-right-content-logout {
+  display: flex;
+  /* background-color: yellow; */
+  /* max-width: 100%; */
+  width: 100%;
+}
+
+.nav-right-content-first {
+  /* background-color: blue; */
+  width: 100%;
+  display: flex;
+}
+
+.nav-right-content-second {
+  /* background-color: red; */
+  width: 60%;
+  display: flex;
+}
+
+#cart-button {
+  height: max-content;
+}
+
+#form-button {
+  height: 100%;
+  padding: 0 !important;
+}
+
+#form-button-para {
+  padding: 0 !important;
+}
+
+/* NAVBAR-END */
+
+/* CAROUSEL */
+.carousel {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 168, 0, 0.19);
+}
+/* CAROUSEL-END */
 
 .pic:hover {
-  transform: scale(1.1);
+  transform: scale(1.07);
   z-index: 2;
-} 
+}
 
 .pic img {
   width: 100%;
   height: 100%;
-  opacity: 0.8;
   transition: 0.9s;
 }
 
-.wrapper{
+.wrapper {
   display: flex;
 }
 
-.wrapper .pic img:hover{
+.wrapper .pic img:hover {
   width: 100%;
   box-shadow: 0 0 10px black;
   cursor: pointer;
@@ -44,7 +152,7 @@
 }
 
 .middle {
-  transition: .5s ease;
+  transition: 0.5s ease;
   opacity: 0;
   position: absolute;
   top: 50%;
@@ -64,7 +172,7 @@
 
 .text {
   color: black;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 24px;
   padding: 16px 32px;
   cursor: pointer;
@@ -72,22 +180,22 @@
 
 /* Home-page-products-services RESPONSIVE */
 
-@media(max-width: 991px) {
-  .wrapper{
-      flex: 0 0 100%;
-      flex-direction: column;
-      max-width: 90%;
-      margin-left: -2px;
+@media screen and (max-width: 991px) {
+  .wrapper {
+    flex: 0 0 100%;
+    flex-direction: column;
+    max-width: 90%;
+    margin-left: -2px;
   }
 }
 
-@media(max-width:574px){
-  .wrapper{
-      flex: 0 0 100%;
-      flex-direction: column;
-      max-width: 90%;
-      margin-left: -8px;
-      margin-right: 10px;
+@media screen and (max-width: 574px) {
+  .wrapper {
+    flex: 0 0 100%;
+    flex-direction: column;
+    max-width: 90%;
+    margin-left: -8px;
+    margin-right: 10px;
   }
 }
 
@@ -95,37 +203,44 @@
 
 a {
   text-decoration: none;
-  transition: .5s;
+  transition: 0.5s;
   color: #fff;
 }
 
-ul,li {
+ul,
+li {
   list-style: none;
 }
 
 footer {
-  background-color: black;
+  /* background-color: black; */
+  background-color: #000000;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
   color: #fff;
   margin-top: 60px;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .footer_info {
-  width: 90%;
+  /* width: 90%;
   margin: 0 auto;
   display: flex;
-  padding: 30px 0;
+  padding: 30px 0; */
+  display: flex;
+  max-width: 100%;
 }
 
-.footer_info .footer_width{
-  padding: 0 15px;
+.footer_info .footer_width {
+  padding: 0px 15px;
 }
 
-.footer_info h3{
-  margin-bottom: 20px;
+.footer_info h3 {
+  margin-bottom: 15px;
 }
 
-.about , .contact {
+.about,
+.contact {
   width: 40%;
 }
 
@@ -133,40 +248,25 @@ footer {
   width: 20%;
 }
 
-.social-link{
-  margin-top: 30px;
-}
-
-.social-link ul{
-  display: flex;
-}
-
-.social-link ul li a{
-  display: inline-block;
-  margin-right: 20px;
-  width: 35px;
-  height: 35px;
-  padding-top: 4px;
-  background-color: transparent;
-  border: 1px solid #fff;
-  text-align: center;
-  color: #fff;
-}
-
-.social-link ul li a:hover{
-  background-color: #fff;
-  color: black;
-}
-
-.link ul li a {
+.footer_quick_links p a {
   text-decoration: none;
   color: #fff;
   display: block;
-  margin-bottom: 15px;
-  font-size: 18px;
+  font-family: "Rubik", sans-serif;
 }
 
-.link ul li a:hover{
+.footer_quick_links p a:hover {
+  color: orange;
+}
+
+.footer_links p a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  font-family: "Rubik", sans-serif;
+}
+
+p a:hover {
   color: orange;
 }
 
@@ -176,266 +276,397 @@ footer {
   margin-bottom: 15px;
 }
 
-.contact ul li a{
+.contact ul li a {
   text-decoration: none;
   color: #fff;
 }
 .contact ul li a:hover {
   color: orange;
 }
-.contact ul li span{
+.contact ul li span {
   margin-right: 15px;
 }
 
 .copy-right {
-  padding: 5px 0;
+  padding: 1px 0;
   text-align: center;
-  background-color: rgb(94, 83, 83);
+  background-color: #008f00;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 .copy-right p {
-  margin-top: 10  px;
+  color: #000000;
+  font-weight: 500;
 }
 
 /* FOOTER-NAVBAR RESPONSIVE */
 
-@media screen and (max-width:992px){
-  .about , .contact {
-      width: 35%;
-  }
-
-  #nav-brand{
-    font-size: 28px;
+@media screen and (max-width: 992px) {
+  .about,
+  .contact {
+    width: 35%;
   }
 
   .link {
-      width: 30%;
+    width: 30%;
   }
 
-  .text{
+  .text {
     font-size: 22px;
   }
 }
 
-@media screen and (max-width:767px){
-  #nav-brand{
-    font-size: 24px;
+@media screen and (max-width: 767px) {
+  .marquee {
+    height: 30px;
   }
-  .about , .contact {
-      width: 100%;
-      margin-bottom: 30px;
+
+  h1 {
+    font-size: 24px !important;
+  }
+
+  h5 {
+    font-size: 17px !important;
+  }
+
+  h2,
+  h3,
+  h4 {
+    font-size: 19px !important;
+  }
+
+  .marquee p {
+    font-size: 14px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    line-height: 30px;
+    text-align: center;
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -moz-animation: scroll-left 2s linear infinite;
+    -webkit-animation: scroll-left 2s linear infinite;
+    animation: scroll-left 15s linear infinite;
+  }
+
+  .logo {
+    width: 100px;
+    height: 45px;
+  }
+
+  .navbar-toggler-icon {
+    font-size: 12px;
+  }
+
+  .nav-links {
+    font-size: 11px;
+  }
+
+  .nav-right-content {
+    font-size: 10px;
+    flex-direction: column;
+  }
+
+  .nav-right-content-logout {
+    font-size: 10px;
+  }
+
+  #dropdown-basic,
+  #dropdown-basic-menu {
+    font-size: 11px !important;
+  }
+
+  #cart-button {
+    font-size: 10px;
+    height: 100%;
+    width: 20%;
+  }
+
+  #form-button {
+    height: 100%;
+  }
+
+  #form-button-para {
+    font-size: 10px;
+    width: max-content;
+  }
+
+  #form-search {
+    width: 50%;
+    font-size: 10px !important;
+  }
+
+  #select-search {
+    font-size: 10px !important;
+    width: 100px;
+  }
+
+  .about,
+  .contact {
+    width: 100%;
+    font-size: 14px;
   }
 
   .footer_info {
-      flex-direction: column;
+    flex-direction: column;
   }
 
-  .text{
+  .footer_quick_links {
+    display: flex;
+    width: max-content;
+    font-size: 14px;
+  }
+
+  .footer_info h3 {
+    font-size: 16px;
+    width: max-content;
+    font-weight: 900;
+  }
+
+  .copy-right {
+    padding: 1px;
+  }
+
+  .copy-right p {
+    font-size: 13px;
+  }
+
+  .text {
     font-size: 22px;
   }
 
-  footer{
-      margin-top: 30px;
+  footer {
+    margin-top: 30px;
+  }
+
+  #checkout-steps {
+    font-size: 15px !important;
+  }
+  #payment-label {
+    font-size: 15px !important;
+  }
+  #filter-label {
+    font-size: 14px !important;
+  }
+  #place-order-screen {
+    font-size: 14px;
+  }
+  #table-list {
+    font-size: 10px;
+  }
+  #table-list-button {
+    /* height: 10px;
+    width: 10px; */
+    font-size: 8px;
+    height: 100% !important;
+    width: 80% !important;
   }
 }
 
 /* Sliding Loginn - Register */
 
-body{
-	font-family: sans-serif;
-	margin:0;
-	line-height: 1.5;
+body {
+  font-family: sans-serif;
+  margin: 0;
+  line-height: 1.5;
 }
 
-*{
-	box-sizing: border-box;
-	margin:0;
+* {
+  box-sizing: border-box;
+  margin: 0;
 }
 
-.login-page{
-	min-height: 100vh;
-	padding:15px;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
+.login-page {
+  min-height: 100vh;
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
-.login-page .box{
-	background-image: url("https://images.squarespace-cdn.com/content/v1/5b40ca7f9772ae292a768d1d/1530989280515-BVFEQ0R07K1VF0ZF89YM/ke17ZwdGBToddI8pDm48kJRqFJ19D4P4EwsC9z3fiewUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dkV64dCjSK7Zaaf7dwPYPO_gHf_vjqrS5WJoq1nmwotrP7cJNZlDXbgJNE9ef52e8w/photo_5a.jpg?format=2500w");
+.login-page .box {
+  background-image: url("https://images.squarespace-cdn.com/content/v1/5b40ca7f9772ae292a768d1d/1530989280515-BVFEQ0R07K1VF0ZF89YM/ke17ZwdGBToddI8pDm48kJRqFJ19D4P4EwsC9z3fiewUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dkV64dCjSK7Zaaf7dwPYPO_gHf_vjqrS5WJoq1nmwotrP7cJNZlDXbgJNE9ef52e8w/photo_5a.jpg?format=2500w");
   /* background-image: url(../src/screens/images/bg.jpg); */
-	background-size: cover;
-	background-position: -160px center;
-	background-repeat: repeat-x;
-	flex:0 0 700px;
-	max-width: 700px;
-	min-height: 480px;
-	display: flex;
-	flex-wrap: wrap;
-	position: relative;
-	z-index: 1;
-	transition: all 0.5s ease-in-out;
-    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  background-size: cover;
+  background-position: -160px center;
+  background-repeat: repeat-x;
+  flex: 0 0 700px;
+  max-width: 800px;
+  min-height: 550px;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
-.login-page .box.slide-active{
-	background-position:160px center;
+.login-page .box.slide-active {
+  background-position: 160px center;
 }
 
-.login-page .box::before{
-	content: '';
-	position: absolute;
-	left:0;
-	top:0;
-	width: 100%;
-	height:100%;
-	z-index: -1;
-	background-color: rgba(0,0,0,0.4);
+.login-page .box::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .login-page .box .left,
-.login-page .box .right{
-  flex:0 0 50%;
+.login-page .box .right {
+  flex: 0 0 50%;
   max-width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding:40px 0;
+  padding: 40px 0;
 }
 
 .login-page .box .left h3,
-.login-page .box .right h3{
-	font-size: 20px;
-	color:#ffffff;
-	margin:0 0 15px;
+.login-page .box .right h3 {
+  font-size: 20px;
+  color: #ffffff;
+  margin: 0 0 15px;
 }
 
 .login-page .box .left .register-btn,
-.login-page .box .right .login-btn{
+.login-page .box .right .login-btn {
   background-color: transparent;
   padding: 10px 35px;
-  color:#ffffff;
-  border:1px solid #ffffff;
+  color: #ffffff;
+  border: 1px solid #ffffff;
   font-size: 16px;
   cursor: pointer;
   border-radius: 25px;
 }
 
 .login-page .box .left .register-btn:focus,
-.login-page .box .right .login-btn:focus{
+.login-page .box .right .login-btn:focus {
   outline: none;
 }
-.login-page .box .form{
-	position: absolute;
-	background-color: #ffffff;
-	height: 100%;
-	width: 50%;
-	right:0;
-	top:0;
-	padding:30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	transition: all 0.5s ease-in-out;
+.login-page .box .form {
+  position: absolute;
+  background-color: #ffffff;
+  height: 100%;
+  width: 50%;
+  right: 0;
+  top: 0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
 }
-.login-page .box.slide-active .form{
-	right: 50%;
-}
-
-.login-page .box .form h3{
-	font-size: 20px;
-	color:#000000;
-	margin:0 0 30px;
+.login-page .box.slide-active .form {
+  right: 50%;
 }
 
-.login-page .box .form .form-group{
-	margin-bottom: 20px;
+.login-page .box .form h3 {
+  font-size: 20px;
+  color: #000000;
+  margin: 0 0 30px;
+}
+
+.login-page .box .form .form-group {
+  margin-bottom: 20px;
 }
 
 .login-page .box .form .lost-password-form,
 .login-page .box .form .login-form,
-.login-page .box .form .register-form{
+.login-page .box .form .register-form {
   transition: all 0.5s ease-in-out;
-} 
+}
 
-.login-page .box .form .form-control{
-	width: 100%;
-	height: 45px;
-	font-size: 16px;
-	color:#000000;
-	border:none;
-	border-bottom:1px solid #cccccc;
-	padding:0;
+.login-page .box .form .form-control {
+  width: 100%;
+  height: 45px;
+  font-size: 16px;
+  color: #000000;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  padding: 0;
 }
-.login-page .box .form .form-control:focus{
-	outline: none;
+.login-page .box .form .form-control:focus {
+  outline: none;
 }
-.login-page .box .form label{
-	font-size: 16px;
-	color:#555555;
+.login-page .box .form label {
+  font-size: 16px;
+  color: #555555;
 }
-.login-page .box .form .submit-btn{
-	width: 100%;
-	height: 40px;
-	background-color: #E91E63;
-	border:none;
-	border-radius: 20px;
-	color:#ffffff;
-	text-transform: uppercase;
-	margin-top:10px;
-	font-size: 16px;
-	cursor: pointer;
+.login-page .box .form .submit-btn {
+  width: 100%;
+  height: 40px;
+  background-color: #e91e63;
+  border: none;
+  border-radius: 20px;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
-.login-page .box .form .submit-btn:focus{
-	outline: none;
+.login-page .box .form .submit-btn:focus {
+  outline: none;
 }
-.login-page .box .form p{
-  margin-top:20px;
+.login-page .box .form p {
+  margin-top: 20px;
   text-align: center;
 }
-.login-page .box .form h5{
-	font-size: 16px;
-	color:#555555;
-	margin:0 0 30px;
-	font-weight: normal;
+.login-page .box .form h5 {
+  font-size: 16px;
+  color: #555555;
+  margin: 0 0 30px;
+  font-weight: normal;
 }
 
-.login-page .box .form p a{
-	font-size: 16px;
-	text-decoration: none;
-	display: inline-block;
-	color:#3f51b5;
+.login-page .box .form p a {
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+  color: #3f51b5;
 }
 
-.login-page .box .form .form-hidden{
-	max-height: 0;
-	visibility: hidden;
-	opacity:0;
-	overflow:hidden;
+.login-page .box .form .form-hidden {
+  max-height: 0;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
 }
-
 
 /* SLIDING-LOGIN RESPONSIVE*/
 
-@media(max-width: 767px){
-   .login-page .box{
-   	 flex:0 0 100%;
-   	 max-width: 100%;
-   }
+@media (max-width: 767px) {
+  .login-page .box {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
-@media(max-width: 575px){
-	.login-page .box .form{
-		width: 100%;
-		position: relative;
-		right: auto;
-		top:auto;
-		height: auto;
-	}
-	.login-page .box,
-	.login-page .box.slide-active{
-        background-position: center;
-	}
-	.login-page .box .left h3, .login-page .box .right h3{
-		font-size: 16px;
-	}
-	.login-page .box.slide-active .form{
-		right:auto;
-	}
+@media (max-width: 575px) {
+  .login-page .box .form {
+    width: 100%;
+    position: relative;
+    right: auto;
+    top: auto;
+    height: auto;
+  }
+  .login-page .box,
+  .login-page .box.slide-active {
+    background-position: center;
+  }
+  .login-page .box .left h3,
+  .login-page .box .right h3 {
+    font-size: 16px;
+  }
+  .login-page .box.slide-active .form {
+    right: auto;
+  }
+}
+
+.modal-backdrop {
+  opacity: 0.5 !important;
 }

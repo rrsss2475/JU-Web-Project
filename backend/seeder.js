@@ -8,6 +8,7 @@ const users = require("./data/users");
 const products = require("./data/products");
 const Service = require("./models/serviceModel");
 const services = require("./data/services");
+const { categories, subcategories } = require("./data/categories");
 
 dotenv.config();
 
@@ -154,5 +155,21 @@ const importServices = async function () {
   process.exit();
 };
 
-// importProducts();
-importServices();
+const importImages = async function () {
+  for (const category of categories) {
+    await Category.updateOne(
+      { name: category.name },
+      { image: category.image }
+    );
+  }
+  for (const subcategory of subcategories) {
+    await subCategory.updateOne(
+      { name: subcategory.name },
+      { image: subcategory.image }
+    );
+  }
+};
+
+// importProducts()
+// importServices()
+importImages();

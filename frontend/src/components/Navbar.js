@@ -1,51 +1,89 @@
-import React from "react";
-import { Nav, NavDropdown, Dropdown, FormControl } from "react-bootstrap";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import {
+  Nav,
+  NavDropdown,
+  Dropdown,
+  FormControl,
+  Button,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { logout } from "../actions/userActions";
+import img from "../images/logo3.png";
 
-const Navbar = () => {
+const Navbar = ({}) => {
+  const [query, setquery] = useState("");
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const [show, setShow] = useState(false);
+  const showDropdown = (e) => {
+    setShow(!show);
+  };
+  const hideDropdown = (e) => {
+    setShow(false);
+  };
+
+  const [showUser, setShowUser] = useState(false);
+  const showUserDropdown = (e) => {
+    setShowUser(!showUser);
+  };
+  const hideUserDropdown = (e) => {
+    setShowUser(false);
+  };
+
+  const [showAdmin, setShowAdmin] = useState(false);
+  const showAdminDropdown = (e) => {
+    setShowAdmin(!showAdmin);
+  };
+  const hideAdminDropdown = (e) => {
+    setShowAdmin(false);
+  };
+
+  const history = useHistory();
+  const location = useLocation();
+
   const logoutHandler = () => {
     dispatch(logout());
+    history.push("/");
   };
 
   return (
     <>
       <div
+        className="marquee"
         style={{
           marginTop: "10px",
           color: "white",
           fontWeight: "700",
           textAlign: "center",
-          fontSize: "14px",
+          fontSize: "17px",
+          letterSpacing: "3px",
           border: "1px solid #000000",
-          padding: "10px",
-          background: "rgb(0, 168, 0)",
+          fontFamily: "Rubik, sans-serif",
+          textShadow: "1px 1px 10px blue, 1px 1px 10px white",
         }}
       >
-        GET FLAT 10% OFF ON YOUR FIRST ORDER
+        <p>GET FLAT 10% OFF ON ALL ORDERS AND BOOKINGS</p>
       </div>
 
-      <Nav
-        // id="nav1"
-        class="navbar navbar-expand-lg navbar-light bg-transparent"
-      >
+      <Nav id="nav1" class="navbar navbar-expand-lg navbar-light">
         <NavLink
           id="nav-brand"
-          class="navbar-brand text-white font-weight-bold"
+          class="navbar-brand text-white  ont-weight-bold"
           to="/"
         >
           <img
-            src="https://justintime.in/media/logo/stores/1/jitlogo.png"
+            className="logo"
+            src={img}
             alt="Just in Time Online Watch Store"
-            width="289"
-            height="64"
+            width="150"
+            height="60"
           />
-          {/* JUstintime */}
         </NavLink>
 
         <button
@@ -61,97 +99,342 @@ const Navbar = () => {
         </button>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <ul class="navbar-nav mr-auto mt-lg-0">
-            <li class="nav-item">
-              <NavLink
-                className="nav-link text-uppercase font-weight-bold text-success"
-                to="/"
-                exact
-              >
-                Home&nbsp;<i class="fas fa-home"></i>
-                <span class="sr-only">(current)</span>
-              </NavLink>
-            </li>
+          <div className="nav-links">
+            <NavLink
+              className="nav-link text-uppercase font-weight-bold text-success"
+              to="/"
+              exact
+            >
+              Home&nbsp;<i class="fas fa-home"></i>
+              <span class="sr-only">(current)</span>
+            </NavLink>
 
-            <li class="nav-item">
-              <NavLink
-                className="nav-link text-uppercase font-weight-bold text-success"
-                to="/aboutus"
-                exact
-              >
-                About Us&nbsp;<i class="fas fa-info-circle"></i>
-              </NavLink>
-            </li>
+            <NavLink
+              className="nav-link text-uppercase font-weight-bold text-success"
+              to="/aboutus"
+              exact
+            >
+              About Us&nbsp;<i class="fas fa-info-circle"></i>
+            </NavLink>
 
-            <li class="nav-item">
-              <NavLink
-                className="nav-link text-uppercase font-weight-bold text-success"
-                to="/contactus"
-                exact
-              >
-                Contact Us&nbsp;<i class="fas fa-phone"></i>
-              </NavLink>
-            </li>
-          </ul>
+            <NavLink
+              className="nav-link text-uppercase font-weight-bold text-success"
+              to="/contactus"
+              exact
+            >
+              Contact Us&nbsp;<i class="fas fa-phone"></i>
+            </NavLink>
+          </div>
+          {/* NAV-RIGHT-CONTENT */}
           {userInfo ? (
-            // <NavDropdown style={{ color:'white' }} className="text-uppercase font-weight-bold" title={userInfo.name} id='username'>
-            //   <NavLink to='/profile' style={{ textDecoration: 'none' }}>
-            //     <NavDropdown.Item><i className='fas fa-user'></i> Profile</NavDropdown.Item>
-            //   </NavLink>
-            //   <NavLink to='/cart' style={{ textDecoration: 'none' }}>
-            //     <NavDropdown.Item><i className='fas fa-shopping-cart'></i> Cart</NavDropdown.Item>
-            //   </NavLink>
-            //   <NavDropdown.Item onClick={logoutHandler}>
-            //     Logout
-            //   </NavDropdown.Item>
-            // </NavDropdown>
-
-            <div style={{ display: "flex" }}>
-              <FormControl
-                type="text"
-                placeholder="Search"
-                className="mr-sm-2"
-              />
-
-              <Dropdown className="text-uppercase font-weight-bold">
-                <Dropdown.Toggle
-                  variant="outline-success"
-                  id="dropdown-basic"
-                  className="text-uppercase font-weight-bold"
+            /* USER */
+            <div className="nav-right-content">
+              <div className="nav-right-content-first">
+                <Dropdown
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                  }}
+                  show={show}
+                  onMouseEnter={showDropdown}
+                  onMouseLeave={hideDropdown}
                 >
-                  {userInfo.name}
+                  <Dropdown.Toggle
+                    style={{
+                      fontFamily: "Rubik, sans-serif",
+                      fontSize: "17px",
+                    }}
+                    variant="success"
+                    id="dropdown-basic"
+                  >
+                    <b>Categories</b>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item className="text-success" href="/products">
+                      Products
+                    </Dropdown.Item>
+                    <NavDropdown.Divider />
+                    <Dropdown.Item className="text-success" href="/services">
+                      Services
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                &emsp;
+                <LinkContainer to="/cart">
+                  <Button type="submit" variant="success" id="cart-button">
+                    <i className="fas fa-shopping-cart"></i>
+                  </Button>
+                </LinkContainer>
+                &emsp;
+                <FormControl
+                  value={query}
+                  onChange={(e) => {
+                    setquery(e.target.value);
+                  }}
+                  type="text"
+                  placeholder="Search"
+                  className="mr-sm-2"
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                    fontSize: "17px",
+                    maxWidth: "100%",
+                  }}
+                  id="form-search"
+                />
+                {query.length == 0 ? (
+                  <NavLink
+                    className="nav-link text-uppercase font-weight-bold text-success"
+                    to={location.pathname}
+                    exact
+                  >
+                    <i
+                      style={{ marginLeft: "-50px" }}
+                      class="fa fa-search"
+                      aria-hidden="true"
+                    ></i>
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    className="nav-link text-uppercase font-weight-bold text-success"
+                    to={`/search/${query}`}
+                    exact
+                  >
+                    <i
+                      style={{ marginLeft: "-50px" }}
+                      class="fa fa-search"
+                      aria-hidden="true"
+                    ></i>
+                  </NavLink>
+                )}
+              </div>
+
+              <div className="nav-right-content-second">
+                <Dropdown
+                  show={showUser}
+                  onMouseEnter={showUserDropdown}
+                  onMouseLeave={hideUserDropdown}
+                  className="font-weight-bold"
+                >
+                  <Dropdown.Toggle
+                    variant="success"
+                    id="dropdown-basic"
+                    className="font-weight-bold"
+                    style={{
+                      fontFamily: "Rubik, sans-serif",
+                      fontSize: "16px",
+                    }}
+                  >
+                    Hello, {userInfo.name.split(" ")[0]}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                      className="text-success"
+                      href="/profile"
+                    >
+                      <i className="fas fa-user"></i> Profile
+                    </Dropdown.Item>
+
+                    <NavDropdown.Divider />
+                    <Dropdown.Item
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                      className="text-success"
+                      href="/myOrders"
+                    >
+                      <i className="fas fa-user"></i> My Orders
+                    </Dropdown.Item>
+
+                    <NavDropdown.Divider />
+                    <Dropdown.Item
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                      className="text-success"
+                      href="/myBookings"
+                    >
+                      <i className="fas fa-user"></i> My Bookings
+                    </Dropdown.Item>
+
+                    <NavDropdown.Divider />
+                    <Dropdown.Item
+                      className="text-success"
+                      onClick={logoutHandler}
+                      style={{ fontFamily: "Rubik, sans-serif" }}
+                    >
+                      <i class="fas fa-sign-out-alt"></i> Logout
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                &emsp;
+                {userInfo && userInfo.isAdmin && (
+                  /* ADMIN */
+                  <Dropdown
+                    show={showAdmin}
+                    onMouseEnter={showAdminDropdown}
+                    onMouseLeave={hideAdminDropdown}
+                    className="font-weight-bold"
+                  >
+                    <Dropdown.Toggle
+                      variant="outline-info"
+                      id="dropdown-basic"
+                      className="font-weight-bold"
+                      style={{
+                        fontFamily: "Rubik, sans-serif",
+                        fontSize: "16px",
+                        // marginTop: "-1px",
+                      }}
+                    >
+                      Manage
+                    </Dropdown.Toggle>
+                    {/* <NavDropdown title="Manage" id="adminmenu"> */}
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        style={{ fontFamily: "Rubik, sans-serif" }}
+                        href="/admin/userlist"
+                      >
+                        Users
+                      </Dropdown.Item>
+
+                      <NavDropdown.Divider />
+                      <Dropdown.Item
+                        style={{ fontFamily: "Rubik, sans-serif" }}
+                        href="/admin/productlist"
+                      >
+                        Products
+                      </Dropdown.Item>
+
+                      <NavDropdown.Divider />
+                      <Dropdown.Item
+                        style={{ fontFamily: "Rubik, sans-serif" }}
+                        href="/admin/servicelist"
+                      >
+                        Services
+                      </Dropdown.Item>
+                      <NavDropdown.Divider />
+                      <Dropdown.Item
+                        style={{ fontFamily: "Rubik, sans-serif" }}
+                        href="/admin/orderlist"
+                      >
+                        Orders
+                      </Dropdown.Item>
+
+                      <NavDropdown.Divider />
+                      <Dropdown.Item
+                        style={{ fontFamily: "Rubik, sans-serif" }}
+                        href="/admin/bookinglist"
+                      >
+                        Bookings
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  /* ADMIN-END */
+                )}
+              </div>
+            </div>
+          ) : (
+            /* NAV-RIGHT-CONTENT-END USER & ADMIN */
+
+            /* COMMON ELEMENTS */
+            <div className="nav-right-content-logout">
+              <Dropdown
+                style={{
+                  fontFamily: "Rubik, sans-serif",
+                }}
+                show={show}
+                onMouseEnter={showDropdown}
+                onMouseLeave={hideDropdown}
+              >
+                <Dropdown.Toggle
+                  style={{
+                    fontFamily: "Rubik, sans-serif",
+                    fontSize: "17px",
+                  }}
+                  variant="success"
+                  id="dropdown-basic"
+                >
+                  <b>Categories</b>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item className="text-success" href="/profile">
-                    <i className="fas fa-user"></i> Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item className="text-success" href="/cart">
-                    <i className="fas fa-shopping-cart"></i> Cart
+                <Dropdown.Menu id="dropdown-basic-menu">
+                  <Dropdown.Item className="text-success" href="/products">
+                    Products
                   </Dropdown.Item>
                   <NavDropdown.Divider />
-                  <Dropdown.Item
-                    className="text-success"
-                    onClick={logoutHandler}
-                  >
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                  <Dropdown.Item className="text-success" href="/services">
+                    Services
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            </div>
-          ) : (
-            <form class="form-inline my-2 my-lg-0" action="/login">
-              <button
-                class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
-                type="submit"
+              &emsp;
+              <FormControl
+                value={query}
+                onChange={(e) => {
+                  setquery(e.target.value);
+                }}
+                type="text"
+                placeholder="Search"
+                // className="mr-sm-2"
+                style={{
+                  fontFamily: "Rubik, sans-serif",
+                  fontSize: "17px",
+                  maxWidth: "42%",
+                }}
+                id="form-search"
+              />
+              {query.length == 0 ? (
+                <NavLink
+                  className="nav-link text-uppercase font-weight-bold text-success"
+                  to={location.pathname}
+                  exact
+                >
+                  <i
+                    style={{ marginLeft: "-40px" }}
+                    class="fa fa-search"
+                    aria-hidden="true"
+                  ></i>
+                </NavLink>
+              ) : (
+                <NavLink
+                  className="nav-link text-uppercase font-weight-bold text-success"
+                  to={`/search/${query}`}
+                  exact
+                >
+                  <i
+                    style={{ marginLeft: "-40px" }}
+                    class="fa fa-search"
+                    aria-hidden="true"
+                  ></i>
+                </NavLink>
+              )}
+              <LinkContainer to="/cart">
+                <Button type="submit" variant="success" id="cart-button">
+                  <i className="fas fa-shopping-cart"></i>
+                </Button>
+              </LinkContainer>
+              &emsp;
+              <form
+                // class="form-inline my-2 my-lg-0"
+                action="/login"
               >
-                Join Us <i class="fas fa-users"></i>
-              </button>
-            </form>
+                <button
+                  // class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
+                  class="btn btn-outline-success text-uppercase font-weight-bold"
+                  type="submit"
+                  id="form-button"
+                >
+                  <div id="form-button-para">
+                    Join Us <i class="fas fa-users"></i>
+                  </div>
+                </button>
+              </form>
+            </div>
+            /* COMMON ELEMENTS END */
           )}
+          &nbsp;
         </div>
       </Nav>
-      <hr style={{ borderWidth: "2px", borderColor: "green" }} />
+      <hr
+        style={{ borderWidth: "3px", borderColor: "green", marginTop: "0px" }}
+      />
     </>
   );
 };

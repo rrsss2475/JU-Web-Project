@@ -29,11 +29,18 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
+    "firebase-tools": "^9.11.0",
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "mdb-ui-kit": "^3.5.1",
+    "moment": "^2.29.1",
     "mongoose": "^5.12.0",
-    "mongoose-double": "0.0.1"
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.0",
+    "react-star-ratings": "^2.3.0",
+    "stripe": "^8.146.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

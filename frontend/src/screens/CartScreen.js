@@ -256,7 +256,21 @@ const CartScreen = ({ history }) => {
 				fontSize: "25px",
 			}}
 		>
-			<Link to="/login"> Login </Link> to view your cart
+			<form
+				// class="form-inline my-2 my-lg-0"
+				action="/login"
+			>
+				<center>
+					<button
+						// class="btn btn-outline-success my-2 my-sm-0 text-uppercase font-weight-bold"
+						class="btn btn-lg btn-outline-success text-uppercase font-weight-bold"
+						type="submit"
+						id="form-button"
+					>
+						<div style={{ padding: "5px" }}>Login to view Cart</div>
+					</button>
+				</center>
+			</form>
 		</div>
 	)
 

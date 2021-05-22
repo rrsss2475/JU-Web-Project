@@ -123,6 +123,20 @@ const updateUser = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.params.id)
 
 	if (user) {
+		const { error } = updateValidate(req.body)
+		if (error) {
+			res.status(400)
+			throw new Error(error.details[0].message)
+		}
+
+		if (req.body.email) {
+			const emailExists = await User.findOne({ email: req.body.email })
+			if (emailExists) {
+				res.status(400)
+				throw new Error("Email already exists")
+			}
+		}
+
 		user.name = req.body.name || user.name
 		user.email = req.body.email || user.email
 		user.isAdmin = req.body.isAdmin
@@ -152,8 +166,6 @@ const deleteUser = asyncHandler(async (req, res) => {
 	}
 })
 
-
-
 const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
 
@@ -163,6 +175,15 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 			res.status(400)
 			throw new Error(error.details[0].message)
 		}
+
+		if (req.body.email && req.body.email != user.email) {
+			const emailExists = await User.findOne({ email: req.body.email })
+			if (emailExists) {
+				res.status(400)
+				throw new Error("Email already exists")
+			}
+		}
+
 		user.name = req.body.name || user.name
 		user.email = req.body.email || user.email
 		if (req.body.password) {

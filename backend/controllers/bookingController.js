@@ -30,18 +30,16 @@ const createBooking = asyncHandler(async (req, res) => {
 			from: `"JUstintime" <${process.env.GMAIL_USER}>`,
 			to: user.email,
 			subject: `Booking ${savedBooking._id}`,
-			// text: `Order ${savedOrder._id}`,
 			html: getMailBody(savedBooking, "Booking"),
 		})
 
 		res.json(savedBooking)
-    // 		for (let a of user.address) {
-    // 			if (savedBooking.shippingAddress._id.equals(a._id)) {
-    // 				a.lastUsed = moment().format()
-    // 				break
-    // 			}
-    // 		}
-		//console.log(user)
+		for (let a of user.address) {
+			if (savedBooking.shippingAddress._id.equals(a._id)) {
+				a.lastUsed = moment().format()
+				break
+			}
+		}
 		let alreadyPresent = false
 		for (let i of user.orderedProducts) {
 			// console.log(JSON.stringify(i.product))

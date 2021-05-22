@@ -44,6 +44,7 @@ const RegisterScreen = ({ location, history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isBusiness, setisBusiness] = useState("");
 
   const dispatch = useDispatch();
 
@@ -99,9 +100,12 @@ const RegisterScreen = ({ location, history }) => {
         </Form.Group>
 
         <Form.Group controlId="exampleForm.ControlSelect1">
-          <Form.Control as="select">
-            <option>Business Account-NO</option>
-            <option>Business Account-YES</option>
+          <Form.Control 
+          as="select" 
+          value={isBusiness}
+          onChange={(e) => setisBusiness(e.target.value)} >
+            <option value="false">Business Account-NO</option>
+            <option value="true">Business Account-YES</option>
           </Form.Control>
         </Form.Group>
 

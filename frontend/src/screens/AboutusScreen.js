@@ -22,7 +22,7 @@ const AboutusScreen = () => {
     },
     {
       name: "Swapnil",
-      img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      img: "https://lh3.googleusercontent.com/pw/ACtC-3ex5XZ6x0Kokvy-XaVoJkha8--x4yoYJG2SHWudSjf2le0jxKszKQ0W4j-NFKJL9KK-QjxYIBOi9v7SL28Q6xXTxdfZXcnm_IC1bBVEI0MDvJr1r2V1QpwQOv1Ro1Kqms0uZjjhjjI3Gj-2BH8byTBykQ=w1067-h1014-no",
     },
   ];
 

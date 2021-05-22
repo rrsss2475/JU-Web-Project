@@ -48,13 +48,18 @@ const PaymentScreen = ({ match }) => {
         style={{
           textAlign: "center",
           marginTop: "50px",
+          marginBottom: "20px",
         }}
       >
         Payment Methods
       </h1>
       <Form onSubmit={submitHandler}>
         <Form.Group>
-          <Form.Label as="legend" style={{ fontSize: "24px" }}>
+          <Form.Label
+            as="legend"
+            style={{ fontSize: "24px" }}
+            id="payment-label"
+          >
             <strong>Choose your payment option</strong>
           </Form.Label>
           <Col>

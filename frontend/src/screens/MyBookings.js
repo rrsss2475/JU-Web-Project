@@ -44,13 +44,13 @@ const MyBookings = () => {
           >
             <Card.Header>
               <Row>
-                <Col>
+                <Col md={4} xs={12}>
                   <h5>
                     <strong>Total Price : ₹ {booking.totalPrice}</strong>
                   </h5>
                 </Col>
                 {/* <Col></Col> */}
-                <Col>
+                <Col md={8} xs={12}>
                   <Link
                     to={`/checkout/booking/${booking._id}`}
                     style={{
@@ -81,13 +81,13 @@ const MyBookings = () => {
               <br />
               <Card.Text>
                 <Row>
-                  <Col md={1}></Col>
-                  <Col md={2}>
+                  {/* <Col md={1}></Col> */}
+                  <Col md={4} xs={5}>
                     <center>
                       <Image src={booking.bookingItem.image} fluid />
                     </center>
                   </Col>
-                  <Col>
+                  <Col md={4} xs={7}>
                     <center>
                       <h5>
                         <b>{booking.bookingItem.name}</b>

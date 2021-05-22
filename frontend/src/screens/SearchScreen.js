@@ -42,18 +42,23 @@ const SearchScreen = () => {
 
   return (
     <Container style={{ marginTop: "50px" }}>
-      <h3>
+      <p style={{ color: "#70757a" }}>
         {products.length > 1 ? (
           <>
             {products.length} search results for{" "}
-            <span style={{ color: "green" }}>"{query}"</span>
+            <span style={{ color: "green" }}>
+              <strong>"{query}"</strong>
+            </span>
           </>
         ) : (
           <>
-            {products.length} search result for "{query}"
+            {products.length} search result for{" "}
+            <span style={{ color: "green" }}>
+              <strong>"{query}"</strong>
+            </span>
           </>
         )}
-      </h3>
+      </p>
       <hr
         style={{
           borderColor: "rgb(0,168,0,0.3)",

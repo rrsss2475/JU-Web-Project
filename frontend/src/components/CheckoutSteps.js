@@ -7,6 +7,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4, type }) => {
     <Nav
       className="justify-content-center mb-4"
       style={{ fontSize: "20px", fontFamily: "Rubik, sans-serif" }}
+      id="checkout-steps"
     >
       <Nav.Item className="font-weight-bold">
         {step1 ? (

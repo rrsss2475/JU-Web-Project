@@ -50,18 +50,14 @@ const ReviewsScreen = ({ location }) => {
 	useEffect(() => {
 		if (type == "products") {
 			axios
-				.get(
-					`http://localhost:5000/api/products/${catName}/${subCatName}/${id}/reviews`
-				)
+				.get(`/api/products/${catName}/${subCatName}/${id}/reviews`)
 				.then((res) => {
 					setreviews(res.data)
 					setloading(false)
 				})
 		} else {
 			axios
-				.get(
-					`http://localhost:5000/api/services/${catName}/${subCatName}/${id}/reviews`
-				)
+				.get(`/api/services/${catName}/${subCatName}/${id}/reviews`)
 				.then((res) => {
 					setreviews(res.data)
 					setloading(false)

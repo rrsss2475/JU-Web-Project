@@ -54,9 +54,7 @@ const ProductDescScreen = ({ history }) => {
 		if (loading == false) {
 			if (type == "products") {
 				axios
-					.get(
-						`http://localhost:5000/api/products/userName/${productDescription.user}`
-					)
+					.get(`/api/products/userName/${productDescription.user}`)
 					.then((res) => {
 						setuser(res.data.name)
 						setuserloading(false)
@@ -66,9 +64,7 @@ const ProductDescScreen = ({ history }) => {
 					})
 			} else {
 				axios
-					.get(
-						`http://localhost:5000/api/services/userName/${productDescription.user}`
-					)
+					.get(`/api/services/userName/${productDescription.user}`)
 					.then((res) => {
 						setuser(res.data.name)
 						setuserloading(false)
@@ -102,7 +98,7 @@ const ProductDescScreen = ({ history }) => {
 		} else {
 			if (productDescription.isWeighted) {
 				axios
-					.post("http://localhost:5000/api/users/addToCart", {
+					.post("/api/users/addToCart", {
 						userid: userInfo._id,
 						productid: productDescription._id,
 						qty: qty,
@@ -118,7 +114,7 @@ const ProductDescScreen = ({ history }) => {
 					})
 			} else {
 				axios
-					.post("http://localhost:5000/api/users/addToCart", {
+					.post("/api/users/addToCart", {
 						userid: userInfo._id,
 						productid: productDescription._id,
 						qty: qty,

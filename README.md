@@ -1,2 +1,3 @@
-# JU-Web-Project
-JU Web Project 4th Sem
+# JUstintime
+
+JUstintime is an E-Commerce Web Project built using MERN stack.

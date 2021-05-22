@@ -1,24 +1,9 @@
 import React, { useEffect } from "react";
-import {
-  Table,
-  Button,
-  Row,
-  Col,
-  Dropdown,
-  ButtonGroup,
-  Container,
-  FormControl,
-  DropdownButton,
-  Form,
-} from "react-bootstrap";
+import { Table, Button, Row, Col, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import {
-  getAllOrders,
-  deleteOrder,
-  updateOrder,
-} from "../actions/orderActions";
+import { getAllOrders, updateOrder } from "../actions/orderActions";
 import { Link } from "react-router-dom";
 import { DeleteModal } from "../components/Modal";
 import moment from "moment";
@@ -35,18 +20,10 @@ const OrderListScreen = ({ history, match }) => {
   const { userInfo } = userLogin;
 
   const orderDelete = useSelector((state) => state.orderDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = orderDelete;
+  const { error: errorDelete, success: successDelete } = orderDelete;
 
   const orderUpdate = useSelector((state) => state.orderUpdate);
-  const {
-    loading: loadingUpdate,
-    error: errorUpdate,
-    success: successUpdate,
-  } = orderUpdate;
+  const { error: errorUpdate, success: successUpdate } = orderUpdate;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {

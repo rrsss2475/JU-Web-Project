@@ -48,7 +48,7 @@ const LoginScreen = ({ location, history }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { error, userInfo } = userLogin;
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -127,7 +127,7 @@ const LoginScreen = ({ location, history }) => {
                 Submit
               </Button>
               <p>
-                <a href="#" class="lost-pass-btn">
+                <a href="javascript:void(0);" class="lost-pass-btn">
                   Lost Your Password ?
                 </a>
               </p>
@@ -154,11 +154,11 @@ const LoginScreen = ({ location, history }) => {
                 Submit
               </Button>
               <p>
-                <a href="#" class="login-btn">
+                <a href="javascript:void(0);" class="login-btn">
                   Login
                 </a>{" "}
                 |{" "}
-                <a href="#" class="register-btn">
+                <a href="javascript:void(0);" class="register-btn">
                   Register
                 </a>
               </p>

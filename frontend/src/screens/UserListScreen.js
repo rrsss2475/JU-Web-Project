@@ -4,7 +4,7 @@ import { Table, Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { deleteUser, listUsers } from "../actions/userActions";
+import { listUsers } from "../actions/userActions";
 import { DeleteModal } from "../components/Modal";
 
 const UserListScreen = ({ history }) => {

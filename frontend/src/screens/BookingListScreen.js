@@ -1,23 +1,9 @@
 import React, { useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import {
-  Table,
-  Button,
-  Row,
-  Col,
-  Dropdown,
-  ButtonGroup,
-  Container,
-  Form,
-} from "react-bootstrap";
+import { Table, Button, Row, Col, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import {
-  getAllBookings,
-  deleteBooking,
-  updateBooking,
-} from "../actions/bookingActions";
+import { getAllBookings, updateBooking } from "../actions/bookingActions";
 import { Link } from "react-router-dom";
 import { DeleteModal } from "../components/Modal";
 import moment from "moment";
@@ -34,18 +20,10 @@ const BookingListScreen = ({ history, match }) => {
   const { userInfo } = userLogin;
 
   const bookingDelete = useSelector((state) => state.bookingDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = bookingDelete;
+  const { error: errorDelete, success: successDelete } = bookingDelete;
 
   const bookingUpdate = useSelector((state) => state.bookingUpdate);
-  const {
-    loading: loadingUpdate,
-    error: errorUpdate,
-    success: successUpdate,
-  } = bookingUpdate;
+  const { error: errorUpdate, success: successUpdate } = bookingUpdate;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -166,8 +144,7 @@ const BookingListScreen = ({ history, match }) => {
                   >
                     <option value="">NULL</option>
                     <option value="Initiated">Initiated</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
+                    <option value="Completed">Completed</option>
                     <option value="Cancelled">Cancelled</option>
                   </Form.Control>
                 </Form.Group>
@@ -200,7 +177,7 @@ const BookingListScreen = ({ history, match }) => {
                 {bookings
                   .filter((booking) => {
                     if (
-                      searchStatus == "" &&
+                      searchStatus === "" &&
                       userSelect === "" &&
                       zipSelect === ""
                     ) {

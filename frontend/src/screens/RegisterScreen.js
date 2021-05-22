@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
@@ -49,7 +49,7 @@ const RegisterScreen = ({ location, history }) => {
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, userInfo } = userRegister;
+  const { error } = userRegister;
 
   const regHandler = (e) => {
     e.preventDefault();
@@ -95,7 +95,7 @@ const RegisterScreen = ({ location, history }) => {
           Submit
         </Button>
         <p>
-          <a href="#" class="login-btn">
+          <a href="javascript.void(0)" class="login-btn">
             Already have an account?
           </a>
         </p>

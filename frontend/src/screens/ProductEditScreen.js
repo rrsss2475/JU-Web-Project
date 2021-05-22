@@ -1,17 +1,6 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
-import {
-  Form,
-  Button,
-  Dropdown,
-  DropdownButton,
-  Container,
-  Modal,
-  ListGroup,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Form, Button, Container, Modal, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductDetails, updateProduct } from "../actions/productActions";
 import Message from "../components/Message";
@@ -29,7 +18,7 @@ const ProductEditScreen = ({ history, match }) => {
   const [isAvailable, setIsAvailable] = useState(false);
   const [description, setDescription] = useState("");
   const [isWeighted, setIsWeighted] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [uploading] = useState(false);
   const [category, setCategory] = useState(null);
   const [subCategory, setSubCategory] = useState(null);
   const [files, setFiles] = useState(null);
@@ -70,15 +59,15 @@ const ProductEditScreen = ({ history, match }) => {
   }, [dispatch, category]);
 
   useEffect(() => {
-    if (subcategoryList.loading == false) setSubCategory(subcategories[0]._id);
-  }, [subcategoryList.loading]);
+    if (subcategoryList.loading === false) setSubCategory(subcategories[0]._id);
+  }, [subcategoryList.loading, subcategories]);
 
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       history.push("/admin/productlist");
     } else {
-      if (!product.name || product._id != productId) {
+      if (!product.name || product._id !== productId) {
         dispatch(listProductDetails(productId));
       } else {
         setName(product.name);
@@ -127,7 +116,7 @@ const ProductEditScreen = ({ history, match }) => {
 
   const handleDeleteWeight = (weight) => {
     const weights1 = weights.filter((wt) => {
-      return wt != weight;
+      return wt !== weight;
     });
     setWeights(weights1);
   };

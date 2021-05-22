@@ -6,15 +6,13 @@ import {
   Dropdown,
   FormControl,
   Button,
-  Row,
-  Col,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import img from "../images/logo3.png";
 
-const Navbar = ({}) => {
+const Navbar = () => {
   const [query, setquery] = useState("");
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -181,7 +179,7 @@ const Navbar = ({}) => {
                   }}
                   id="form-search"
                 />
-                {query.length == 0 ? (
+                {query.length === 0 ? (
                   <NavLink
                     className="nav-link text-uppercase font-weight-bold text-success"
                     to={location.pathname}
@@ -380,7 +378,7 @@ const Navbar = ({}) => {
                 }}
                 id="form-search"
               />
-              {query.length == 0 ? (
+              {query.length === 0 ? (
                 <NavLink
                   className="nav-link text-uppercase font-weight-bold text-success"
                   to={location.pathname}

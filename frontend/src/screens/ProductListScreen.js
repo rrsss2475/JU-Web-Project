@@ -4,12 +4,7 @@ import { Table, Button, Row, Col, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import {
-  listAllProducts,
-  deleteProduct,
-  listProducts,
-  createProduct,
-} from "../actions/productActions";
+import { listAllProducts, createProduct } from "../actions/productActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import { DeleteModal } from "../components/Modal";
 import { Link } from "react-router-dom";

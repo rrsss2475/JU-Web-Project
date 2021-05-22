@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, CardImg } from "react-bootstrap";
-import { Link, Switch, Route } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import img from "../images/baby.jpg";
 import StarRatings from "react-star-ratings";
 

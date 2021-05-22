@@ -18,7 +18,7 @@ const QuantitySelector = ({
     </Button>
   );
 
-  if (qty == 1 || disabled) {
+  if (qty === 1 || disabled) {
     subButton = (
       <Button
         disabled

@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Form,
-  Button,
-  Col,
-  Row,
-  Container,
-  Toast,
-  Card,
-} from "react-bootstrap";
+import { Form, Button, Col, Row, Container, Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -27,8 +19,6 @@ const ProfileScreen = () => {
   const [update, setUpdate] = useState("");
 
   const dispatch = useDispatch();
-
-  const [show, setShow] = useState(false);
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
@@ -70,11 +60,6 @@ const ProfileScreen = () => {
       setConfirmPassword("");
     } else {
       dispatch(updateUserProfile({ name, email, password }));
-      // if (success) {
-      //   setUpdate("Profile Updated Successfully");
-      //   setPassword("");
-      //   setConfirmPassword("");
-      // }
     }
   };
   return (
@@ -90,38 +75,6 @@ const ProfileScreen = () => {
         <>
           <br />
           <Row>
-            <Col md={4}></Col>
-            <Col md={4}>
-              {user.isAdmin ? (
-                <Card.Img
-                  variant="top"
-                  // src="holder.js/100px180"
-                  // src="https://www.pngitem.com/pimgs/m/504-5040528_empty-profile-picture-png-transparent-png.png"
-                  src="https://www.rayyforce.com/wp-content/uploads/2019/11/dummy-profile.jpg"
-                  style={{
-                    borderRadius: "50%",
-                    background: "white",
-                    boxShadow:
-                      "0 2px 12px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.69)",
-                  }}
-                />
-              ) : (
-                <Card.Img
-                  variant="top"
-                  //   src="https://www.pngitem.com/pimgs/m/504-5040528_empty-profile-picture-png-transparent-png.png"
-                  //   src="https://www.4kz.com.au/images/2017/06/29/sophie.png"
-                  src="https://www.adeptstaffing.ca/wp-content/uploads/2017/01/businessman-1.png"
-                  style={{
-                    borderRadius: "50%",
-                    boxShadow:
-                      "0 2px 12px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.69)",
-                  }}
-                />
-              )}
-            </Col>
-          </Row>
-          <br />
-          <Row>
             <Col md={3}></Col>
             <Col md={6}>
               <Toast
@@ -131,7 +84,7 @@ const ProfileScreen = () => {
                   marginTop: "10px",
                   maxWidth: "100%",
                 }}
-                show={message.length != 0}
+                show={message.length !== 0}
                 onClose={() => {
                   setMessage("");
                 }}
@@ -148,7 +101,7 @@ const ProfileScreen = () => {
                   marginTop: "10px",
                   maxWidth: "100%",
                 }}
-                show={update.length != 0}
+                show={update.length !== 0}
                 onClose={() => {
                   setUpdate("");
                 }}

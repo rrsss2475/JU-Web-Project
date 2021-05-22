@@ -30,7 +30,7 @@ const SearchScreen = () => {
           <Col sm={12} md={6} lg={4} xl={3}>
             <Product
               product={product}
-              type={product.isWeighted!=undefined?"products":"services"}
+              type={product.isWeighted !== undefined ? "products" : "services"}
               catName={product.category.name}
               subCatName={product.subCategory.name}
             />
@@ -67,7 +67,7 @@ const SearchScreen = () => {
       />
       {loading ? (
         <Loader />
-      ) : products.length == 0 ? (
+      ) : products.length === 0 ? (
         <h1>No Results Found</h1>
       ) : (
         body

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingAddress } from "../actions/cartActions";
 import useVisibilityToggler from "../components/useVisibilityToggler";
 import { getShippingAddress, addShippingAddress } from "../actions/userActions";
 import Address from "../components/Address";
 import { Row, Col } from "react-bootstrap";
 import Loader from "../components/Loader.js";
 import Message from "../components/Message.js";
-import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 import CheckoutSteps from "../components/CheckoutSteps";
 
@@ -34,9 +32,6 @@ const ShippingScreen = ({ match }) => {
 
   const addressList = useSelector((state) => state.addressList);
   const { loading, error, addresses } = addressList;
-
-  // console.log(addresses);
-  // console.log(addressList);
 
   useEffect(() => {
     dispatch(getShippingAddress());
@@ -118,7 +113,7 @@ const ShippingScreen = ({ match }) => {
     false
   );
 
-  let body = <h1></h1>;
+  let body = <div></div>;
 
   if (!loading) {
     body = (
@@ -134,7 +129,7 @@ const ShippingScreen = ({ match }) => {
 
   return (
     <Container>
-      {type == "products" ? (
+      {type === "products" ? (
         <CheckoutSteps step1 step2 type={type} />
       ) : (
         <CheckoutSteps step1 type={type} />

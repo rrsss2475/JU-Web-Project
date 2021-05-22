@@ -34,8 +34,7 @@ const ServiceListScreen = ({ history, match }) => {
     success: successCreate,
     product: createdProduct,
   } = productCreate;
-
-  let str;
+  
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
     if (!userInfo || !userInfo.isAdmin) {

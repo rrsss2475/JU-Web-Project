@@ -30,7 +30,7 @@ const SearchScreen = () => {
           <Col sm={12} md={6} lg={4} xl={3}>
             <Product
               product={product}
-              type="products"
+              type={product.isWeighted!=undefined?"products":"services"}
               catName={product.category.name}
               subCatName={product.subCategory.name}
             />

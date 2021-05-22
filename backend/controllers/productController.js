@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler")
 const router = express.Router()
 const { Category, subCategory } = require("../models/categoryModel")
 const Product = require("../models/productModel")
+const Service = require("../models/serviceModel")
 const { User } = require("../models/userModel")
 
 const getCategories = asyncHandler(async (req, res) => {
@@ -80,9 +81,13 @@ const isEqual = (str, map) => {
 
 const getProductByQuery = async (req, res) => {
 	try {
-		const products = await Product.find({})
+		let products = await Product.find({})
 			.populate({ path: "category", select: "name" })
 			.populate({ path: "subCategory", select: "name" })
+		let services = await Service.find({})
+			.populate({ path: "category", select: "name" })
+			.populate({ path: "subCategory", select: "name" })
+		products=products.concat(services)
 		const query = req.params.query;
 		const queryWords = query.split(" ");
 		var map = {};
@@ -170,7 +175,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		description,
 		isWeighted,
 		category,
-		subCategory
+		subCategory,
+		weights
 	} = req.body
 
 	const product = await Product.findById(req.params.id)
@@ -183,6 +189,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.numReviews = numReviews
 		product.description = description
 		product.isWeighted = isWeighted
+		if(isWeighted)
+		product.weights=weights
 		product.category = category
 		product.subCategory = subCategory
 

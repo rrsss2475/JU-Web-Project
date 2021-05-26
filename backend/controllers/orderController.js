@@ -38,7 +38,7 @@ const createOrder = asyncHandler(async (req, res) => {
       to: user.email,
       subject: `Order ${savedOrder._id}`,
       // text: `Order ${savedOrder._id}`,
-      html: getMailBody(savedOrder, "Order", req.body.receipt_url),
+      html: getMailBody(savedOrder, user, "Order", req.body.receipt_url),
     });
 
     //console.log("Message sent: %s", info.messageId)
@@ -188,7 +188,7 @@ const updateStatusOfOrder = asyncHandler(async (req, res) => {
         to: user.email,
         subject: `Order ${updatedOrder._id}`,
         // text: `Order ${savedOrder._id}`,
-        html: getMailBody(updatedOrder, "Order"),
+        html: getMailBody(updatedOrder, user, "Order"),
       });
 
       res.json(updatedOrder);
@@ -201,7 +201,7 @@ const updateStatusOfOrder = asyncHandler(async (req, res) => {
         to: user.email,
         subject: `Order ${updatedOrder._id}`,
         // text: `Order ${savedOrder._id}`,
-        html: getMailBody(updatedOrder, "Order"),
+        html: getMailBody(updatedOrder, user, "Order"),
       });
 
       res.json(updatedOrder);

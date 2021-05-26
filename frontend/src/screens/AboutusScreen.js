@@ -32,7 +32,6 @@ const AboutusScreen = () => {
 				fontFamily: "Rubik, sans-serif",
 			}}
 		>
-			brad madar.....
 			<h1
 				style={{
 					textAlign: "left",

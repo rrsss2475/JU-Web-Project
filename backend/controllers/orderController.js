@@ -51,19 +51,6 @@ const createOrder = asyncHandler(async (req, res) => {
 				break
 			}
 		}
-		for (let item of savedOrder.orderItems) {
-			let alreadyPresent = false
-			for (let i of user.orderedProducts) {
-				if (JSON.stringify(i.product) == JSON.stringify(item.product)) {
-					alreadyPresent = true
-					break
-				}
-			}
-			if (!alreadyPresent) {
-				await user.orderedProducts.push({ product: item.product })
-			}
-		}
-		await user.save()
 	} else {
 		res.status(400)
 		throw new Error("Failed to create order")
@@ -182,6 +169,20 @@ const updateStatusOfOrder = asyncHandler(async (req, res) => {
 				order.paymentMethod = "COD"
 			}
 			const updatedOrder = await order.save()
+
+			for (let item of order.orderItems) {
+				let alreadyPresent = false
+				for (let i of user.orderedProducts) {
+					if (JSON.stringify(i.product) == JSON.stringify(item.product)) {
+						alreadyPresent = true
+						break
+					}
+				}
+				if (!alreadyPresent) {
+					await user.orderedProducts.push({ product: item.product })
+				}
+			}
+			await user.save()
 
 			await transporter.sendMail({
 				from: `"JUstintime" <${process.env.GMAIL_USER}>`,

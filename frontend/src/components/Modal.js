@@ -64,6 +64,7 @@ export function MyVerticallyCenteredModal({ show, onHide, type, id, token }) {
 }
 export function DeleteModal({ show, onHide, type, id }) {
   const dispatch = useDispatch();
+  const history=useHistory();
 
   const deleteHandler = (e) => {
     e.preventDefault();
@@ -79,10 +80,12 @@ export function DeleteModal({ show, onHide, type, id }) {
       case "Product":
         dispatch(deleteProduct(id));
         onHide();
+        history.go(0)
         break;
       case "Service":
         dispatch(deleteService(id));
         onHide();
+        history.go(0)
         break;
       case "User":
         dispatch(deleteUser(id));

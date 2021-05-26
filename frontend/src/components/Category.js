@@ -22,7 +22,7 @@ const Category = ({ category, type, variant, catName }) => {
         />
       </Link>
       <Card.Body>
-        <Link to={`/${type}/${category.name}`} exact>
+        <Link style={{color:"blue"}} to={`/${type}/${category.name}`} exact>
           <Card.Title as="div" style={{ fontFamily: "Rubik, sans-serif" }}>
             <strong>
               <center>{category.name}</center>

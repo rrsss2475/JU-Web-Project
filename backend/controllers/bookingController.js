@@ -30,7 +30,7 @@ const createBooking = asyncHandler(async (req, res) => {
 			from: `"JUstintime" <${process.env.GMAIL_USER}>`,
 			to: user.email,
 			subject: `Booking ${savedBooking._id}`,
-			html: getMailBody(savedBooking, "Booking"),
+			html: getMailBody(savedBooking, "Booking", req.body.receipt_url),
 		})
 
 		res.json(savedBooking)

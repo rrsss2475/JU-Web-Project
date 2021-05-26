@@ -6,33 +6,33 @@ const moment = require("moment");
 const { getMailBody, transporter } = require("../utils/mailUtils");
 
 const createOrder = asyncHandler(async (req, res) => {
-  const order = new Order({
-    user: req.user._id,
-    orderItems: req.body.orderItems,
-    shippingAddress: req.body.shippingAddress,
-    paymentMethod: req.body.paymentMethod,
-    totalPrice: req.body.totalPrice,
-    status: "Initiated",
-  });
+	const order = new Order({
+		user: req.user._id,
+		orderItems: req.body.orderItems,
+		shippingAddress: req.body.shippingAddress,
+		paymentMethod: req.body.paymentMethod,
+		totalPrice: req.body.totalPrice,
+		status: "Initiated",
+	})
 
-  if (req.body.isPaid) {
-    order.isPaid = req.body.isPaid;
-    order.paidAt = req.body.paidAt;
-    order.paymentResult = req.body.paymentResult;
-  }
+	if (req.body.isPaid) {
+		order.isPaid = req.body.isPaid
+		order.paidAt = req.body.paidAt
+		order.paymentResult = req.body.paymentResult
+	}
 
-  if (moment().hours() > 22) {
-    order.toBeDelivered = moment().add(2, "days");
-  } else {
-    order.toBeDelivered = moment().add(1, "days");
-  }
+	if (moment().hours() > 22) {
+		order.toBeDelivered = moment().add(2, "days")
+	} else {
+		order.toBeDelivered = moment().add(1, "days")
+	}
 
-  const savedOrder = await order.save();
+	const savedOrder = await order.save()
 
-  if (savedOrder) {
-    const user = await User.findById(savedOrder.user);
+	if (savedOrder) {
+		const user = await User.findById(savedOrder.user)
 
-    // Send Confirmation Mail
+		 // Send Confirmation Mail
     await transporter.sendMail({
       from: `"JUstintime" <${process.env.GMAIL_USER}>`,
       to: user.email,
@@ -41,34 +41,21 @@ const createOrder = asyncHandler(async (req, res) => {
       html: getMailBody(savedOrder, user, "Order", req.body.receipt_url),
     });
 
-    //console.log("Message sent: %s", info.messageId)
-    //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
+		//console.log("Message sent: %s", info.messageId)
+		//console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
 
-    res.json(savedOrder);
-    for (let a of user.address) {
-      if (savedOrder.shippingAddress._id.equals(a._id)) {
-        a.lastUsed = moment().format();
-        break;
-      }
-    }
-    for (let item of savedOrder.orderItems) {
-      let alreadyPresent = false;
-      for (let i of user.orderedProducts) {
-        if (JSON.stringify(i.product) == JSON.stringify(item.product)) {
-          alreadyPresent = true;
-          break;
-        }
-      }
-      if (!alreadyPresent) {
-        await user.orderedProducts.push({ product: item.product });
-      }
-    }
-    await user.save();
-  } else {
-    res.status(400);
-    throw new Error("Failed to create order");
-  }
-});
+		res.json(savedOrder)
+		for (let a of user.address) {
+			if (savedOrder.shippingAddress._id.equals(a._id)) {
+				a.lastUsed = moment().format()
+				break
+			}
+		}
+	} else {
+		res.status(400)
+		throw new Error("Failed to create order")
+	}
+})
 
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
@@ -169,21 +156,35 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 });
 
 const updateStatusOfOrder = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
-  if (order) {
-    const user = await User.findById(order.user._id);
-    if (req.body.status == "Delivered") {
-      order.isDelivered = true;
-      order.deliveredAt = Date.now();
-      order.status = req.body.status;
-      if (order.isPaid == false) {
-        order.isPaid = true;
-        order.paidAt = Date.now();
-        order.paymentMethod = "COD";
-      }
-      const updatedOrder = await order.save();
+	const order = await Order.findById(req.params.id)
+	if (order) {
+		const user = await User.findById(order.user._id)
+		if (req.body.status == "Delivered") {
+			order.isDelivered = true
+			order.deliveredAt = Date.now()
+			order.status = req.body.status
+			if (order.isPaid == false) {
+				order.isPaid = true
+				order.paidAt = Date.now()
+				order.paymentMethod = "COD"
+			}
+			const updatedOrder = await order.save()
 
-      await transporter.sendMail({
+			for (let item of order.orderItems) {
+				let alreadyPresent = false
+				for (let i of user.orderedProducts) {
+					if (JSON.stringify(i.product) == JSON.stringify(item.product)) {
+						alreadyPresent = true
+						break
+					}
+				}
+				if (!alreadyPresent) {
+					await user.orderedProducts.push({ product: item.product })
+				}
+			}
+			await user.save()
+
+		 await transporter.sendMail({
         from: `"JUstintime" <${process.env.GMAIL_USER}>`,
         to: user.email,
         subject: `Order ${updatedOrder._id}`,
@@ -191,12 +192,12 @@ const updateStatusOfOrder = asyncHandler(async (req, res) => {
         html: getMailBody(updatedOrder, user, "Order"),
       });
 
-      res.json(updatedOrder);
-    } else {
-      order.status = req.body.status;
-      const updatedOrder = await order.save();
+			res.json(updatedOrder)
+		} else {
+			order.status = req.body.status
+			const updatedOrder = await order.save()
 
-      await transporter.sendMail({
+			await transporter.sendMail({
         from: `"JUstintime" <${process.env.GMAIL_USER}>`,
         to: user.email,
         subject: `Order ${updatedOrder._id}`,
@@ -204,13 +205,13 @@ const updateStatusOfOrder = asyncHandler(async (req, res) => {
         html: getMailBody(updatedOrder, user, "Order"),
       });
 
-      res.json(updatedOrder);
-    }
-  } else {
-    res.status(404);
-    throw new Error("Order Not Found");
-  }
-});
+			res.json(updatedOrder)
+		}
+	} else {
+		res.status(404)
+		throw new Error("Order Not Found")
+	}
+})
 
 const deleteOrder = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);

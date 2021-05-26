@@ -81,14 +81,21 @@ const isEqual = (str, map) => {
 
 const getProductByQuery = async (req, res) => {
 	try {
+		const query = req.params.query;
 		let products = await Product.find({})
 			.populate({ path: "category", select: "name" })
 			.populate({ path: "subCategory", select: "name" })
 		let services = await Service.find({})
 			.populate({ path: "category", select: "name" })
 			.populate({ path: "subCategory", select: "name" })
-		products=products.concat(services)
-		const query = req.params.query;
+		if (query.toLowerCase() === "products") {
+			return res.json(products);
+		}
+		if (query.toLowerCase() === "services") {
+			return res.json(services);
+		}
+
+		products = products.concat(services)
 		const queryWords = query.split(" ");
 		var map = {};
 		for (word of queryWords) {
@@ -189,8 +196,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.numReviews = numReviews
 		product.description = description
 		product.isWeighted = isWeighted
-		if(isWeighted)
-		product.weights=weights
+		if (isWeighted)
+			product.weights = weights
 		product.category = category
 		product.subCategory = subCategory
 

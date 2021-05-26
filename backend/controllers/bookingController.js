@@ -5,64 +5,64 @@ const { getMailBody, transporter } = require("../utils/mailUtils");
 const moment = require("moment");
 
 const createBooking = asyncHandler(async (req, res) => {
-  const booking = new Booking({
-    user: req.user._id,
-    bookingItem: req.body.bookingItem,
-    shippingAddress: req.body.shippingAddress,
-    paymentMethod: req.body.paymentMethod,
-    totalPrice: req.body.totalPrice,
-    toBeCompleted: req.body.toBeCompleted,
-    status: "Initiated",
-  });
+	const booking = new Booking({
+		user: req.user._id,
+		bookingItem: req.body.bookingItem,
+		shippingAddress: req.body.shippingAddress,
+		paymentMethod: req.body.paymentMethod,
+		totalPrice: req.body.totalPrice,
+		toBeCompleted: req.body.toBeCompleted,
+		status: "Initiated",
+	})
 
-  if (req.body.isPaid) {
-    booking.isPaid = req.body.isPaid;
-    booking.paidAt = req.body.paidAt;
-    booking.paymentResult = req.body.paymentResult;
-  }
+	if (req.body.isPaid) {
+		booking.isPaid = req.body.isPaid
+		booking.paidAt = req.body.paidAt
+		booking.paymentResult = req.body.paymentResult
+	}
 
-  const savedBooking = await booking.save();
-  if (savedBooking) {
-    //console.log(savedBooking)
-    const user = await User.findById(savedBooking.user);
+	const savedBooking = await booking.save()
+	if (savedBooking) {
+		//console.log(savedBooking)
+		const user = await User.findById(savedBooking.user)
 
-    await transporter.sendMail({
+		await transporter.sendMail({
       from: `"JUstintime" <${process.env.GMAIL_USER}>`,
       to: user.email,
       subject: `Booking ${savedBooking._id}`,
       html: getMailBody(savedBooking, user, "Booking", req.body.receipt_url),
     });
 
-    res.json(savedBooking);
-    for (let a of user.address) {
-      if (savedBooking.shippingAddress._id.equals(a._id)) {
-        a.lastUsed = moment().format();
-        break;
-      }
-    }
-    let alreadyPresent = false;
-    for (let i of user.orderedProducts) {
-      // console.log(JSON.stringify(i.product))
-      // console.log(JSON.stringify(savedBooking.bookingItem.service))
-      if (
-        JSON.stringify(i.product) ==
-        JSON.stringify(savedBooking.bookingItem.service)
-      ) {
-        alreadyPresent = true;
-        break;
-      }
-    }
-    if (!alreadyPresent) {
-      await user.orderedProducts.push({
-        product: savedBooking.bookingItem.service,
-      });
-    }
-    await user.save();
-  } else {
-    res.status(400);
-    throw new Error("Failed to create booking");
-  }
-});
+		res.json(savedBooking)
+		for (let a of user.address) {
+			if (savedBooking.shippingAddress._id.equals(a._id)) {
+				a.lastUsed = moment().format()
+				break
+			}
+		}
+		/*
+		let alreadyPresent = false
+		for (let i of user.orderedProducts) {
+			if (
+				JSON.stringify(i.product) ==
+				JSON.stringify(savedBooking.bookingItem.service)
+			) {
+				alreadyPresent = true
+				break
+			}
+		}
+		if (!alreadyPresent) {
+			await user.orderedProducts.push({
+				product: savedBooking.bookingItem.service,
+			})
+		}
+		await user.save()
+		*/
+	} else {
+		res.status(400)
+		throw new Error("Failed to create booking")
+	}
+})
 
 const getBookingById = asyncHandler(async (req, res) => {
   const booking = await Booking.findById(req.params.id)
@@ -162,46 +162,66 @@ const updateBookingToPaid = asyncHandler(async (req, res) => {
 });
 
 const updateStatusOfBooking = asyncHandler(async (req, res) => {
-  const booking = await Booking.findById(req.params.id);
-  if (booking) {
-    const user = await User.findById(booking.user._id);
-    if (req.body.status == "Completed") {
-      booking.isCompleted = true;
-      booking.completedAt = Date.now();
-      if (booking.isPaid == false) {
-        booking.isPaid = true;
-        booking.paidAt = Date.now();
-        booking.paymentMethod = "COD";
-      }
-      booking.status = req.body.status;
-      const updatedBooking = await booking.save();
+	const booking = await Booking.findById(req.params.id)
+	if (booking) {
+		const user = await User.findById(booking.user._id)
+		if (req.body.status == "Completed") {
+			booking.isCompleted = true
+			booking.completedAt = Date.now()
+			if (booking.isPaid == false) {
+				booking.isPaid = true
+				booking.paidAt = Date.now()
+				booking.paymentMethod = "COD"
+			}
+			booking.status = req.body.status
+			const updatedBooking = await booking.save()
 
-      await transporter.sendMail({
+			console.log(booking)
+			let alreadyPresent = false
+			for (let i of user.orderedProducts) {
+				if (
+					JSON.stringify(i.product) ==
+					JSON.stringify(booking.bookingItem.service)
+				) {
+					alreadyPresent = true
+					break
+				}
+			}
+			if (!alreadyPresent) {
+				await user.orderedProducts.push({
+					product: booking.bookingItem.service,
+				})
+			}
+			await user.save()
+
+			await transporter.sendMail({
         from: `"JUstintime" <${process.env.GMAIL_USER}>`,
         to: user.email,
         subject: `Booking ${updatedBooking._id}`,
         // text: `Order ${savedOrder._id}`,
         html: getMailBody(updatedBooking, user, "Booking"),
       });
-      res.json(updatedBooking);
-    } else {
-      booking.status = req.body.status;
-      const updatedBooking = await booking.save();
+      
+			res.json(updatedBooking)
+		} else {
+			booking.status = req.body.status
+			const updatedBooking = await booking.save()
 
-      await transporter.sendMail({
+			await transporter.sendMail({
         from: `"JUstintime" <${process.env.GMAIL_USER}>`,
         to: user.email,
         subject: `Booking ${updatedBooking._id}`,
         // text: `Order ${savedOrder._id}`,
         html: getMailBody(updatedBooking, user, "Booking"),
       });
-      res.json(updatedBooking);
-    }
-  } else {
-    res.status(404);
-    throw new Error("Booking Not Found");
-  }
-});
+      
+			res.json(updatedBooking)
+		}
+	} else {
+		res.status(404)
+		throw new Error("Booking Not Found")
+	}
+})
 
 const deleteBooking = asyncHandler(async (req, res) => {
   const booking = await Booking.findById(req.params.id);

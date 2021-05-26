@@ -4,10 +4,12 @@
   "description": "JU Web Project",
   "main": "index.js",
   "scripts": {
+    "start": "node backend/server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon backend/server.js",
     "client": "cd frontend && npm start",
-    "dev": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\""
+    "dev": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",

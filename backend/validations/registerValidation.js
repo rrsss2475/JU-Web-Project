@@ -11,6 +11,8 @@ const registerValidate = (data) => {
 
 const updateValidate = (data) => {
 	const schema = joi.object({
+		_id: joi.string(),
+		isAdmin: joi.boolean(),
 		name: joi.string().min(3),
 		email: joi.string().email(),
 		password: joi.string().optional().allow("").min(6),

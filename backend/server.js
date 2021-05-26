@@ -31,12 +31,20 @@ app.use("/api/bookings", bookingRoute)
 const paymentRoute = require("./routes/paymentRoutes")
 app.use("/payment", paymentRoute)
 
+const dirname=path.resolve()
+if(process.env.NODE_ENV==='production'){
+	app.use(express.static(path.join(dirname,'/frontend/build')))
+
+	app.get('*',(req,res)=>res.sendFile(path.resolve(dirname,'frontend','build','index.html')))
+}
+else {
+	app.use("/", (req, res) => {
+		res.send("Server Running....")
+	})
+}
+
 app.use(notFound)
 app.use(errorHandler)
-
-app.use("/", (req, res) => {
-	res.send("Hello")
-})
 
 const PORT = process.env.PORT || 5000
 app.listen(

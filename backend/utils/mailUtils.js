@@ -15,7 +15,7 @@ function getMailBody(order, type) {
 	let body = "<div><h3>" + type + " " + order._id + "</h3>"
 	body +=
 		"<a href=" +
-		`http://localhost:3000/checkout/order/${order._id}` +
+		`https://justintime24-7.herokuapp.com/checkout/order/${order._id}` +
 		`>Track your ${type}</a>`
 
 	body += `<h4>Your ${type} has been ${order.status}</h4>`

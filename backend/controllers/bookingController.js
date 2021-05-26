@@ -40,10 +40,9 @@ const createBooking = asyncHandler(async (req, res) => {
 				break
 			}
 		}
+		/*
 		let alreadyPresent = false
 		for (let i of user.orderedProducts) {
-			// console.log(JSON.stringify(i.product))
-			// console.log(JSON.stringify(savedBooking.bookingItem.service))
 			if (
 				JSON.stringify(i.product) ==
 				JSON.stringify(savedBooking.bookingItem.service)
@@ -58,6 +57,7 @@ const createBooking = asyncHandler(async (req, res) => {
 			})
 		}
 		await user.save()
+		*/
 	} else {
 		res.status(400)
 		throw new Error("Failed to create booking")
@@ -175,6 +175,24 @@ const updateStatusOfBooking = asyncHandler(async (req, res) => {
 			}
 			booking.status = req.body.status
 			const updatedBooking = await booking.save()
+
+			console.log(booking)
+			let alreadyPresent = false
+			for (let i of user.orderedProducts) {
+				if (
+					JSON.stringify(i.product) ==
+					JSON.stringify(booking.bookingItem.service)
+				) {
+					alreadyPresent = true
+					break
+				}
+			}
+			if (!alreadyPresent) {
+				await user.orderedProducts.push({
+					product: booking.bookingItem.service,
+				})
+			}
+			await user.save()
 
 			await transporter.sendMail({
 				from: `"JUstintime" <${process.env.GMAIL_USER}>`,

@@ -18,10 +18,10 @@ const ProductEditScreen = ({ history, match }) => {
 	const [isAvailable, setIsAvailable] = useState(false)
 	const [description, setDescription] = useState("")
 	const [isWeighted, setIsWeighted] = useState(false)
-	const [uploading] = useState(false)
+	const [uploading, setUploading] = useState(false)
 	const [category, setCategory] = useState(null)
 	const [subCategory, setSubCategory] = useState(null)
-	const [files, setFiles] = useState(null)
+	const [files, setFiles] = useState([])
 
 	const [weights, setWeights] = useState([])
 	const [inpWt, setInpWt] = useState("")
@@ -86,13 +86,15 @@ const ProductEditScreen = ({ history, match }) => {
 	}, [dispatch, product, productId, history, successUpdate])
 
 	const uploadImage = () => {
+		setUploading(true)
 		let bucketName = "images"
 		let file = files[0]
 		let storageRef = firebase.storage().ref(`${bucketName}/${file.name}`)
 		let uploadTask = storageRef.put(file)
 		uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, () => {
 			let downloadURL = uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-				setImage(url)
+				setImage(url);
+				setUploading(false);
 			})
 		})
 	}
@@ -185,8 +187,8 @@ const ProductEditScreen = ({ history, match }) => {
 								custom
 								onChange={(e) => setFiles(e.target.files)}
 							></Form.File>
-							<Button onClick={uploadImage}>Upload</Button>
-							{uploading && <Loader />}
+							<Button onClick={uploadImage} disabled={files.length===0}>Upload</Button>
+							{uploading && <Loader size="25px"/>}
 						</Form.Group>
 						{categoryList.loading ? (
 							<Loader size="25px" />

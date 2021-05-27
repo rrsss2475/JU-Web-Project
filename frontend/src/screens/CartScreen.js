@@ -212,10 +212,11 @@ const CartScreen = ({ history }) => {
           for (let i in cartArr) {
             if (cartArr[i]._id !== item._id) {
               cartArr1.push(cartArr[i]);
-              amt += cartArr1[i].isWeighted
-                ? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
-                : cartArr1[i].price * cartArr1[i].qty;
-              total += cartArr1[i].qty;
+              let x=cartArr1.length-1;
+              amt += cartArr1[x].isWeighted
+                ? cartArr1[x].price * cartArr1[x].qty * cartArr1[x].weight
+                : cartArr1[x].price * cartArr1[x].qty;
+              total += cartArr1[x].qty;
             }
           }
           setcartArr(cartArr1);
@@ -280,16 +281,13 @@ const CartScreen = ({ history }) => {
   );
 
   if (userInfo != null) {
-    if (cartItems.length === 0) {
+    if (cartArr.length === 0) {
       body = (
         <div>
           <h3> Your Shopping Cart is Empty </h3>
         </div>
       );
     } else {
-      if(totalItems===0)
-      body=<Loader />
-      else
       body = (
         <div style={{ marginTop: "50px" }}>
           {cartArr.map((item) => (
@@ -331,7 +329,7 @@ const CartScreen = ({ history }) => {
                         </strong>
                       </div>
                     ) : (
-                      <div> {item.name} </div>
+                      <div> <strong>{item.name}</strong> </div>
                     )}
                   </div>
                   <br />

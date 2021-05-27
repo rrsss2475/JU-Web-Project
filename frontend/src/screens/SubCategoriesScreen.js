@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import Category from "../components/Category";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -28,9 +28,10 @@ const SubCategoriesScreen = () => {
 
   if (!loading) {
     body = (
+      <Container>
       <Row>
         {subcategories.map((category) => (
-          <Col sm={12} md={6} lg={4} xl={3}>
+          <Col sm={12} md={6} lg={4} xl={3} style={{paddingLeft:"35px"}}>
             <Category
               catName={catName}
               type={type}
@@ -40,6 +41,7 @@ const SubCategoriesScreen = () => {
           </Col>
         ))}
       </Row>
+      </Container>
     );
   }
 
@@ -53,7 +55,7 @@ const SubCategoriesScreen = () => {
         catName={catName}
         currStep={"step3"}
       />
-      <h1>{catName}</h1>
+      <h1 style={{marginLeft:"15px"}}>{catName}</h1>
       {loading ? (
         <Loader />
       ) : error ? (

@@ -12,6 +12,7 @@ const Category = ({ product, type, catName, subCatName }) => {
       style={{
         boxShadow:
           "0 1px 4px 0 rgba(0, 168, 0, 0.3), 0 2px 10px 0 rgba(0, 168, 0, 0.69)",
+        width: "250px"
       }}
     >
       <Link

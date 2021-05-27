@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -25,9 +25,10 @@ const ProductScreen = () => {
 
   if (!loading) {
     body = (
+      <Container>
       <Row>
         {products.map((product) => (
-          <Col sm={12} md={6} lg={4} xl={3}>
+          <Col sm={12} md={6} lg={4} xl={3} style={{paddingLeft:"35px"}}>
             <Product
               product={product}
               type={type}
@@ -37,6 +38,7 @@ const ProductScreen = () => {
           </Col>
         ))}
       </Row>
+      </Container>
     );
   }
 
@@ -52,7 +54,7 @@ const ProductScreen = () => {
         subCat={subCatName}
         currStep={"step4"}
       />
-      <h1>{subCatName}</h1>
+      <h1 style={{marginLeft:"15px"}}>{subCatName}</h1>
       {loading ? (
         <Loader />
       ) : error ? (

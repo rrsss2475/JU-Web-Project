@@ -28,7 +28,7 @@ function getMailBody(order, user, type, receipt_url = "") {
   <hr style="margin-bottom: -14px" />
   <div style="float: right; width: 100%">
     <p style="float: right">
-      <b style="font-size: 21px">${type} ${order.status}</b><br />${type} # <a href="http://justintime24-7.herokuapp.com/checkout/${type}/${order._id}">${order._id}</a>
+      <b style="font-size: 21px">${type} ${order.status}</b><br />${type} # <a href="http://justintime24-7.herokuapp.com/checkout/${type.toLowerCase()}/${order._id}">${order._id}</a>
     </p>
   </div>
   <br />`
@@ -67,13 +67,13 @@ function getMailBody(order, user, type, receipt_url = "") {
       </p>
     </div>
   </div>
-  <button><a style="text-decoration: none" href="http://justintime24-7.herokuapp.com/checkout/${type}/${
+  <button><a style="text-decoration: none" href="http://justintime24-7.herokuapp.com/checkout/${type.toLowerCase()}/${
 			order._id
 		}">View or manage ${type.toLowerCase()}</a></button>
   <div>
     <h3 style="color: green">${type} Summary</h3>
     <hr style="margin-top: -14px; margin-bottom: -14px" />
-    <p>${type} # <a href="http://justintime24-7.herokuapp.com/checkout/${type}/${
+    <p>${type} # <a href="http://justintime24-7.herokuapp.com/checkout/${type.toLowerCase()}/${
 			order._id
 		}">${order._id}</a><br />Placed on ${moment(order.createdAt).format(
 			"DD-MM-YYYY"
@@ -142,13 +142,13 @@ function getMailBody(order, user, type, receipt_url = "") {
       </p>
     </div>
   </div>
-  <button><a style="text-decoration: none" href="http://justintime24-7.herokuapp.com/checkout/${type}/${
+  <button><a style="text-decoration: none" href="http://justintime24-7.herokuapp.com/checkout/${type.toLowerCase()}/${
 			order._id
 		}">View or manage ${type.toLowerCase()}</a></button>
   <div>
     <h3 style="color: green">${type} Summary</h3>
     <hr style="margin-top: -14px; margin-bottom: -14px" />
-    <p>${type} # <a href="http://justintime24-7.herokuapp.com/checkout/${type}/${
+    <p>${type} # <a href="http://justintime24-7.herokuapp.com/checkout/${type.toLowerCase()}/${
 			order._id
 		}">${order._id}</a><br />Placed on ${moment(order.createdAt).format(
 			"DD-MM-YYYY"
@@ -193,7 +193,7 @@ function getMailBody(order, user, type, receipt_url = "") {
       Your ${type.toLowerCase()} has been <b>cancelled</b>. You can view the status of your ${type.toLowerCase()} from below button.
     </p>
     </div>
-  <button><a style="text-decoration: none" href="http://justintime24-7.herokuapp.com/checkout/${type}/${
+  <button><a style="text-decoration: none" href="http://justintime24-7.herokuapp.com/checkout/${type.toLowerCase()}/${
 			order._id
 		}">View or manage ${type.toLowerCase()}</a></button>
   <hr/>`

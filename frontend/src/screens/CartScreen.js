@@ -280,13 +280,16 @@ const CartScreen = ({ history }) => {
   );
 
   if (userInfo != null) {
-    if (cartArr.length === 0) {
+    if (cartItems.length === 0) {
       body = (
         <div>
           <h3> Your Shopping Cart is Empty </h3>
         </div>
       );
     } else {
+      if(totalItems===0)
+      body=<Loader />
+      else
       body = (
         <div style={{ marginTop: "50px" }}>
           {cartArr.map((item) => (
@@ -403,7 +406,7 @@ const CartScreen = ({ history }) => {
   return (
     <div className="container">
       <h1 style={{ textAlign: "center", marginTop: "30px" }}>Shopping Cart</h1>
-      {loading ? (
+      {loading? (
         <Loader />
       ) : error ? (
         <Message variant="danger"> {error} </Message>

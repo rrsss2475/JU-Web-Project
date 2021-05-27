@@ -17,7 +17,7 @@ const ServiceEditScreen = ({ history, match }) => {
   const [image, setImage] = useState("");
   const [isAvailable, setIsAvailable] = useState(false);
   const [description, setDescription] = useState("");
-  const [uploading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [category, setCategory] = useState(null);
   const [subCategory, setSubCategory] = useState(null);
   const [files, setFiles] = useState(null);
@@ -72,6 +72,7 @@ const ServiceEditScreen = ({ history, match }) => {
   }, [dispatch, product, productId, history, successUpdate]);
 
   const uploadImage = () => {
+    setUploading(true);
     let bucketName = "images";
     let file = files[0];
     let storageRef = firebase.storage().ref(`${bucketName}/${file.name}`);
@@ -79,6 +80,7 @@ const ServiceEditScreen = ({ history, match }) => {
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, () => {
       let downloadURL = uploadTask.snapshot.ref.getDownloadURL().then((url) => {
         setImage(url);
+        setUploading(false);
       });
     });
   };

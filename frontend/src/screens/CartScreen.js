@@ -42,6 +42,7 @@ const CartScreen = ({ history }) => {
           qty: cartItems[i].qty,
           weight: cartItems[i].weight,
         });
+        setcartArr(cartArr1);
         amt += cartArr1[i].isWeighted
           ? cartArr1[i].price * cartArr1[i].qty * cartArr1[i].weight
           : cartArr1[i].price * cartArr1[i].qty;

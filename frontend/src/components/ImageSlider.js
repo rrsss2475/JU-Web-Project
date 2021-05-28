@@ -8,7 +8,7 @@ const ImageSlider = () => {
         <Carousel.Item interval={2000}>
           <img
             className="d-block w-100"
-            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/p.png?alt=media&token=e32814cf-9561-49d7-b2f4-83a510f72761"
+            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/p.jpg?alt=media&token=aec806ef-5f05-48b6-a5cd-c4702e2040d2"
             alt="First slide"
           />
           {/* <Carousel.Caption>
@@ -20,7 +20,7 @@ const ImageSlider = () => {
         <Carousel.Item interval={2000}>
           <img
             className="d-block w-100"
-            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/p1new.png?alt=media&token=474d7b8a-91b5-4774-89df-c116b29d8c2d"
+            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/p1new.jpg?alt=media&token=5d0bceaf-5069-414e-b873-6f997458f0be"
             alt="Second slide"
           />
         </Carousel.Item>

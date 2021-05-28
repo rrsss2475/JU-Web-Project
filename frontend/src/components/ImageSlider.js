@@ -28,7 +28,7 @@ const ImageSlider = () => {
         <Carousel.Item interval={2000}>
           <img
             className="d-block w-100"
-            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/services.png?alt=media&token=c27a6a1e-eb52-4664-9d45-d48977121028"
+            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/services.jpg?alt=media&token=d49fb348-54e8-48b0-b838-4df4e188d2d6"
             alt="Third slide"
           />
           {/* <Carousel.Caption>
@@ -42,7 +42,7 @@ const ImageSlider = () => {
         <Carousel.Item interval={2000}>
           <img
             className="d-block w-100"
-            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/services1.png?alt=media&token=240bde19-c7d7-41eb-9f35-ba163ff6cfd8"
+            src="https://firebasestorage.googleapis.com/v0/b/just-in-time-2fbd9.appspot.com/o/services1.jpg?alt=media&token=fd1ee6b6-e128-45c8-9b36-14888451df8f"
             alt="Fourth slide"
           />
           {/* <Carousel.Caption>

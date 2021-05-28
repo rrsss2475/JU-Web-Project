@@ -10,6 +10,9 @@ const { notFound, errorHandler } = require("./middlewares/errorMiddleware")
 
 connectToDB()
 
+const compression=require('compression')
+app.use(compression());
+
 app.use(express.json())
 app.use(cors())
 

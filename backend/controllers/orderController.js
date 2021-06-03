@@ -85,49 +85,23 @@ const getAllOrders = asyncHandler(async (req, res) => {
   let orders = await Order.find({
     status: { $nin: ["Cancelled", "Delivered"] },
   })
+    .select('-orderItems')
     .sort({ toBeDelivered: "asc" })
-    .populate({ path: "user", select: "name email" })
-    .populate({
-      path: "orderItems.product",
-      select: "name category subCategory",
-      populate: { path: "category", select: "name" },
-    })
-    .populate({
-      path: "orderItems.product",
-      select: "name category subCategory",
-      populate: { path: "subCategory", select: "name" },
-    });
+    .populate({ path: "user", select: "name email" });
 
   allOrders = [...allOrders, ...orders];
 
   orders = await Order.find({ status: "Delivered" })
+    .select('-orderItems')
     .sort({ deliveredAt: "desc" })
-    .populate({ path: "user", select: "name email" })
-    .populate({
-      path: "orderItems.product",
-      select: "name category subCategory",
-      populate: { path: "category", select: "name" },
-    })
-    .populate({
-      path: "orderItems.product",
-      select: "name category subCategory",
-      populate: { path: "subCategory", select: "name" },
-    });
-  allOrders = [...allOrders, ...orders];
+    .populate({ path: "user", select: "name email" });
+  
+    allOrders = [...allOrders, ...orders];
 
   orders = await Order.find({ status: "Cancelled" })
+    .select('-orderItems')
     .sort({ createdAt: "desc" })
-    .populate({ path: "user", select: "name email" })
-    .populate({
-      path: "orderItems.product",
-      select: "name category subCategory",
-      populate: { path: "category", select: "name" },
-    })
-    .populate({
-      path: "orderItems.product",
-      select: "name category subCategory",
-      populate: { path: "subCategory", select: "name" },
-    });
+    .populate({ path: "user", select: "name email" });
 
   allOrders = [...allOrders, ...orders];
   res.json(allOrders);
